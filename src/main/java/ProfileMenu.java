@@ -17,11 +17,13 @@ public class ProfileMenu {
     }
 
     private void changePassword() {
-        Controller.changePassword();
+        Controller controller = new Controller();
+        controller.changePassword();
     }
 
     private void changeNickname() {
-        Controller.changeNickname();
+        Controller controller = new Controller();
+        controller.changeNickname();
     }
 
     private void exit() {

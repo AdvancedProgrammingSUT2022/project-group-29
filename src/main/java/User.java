@@ -8,6 +8,8 @@ public class User {
     private static ArrayList<User> allUsers;
     private static User loggedInUser;
 
+    private Civilization civilization = null;
+
     public User(String username, String password, String nickname) {
         this.username = username;
         this.password = password;

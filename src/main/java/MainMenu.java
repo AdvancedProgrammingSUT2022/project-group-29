@@ -21,6 +21,7 @@ public class MainMenu {
     }
 
     private void ChangeMenu(String menu) {
-        Controller.changeMenu(menu);
+        Controller controller = new Controller();
+        controller.changeMenu(menu);
     }
 }

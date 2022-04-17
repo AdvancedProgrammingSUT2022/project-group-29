@@ -22,11 +22,13 @@ public class LoginMenu {
     }
 
     private void createUser(String username, String password, String nickname) {
-        Controller.createUser(username, password, nickname);
+        Controller controller = new Controller();
+        controller.createUser(username, password, nickname);
     }
 
     private void login(String username, String password) {
-        Controller.login(username, password);
+        Controller controller = new Controller();
+        controller.login(username, password);
     }
 
 }

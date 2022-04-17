@@ -10,10 +10,12 @@ public class GameMenu {
     }
 
     private void cheatTurn(int turn) {
-        GameController.cheatTurn(turn);
+        GameController gameController = new GameController();
+        gameController.cheatTurn(turn);
     }
 
     private void cheatGold(int turn) {
-        GameController.cheatGold(turn);
+        GameController gameController = new GameController();
+        gameController.cheatGold(turn);
     }
 }
