@@ -20,4 +20,5 @@ public class City {
     public MilitaryUnit getMilitaryUnit() {
         return militaryUnit;
     }
+
 }

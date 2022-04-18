@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameMenu {
     public void run(Scanner scanner) {
-
+        GameController.startGame();
     }
 
     private void showMap() {
@@ -10,12 +11,14 @@ public class GameMenu {
     }
 
     private void cheatTurn(int turn) {
-        GameController gameController = new GameController();
-        gameController.cheatTurn(turn);
+        GameController.cheatTurn(turn);
     }
 
     private void cheatGold(int turn) {
-        GameController gameController = new GameController();
-        gameController.cheatGold(turn);
+        GameController.cheatGold(turn);
+    }
+
+    private void showInfo() {
+        ArrayList<Civilization> civilizations = GameController.getGame().getCivilizations();
     }
 }

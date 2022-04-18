@@ -9,19 +9,19 @@ public class Game {
         this.time = time;
     }
 
-    public int getTurn() {
-        return turn;
+    public void nextTurn() {
+        turn++;
     }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
+    public int getTurn() {
+        return turn;
     }
 
     public int getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public ArrayList<Civilization> getCivilizations() {
+        return civilizations;
     }
 }
