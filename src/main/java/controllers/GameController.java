@@ -1,9 +1,9 @@
-package controller;
+package controllers;
 
-import model.City;
-import model.Civilization;
-import model.Game;
-import model.MilitaryUnit;
+import models.City;
+import models.Civilization;
+import models.Game;
+import models.MilitaryUnit;
 
 public class GameController {
     private static Game game;

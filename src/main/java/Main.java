@@ -1,4 +1,4 @@
-import view.LoginMenu;
+import views.LoginMenu;
 
 import java.util.Scanner;
 

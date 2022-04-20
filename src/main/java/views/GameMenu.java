@@ -1,7 +1,7 @@
-package view;
+package views;
 
-import controller.GameController;
-import model.Civilization;
+import controllers.GameController;
+import models.Civilization;
 
 import java.util.ArrayList;
 import java.util.Scanner;

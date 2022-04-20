@@ -1,4 +1,4 @@
-package model;
+package models;
 
 public class StrategicResource extends Resource{
     private Technology neededTechnology;
