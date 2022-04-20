@@ -26,29 +26,44 @@ public class LoginMenu {
             login(matcher.group("username"), matcher.group("password"), scanner);
         else if (command.startsWith("user create") &&
                 matcher != null)
-            createUser(matcher.group("username"), matcher.group("password"), matcher.group("nickname"));
+            createUser(matcher.group("username"), matcher.group("password"),
+                    matcher.group("nickname"), scanner);
         else if (command.equals("menu exit"))
             exit();
-        else if (command.equals("menu show-current"))
+        else if (command.equals("menu show-current")) {
             System.out.println("Login and Register menu");
-        else
+            run(scanner);
+        }
+        else if (command.startsWith("menu enter")) {
+            System.out.println("menu navigation is not possible");
+            run(scanner);
+        }
+        else {
             System.out.println("invalid command");
+            run(scanner);
+        }
     }
 
     private void exit() {
         System.exit(0);
     }
 
-    private void createUser(String username, String password, String nickname) {
-        String message = Controller.createUser(username, password, nickname);
+    private void createUser(String username, String password, String nickname, Scanner scanner) {
+        System.out.println(Controller.createUser(username, password, nickname));
+        run(scanner);
     }
 
     private void login(String username, String password, Scanner scanner) {
-        Controller.login(username, password);
-        MainMenu.getInstance().run(scanner);
+        String message = Controller.login(username, password);
+        System.out.println(message);
+        if (message.equals("user logged in successfully"))
+            MainMenu.getInstance().run(scanner);
+        else
+            run(scanner);
     }
 
     private Matcher getCommandMatcher(String command) {
+
         Pattern[] pattern = {Pattern.compile("user login --username (?<username>.+) --password (?<password>.+)"),
                 Pattern.compile("user login --password (?<password>.+) --username (?<username>.+)"),
                 Pattern.compile("user login --u (?<username>.+) --p (?<password>.+)"),
@@ -72,8 +87,11 @@ public class LoginMenu {
                 Pattern.compile("user create --n (?<nickname>.+) --u (?<username>.+) --p (?<password>.+)"),
                 Pattern.compile("user create --n (?<nickname>.+) --p (?<password>.+) --u (?<username>.+)")};
         for (Pattern value : pattern) {
-            if (value.matcher(command).matches())
-                return value.matcher(command);
+            Matcher matcher = value.matcher(command);
+            if (matcher.matches()) {
+                matcher.group(1);
+                return matcher;
+            }
         }
         return null;
     }
