@@ -15,10 +15,14 @@ public class LoginController {
     }
 
     public void createUser(Matcher matcher) {
-
+        String username = matcher.group("username");
+        String password = matcher.group("password");
+        String nickname = matcher.group("nickname");
     }
 
     public void loginUser(Matcher matcher) {
+        String username = matcher.group("username");
+        String password = matcher.group("password");
 
     }
 }
