@@ -1,3 +1,8 @@
+package view;
+
+import controller.GameController;
+import model.Civilization;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

@@ -1,3 +1,5 @@
+package model;
+
 public class MilitaryUnit extends Unit{
     private int combatStrength;
     private int rangedCombatStrength, range;

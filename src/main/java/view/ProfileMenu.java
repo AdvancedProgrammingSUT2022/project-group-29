@@ -1,3 +1,7 @@
+package view;
+
+import controller.Controller;
+
 import java.util.Scanner;
 
 public class ProfileMenu {
@@ -17,13 +21,13 @@ public class ProfileMenu {
     }
 
     private void changePassword() {
-        Controller controller = new Controller();
-        controller.changePassword();
+
+        Controller.changePassword();
     }
 
     private void changeNickname() {
-        Controller controller = new Controller();
-        controller.changeNickname();
+
+        Controller.changeNickname();
     }
 
     private void exit() {

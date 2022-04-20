@@ -1,3 +1,10 @@
+package controller;
+
+import model.City;
+import model.Civilization;
+import model.Game;
+import model.MilitaryUnit;
+
 public class GameController {
     private static Game game;
 

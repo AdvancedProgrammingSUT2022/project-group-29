@@ -1,3 +1,5 @@
+package model;
+
 public class Unit {
     protected int cost;
     protected String type;

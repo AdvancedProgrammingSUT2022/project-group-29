@@ -1,3 +1,5 @@
+import view.LoginMenu;
+
 import java.util.Scanner;
 
 public class Main {
