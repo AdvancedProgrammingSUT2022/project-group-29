@@ -40,13 +40,11 @@ public class LoginMenu {
     }
 
     private void createUser(String username, String password, String nickname) {
-        Controller controller = new Controller();
-        String message = controller.createUser(username, password, nickname);
+        String message = Controller.createUser(username, password, nickname);
     }
 
     private void login(String username, String password, Scanner scanner) {
-        Controller controller = new Controller();
-        controller.login(username, password);
+        Controller.login(username, password);
         MainMenu.getInstance().run(scanner);
     }
 

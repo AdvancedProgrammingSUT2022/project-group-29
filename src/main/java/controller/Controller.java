@@ -4,21 +4,25 @@ import model.User;
 
 public class Controller {
 
-    public String createUser(String username, String password, String nickname) {
+    public static String createUser(String username, String password, String nickname) {
 
         User user = new User(username, password, nickname);
         return username;
     }
 
-    public void login(String username, String password) {
+    public static String login(String username, String password) {
+        return null;
     }
 
-    public void changeMenu(String menu) {
+    public static void changeMenu(String menu) {
+
     }
 
-    public static void changePassword() {
+    public static String changePassword() {
+        return null;
     }
 
-    public static void changeNickname() {
+    public static String changeNickname() {
+        return null;
     }
 }
