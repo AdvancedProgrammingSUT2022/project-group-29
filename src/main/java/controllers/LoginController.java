@@ -37,7 +37,6 @@ public class LoginController {
         String password = matcher.group("password");
 
         User user;
-        ArrayList <User> users = User.getAllUsers();
         if ((user = isExistUsername(username)) == null)
             System.out.println("Username and password didn’t match!");
         else if (user.getPassword().equals(password))

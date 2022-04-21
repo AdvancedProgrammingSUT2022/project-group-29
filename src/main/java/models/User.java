@@ -44,5 +44,7 @@ public class User {
         return password;
     }
 
-
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

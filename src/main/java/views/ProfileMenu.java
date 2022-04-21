@@ -41,8 +41,10 @@ public class ProfileMenu {
         String nickname = matcher.group("nickname");
         if (LoginController.getInstance().isExistNickname(nickname) != null)
             System.out.println("user with nickname " + nickname + " already exists");
-//        ProfileController.getInstance().changeProfile(matcher);
-
+        else {
+            System.out.println("nickname changed successfully!");
+            ProfileController.getInstance().changeProfile(nickname);
+        }
     }
 
     private void changePassword() {
