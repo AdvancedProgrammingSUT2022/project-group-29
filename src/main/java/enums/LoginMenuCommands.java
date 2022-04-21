@@ -13,6 +13,8 @@ public enum LoginMenuCommands {
     CREATE_USER4("user create --(p|password) (?<password>\\S+) --(n|nickname) (?<nickname>\\S+) --(u|username) (?<username>\\S+)"),
     CREATE_USER5("user create --(n|nickname) (?<nickname>\\S+) --(u|username) (?<username>\\S+) --(p|password) (?<password>\\S+)"),
     CREATE_USER6("user create --(n|nickname) (?<nickname>\\S+) --(p|password) (?<password>\\S+) --(u|username) (?<username>\\S+)"),
+    
+    PROFILE_CHANGE("profile change --(n|nickname) (?<nickname>\\S+)"),
 
     ENTER_MENU("menu enter (?<menuName>Main|Play Game|Profile)");
     private String regex;
