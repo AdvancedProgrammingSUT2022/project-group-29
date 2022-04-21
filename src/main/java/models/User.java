@@ -6,9 +6,10 @@ public class User {
     private String username;
     private String password;
     private String nickname;
-    private int score;
+    private static User loggedInUser = null;
     private static ArrayList<User> allUsers = new ArrayList<>();
-    private static User loggedInUser;
+
+    private int score;
 
     private Civilization civilization = null;
 
@@ -19,33 +20,6 @@ public class User {
         allUsers.add(this);
     }
 
-    public static boolean usernameExist(String username) {
-        for (User user : allUsers) {
-            if (user.username.equals(username))
-                return true;
-        }
-        return false;
-    }
-
-    public static boolean nicknameExist(String nickname) {
-        for (User user : allUsers) {
-            if (user.nickname.equals(nickname))
-                return true;
-        }
-        return false;
-    }
-
-    public static User getUser(String username, String password) {
-        if (allUsers.size() == 0)
-            return null;
-        for (User user : allUsers) {
-            if (user.username.equals(username) &&
-            user.password.equals(password))
-                return user;
-        }
-        return null;
-    }
-
     public static User getLoggedInUser() {
         return loggedInUser;
     }
@@ -53,4 +27,22 @@ public class User {
     public static void setLoggedInUser(User loggedInUser) {
         User.loggedInUser = loggedInUser;
     }
+
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+
 }

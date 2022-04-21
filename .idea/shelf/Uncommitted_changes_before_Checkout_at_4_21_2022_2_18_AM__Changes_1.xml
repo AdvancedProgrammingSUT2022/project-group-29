@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_4_21_2022_2_18_AM_[Changes]1" date="1650491303620" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_21_2022_2_18_AM_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 4/21/2022 2:18 AM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/controllers/LoginController.class" />
+    <option name="AFTER_PATH" value="target/classes/controllers/LoginController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_21_2022_2_18_AM_[Changes]1/LoginController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/views/LoginMenu.class" />
+    <option name="AFTER_PATH" value="target/classes/views/LoginMenu.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_21_2022_2_18_AM_[Changes]1/LoginMenu.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/enums/LoginMenuCommands.class" />
+    <option name="AFTER_PATH" value="target/classes/enums/LoginMenuCommands.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_21_2022_2_18_AM_[Changes]1/LoginMenuCommands.class" />
+  </binary>
+</changelist>
