@@ -47,4 +47,16 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User getUserByUsername(String username) {
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
 }

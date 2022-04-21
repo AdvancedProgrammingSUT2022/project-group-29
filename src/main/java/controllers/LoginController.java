@@ -58,8 +58,8 @@ public class LoginController {
             System.out.println("menu navigation is not possible");
         return false;
     }
-
-     User isExistUsername(String username) {
+    //داخل کلاس User تابع مشابهی قرار دادم که برای منوی پروفایل از اونجا استفاده کنیم ، میتونی این متذ رو پاک کنی! و اون رو استفاده کنی! :))))
+     private User isExistUsername(String username) {
          ArrayList<User> users = User.getAllUsers();
          for (User user : users) {
             if (user.getUsername().equals(username))
@@ -68,7 +68,7 @@ public class LoginController {
         return null;
     }
 
-     public User isExistNickname(String nickname) {
+     private User isExistNickname(String nickname) {
          ArrayList<User> users = User.getAllUsers();
         for (User user : users) {
             if (user.getNickname().equals(nickname))

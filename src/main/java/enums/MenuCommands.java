@@ -16,7 +16,9 @@ public enum MenuCommands {
 
     ENTER_MENU("menu enter (?<menuName>Main|Play Game|Profile)"),
 
-    PROFILE_CHANGE("profile change --(n|nickname) (?<nickname>\\S+)");
+    PROFILE_CHANGE("profile change --(n|nickname) (?<nickname>\\S+)"),
+    PASSWORD_CHANGE("profile change --(p|password) --(c|current) (?<current password>\\S+) --(n|new) (?<new password>\\S+)")
+    ;
 
     private String regex;
 

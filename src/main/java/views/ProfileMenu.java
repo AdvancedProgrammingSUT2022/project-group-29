@@ -32,6 +32,8 @@ public class ProfileMenu {
                 System.out.println("please login first");
             else if ((matcher = MenuCommands.isMatch(command, MenuCommands.PROFILE_CHANGE)) != null)
                 changeProfile(matcher);
+            else if ((matcher = MenuCommands.isMatch(command, MenuCommands.PASSWORD_CHANGE)) != null)
+                changePassword(matcher);
             else
                 System.out.println("invalid command");
         }
@@ -39,7 +41,7 @@ public class ProfileMenu {
 
     private void changeProfile(Matcher matcher) {
         String nickname = matcher.group("nickname");
-        if (LoginController.getInstance().isExistNickname(nickname) != null)
+        if (ProfileController.getInstance().isExistNickname(nickname) != null)
             System.out.println("user with nickname " + nickname + " already exists");
         else {
             System.out.println("nickname changed successfully!");
@@ -47,14 +49,17 @@ public class ProfileMenu {
         }
     }
 
-    private void changePassword() {
-
-        Controller.changePassword();
-    }
-
-    private void changeNickname() {
-
-        Controller.changeNickname();
+    private void changePassword(Matcher matcher) {
+        String current_Password = matcher.group("current Password");
+        String new_Password = matcher.group("new password");
+        if (!ProfileController.getInstance().isPasswordCorrect(current_Password))
+            System.out.println("current password is invalid");
+        else if (ProfileController.getInstance().newAndOldPasswordsAreSame(new_Password))
+            System.out.println("please enter a new password");
+        else {
+            System.out.println("password changed successfully!");
+            ProfileController.getInstance().changePassword(new_Password);
+        }
     }
 
     private void exit() {
