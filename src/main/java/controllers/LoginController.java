@@ -22,10 +22,9 @@ public class LoginController {
         String password = matcher.group("password");
         String nickname = matcher.group("nickname");
 
-        ArrayList <User> users = User.getAllUsers();
-        if (isExistUsername(users,username) != null)
+        if (isExistUsername(username) != null)
             System.out.println("user with username " + username + " already exists");
-        else if (isExistNickname(users,nickname) != null)
+        else if (isExistNickname(nickname) != null)
             System.out.println("user with nickname " + nickname + " already exists");
         else {
             System.out.println("user created successfully!");
@@ -39,7 +38,7 @@ public class LoginController {
 
         User user;
         ArrayList <User> users = User.getAllUsers();
-        if ((user = isExistUsername(users,username)) == null)
+        if ((user = isExistUsername(username)) == null)
             System.out.println("Username and password didn’t match!");
         else if (user.getPassword().equals(password))
             System.out.println("Username and password didn’t match!");
@@ -61,15 +60,17 @@ public class LoginController {
         return false;
     }
 
-    private User isExistUsername(ArrayList<User> users,String username) {
-        for (User user : users) {
+     User isExistUsername(String username) {
+         ArrayList<User> users = User.getAllUsers();
+         for (User user : users) {
             if (user.getUsername().equals(username))
                 return user;
         }
         return null;
     }
 
-    private User isExistNickname(ArrayList<User> users,String nickname) {
+     public User isExistNickname(String nickname) {
+         ArrayList<User> users = User.getAllUsers();
         for (User user : users) {
             if (user.getNickname().equals(nickname))
                 return user;

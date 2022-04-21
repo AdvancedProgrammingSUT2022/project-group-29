@@ -1,8 +1,7 @@
 package views;
 
-import controllers.Controller;
 import controllers.LoginController;
-import enums.LoginMenuCommands;
+import enums.MenuCommands;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -23,15 +22,15 @@ public class LoginMenu {
         while (true) {
             String command = scanner.nextLine();
             Matcher matcher;
-            if ((matcher = LoginMenuCommands.isMatchCreateUser(command)) != null)
+            if ((matcher = MenuCommands.isMatchCreateUser(command)) != null)
                 LoginController.getInstance().createUser(matcher);
-            else if ((matcher = LoginMenuCommands.isMatchLoginUser(command)) != null)
+            else if ((matcher = MenuCommands.isMatchLoginUser(command)) != null)
                 LoginController.getInstance().loginUser(matcher);
             else if (command.equals("menu exit"))
                 System.exit(0);
             else if (command.equals("menu show-current"))
                 System.out.println("Login menu");
-            else if ((matcher = LoginMenuCommands.isMatch(command, LoginMenuCommands.ENTER_MENU)) != null) {
+            else if ((matcher = MenuCommands.isMatch(command, MenuCommands.ENTER_MENU)) != null) {
                 if (LoginController.getInstance().enterMenu(matcher))
                     break;
             } else

@@ -1,8 +1,6 @@
 package views;
 
-import controllers.Controller;
-import controllers.LoginController;
-import enums.LoginMenuCommands;
+import enums.MenuCommands;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -27,7 +25,7 @@ public class MainMenu {
                 System.exit(0);
             else if (command.equals("menu show-current"))
                 System.out.println("Login menu");
-            else if (LoginMenuCommands.isMatch(command, LoginMenuCommands.ENTER_MENU) != null)
+            else if (MenuCommands.isMatch(command, MenuCommands.ENTER_MENU) != null)
                 System.out.println("please login first");
             else
                 System.out.println("invalid command");
