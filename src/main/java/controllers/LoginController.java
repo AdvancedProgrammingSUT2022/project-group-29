@@ -53,7 +53,7 @@ public class LoginController {
         String menuName = matcher.group("menuName");
         if (User.getLoggedInUser() == null)
             System.out.println("please login first");
-        else if (menuName.equals("Main")) {
+        else if (menuName.equals("Main Menu")) {
             return true;
         }
         else

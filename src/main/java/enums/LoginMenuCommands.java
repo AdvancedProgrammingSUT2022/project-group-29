@@ -14,7 +14,7 @@ public enum LoginMenuCommands {
     CREATE_USER5("user create --(n|nickname) (?<nickname>\\S+) --(u|username) (?<username>\\S+) --(p|password) (?<password>\\S+)"),
     CREATE_USER6("user create --(n|nickname) (?<nickname>\\S+) --(p|password) (?<password>\\S+) --(u|username) (?<username>\\S+)"),
 
-    ENTER_MENU("menu enter (?<menuName>Main|Play Game|Profile)");
+    ENTER_MENU("menu enter (?<menuName>(Main|Play Game|Profile) Menu)");
     private String regex;
 
     LoginMenuCommands(String regex) {
