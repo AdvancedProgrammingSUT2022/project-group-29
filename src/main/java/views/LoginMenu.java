@@ -31,10 +31,12 @@ public class LoginMenu {
                 System.exit(0);
             else if (command.equals("menu show-current"))
                 System.out.println("Login menu");
-            else if (LoginMenuCommands.isMatch(command, LoginMenuCommands.ENTER_MENU) != null)
-                System.out.println("please login first");
-            else
+            else if ((matcher = LoginMenuCommands.isMatch(command, LoginMenuCommands.ENTER_MENU)) != null) {
+                if (LoginController.getInstance().enterMenu(matcher))
+                    break;
+            } else
                 System.out.println("invalid command");
         }
+        MainMenu.getInstance().run(scanner);
     }
 }
