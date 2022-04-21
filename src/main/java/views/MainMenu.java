@@ -25,6 +25,8 @@ public class MainMenu {
 
     public void run(Scanner scanner) {
         int a = 1;
+        String message;
+
         while (true) {
             String command = scanner.nextLine();
             Matcher matcher;
@@ -33,16 +35,19 @@ public class MainMenu {
             else if (command.equals("menu exit"))
                 break;
             else if (command.equals("user logout")) {
-                MainController.getInstance().logoutUser();
+                System.out.println(MainController.getInstance().logoutUser());
                 break;
             } else if ((matcher = MainMenuCommands.isMatch(command, MainMenuCommands.ENTER_MENU)) != null) {
-                if (MainController.getInstance().enterMenu(matcher)) {
+                message = MainController.getInstance().enterMenu(matcher);
+                if (message.equals("")) {
                     a = 2;
                     break;
                 }
+                System.out.println(message);
             } else
                 System.out.println("invalid command");
         }
+
         if (a == 1)
             LoginMenu.getInstance().run(scanner);
         else

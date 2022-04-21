@@ -20,20 +20,23 @@ public class LoginMenu {
     }
 
     public void run(Scanner scanner) {
+        String message;
         while (true) {
             String command = scanner.nextLine();
             Matcher matcher;
             if ((matcher = LoginMenuCommands.isMatchCreateUser(command)) != null)
-                LoginController.getInstance().createUser(matcher);
+                System.out.println(LoginController.getInstance().createUser(matcher));
             else if ((matcher = LoginMenuCommands.isMatchLoginUser(command)) != null)
-                LoginController.getInstance().loginUser(matcher);
+                System.out.println(LoginController.getInstance().loginUser(matcher));
             else if (command.equals("menu exit"))
                 System.exit(0);
             else if (command.equals("menu show-current"))
                 System.out.println("Login menu");
             else if ((matcher = LoginMenuCommands.isMatch(command, LoginMenuCommands.ENTER_MENU)) != null) {
-                if (LoginController.getInstance().enterMenu(matcher))
+                message = LoginController.getInstance().enterMenu(matcher);
+                if (message.equals(""))
                     break;
+                System.out.println(message);
             } else
                 System.out.println("invalid command");
         }

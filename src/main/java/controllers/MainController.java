@@ -16,17 +16,16 @@ public class MainController {
         return instance;
     }
 
-    public void logoutUser() {
-        System.out.println("user logged out successfully!");
+    public String logoutUser() {
         User.setLoggedInUser(null);
+        return "user logged out successfully!";
     }
 
-    public Boolean enterMenu(Matcher matcher) {
+    public String enterMenu(Matcher matcher) {
         String menuName = matcher.group("menuName");
         if (menuName.equals("Profile Menu"))
-            return true;
+            return "";
         else
-            System.out.println("menu navigation is not possible");
-        return false;
+            return "menu navigation is not possible";
     }
 }

@@ -17,51 +17,44 @@ public class LoginController {
         return instance;
     }
 
-    public void createUser(Matcher matcher) {
+    public String createUser(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
         String nickname = matcher.group("nickname");
 
-        ArrayList <User> users = User.getAllUsers();
-        if (isExistUsername(users,username) != null)
-            System.out.println("user with username " + username + " already exists");
-        else if (isExistNickname(users,nickname) != null)
-            System.out.println("user with nickname " + nickname + " already exists");
-        else {
-            System.out.println("user created successfully!");
-            User user = new User(username,password,nickname);
-        }
+        ArrayList<User> users = User.getAllUsers();
+        if (isExistUsername(users, username) != null)
+            return "user with username " + username + " already exists";
+        if (isExistNickname(users, nickname) != null)
+            return "user with nickname " + nickname + " already exists";
+        User user = new User(username, password, nickname);
+        return "user created successfully!";
     }
 
-    public void loginUser(Matcher matcher) {
+    public String loginUser(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
 
         User user;
-        ArrayList <User> users = User.getAllUsers();
-        if ((user = isExistUsername(users,username)) == null)
-            System.out.println("Username and password didn’t match!");
-        else if (user.getPassword().equals(password))
-            System.out.println("Username and password didn’t match!");
-        else {
-            System.out.println("user logged in successfully!");
-            User.setLoggedInUser(user);
-        }
+        ArrayList<User> users = User.getAllUsers();
+        if ((user = isExistUsername(users, username)) == null)
+            return "Username and password didn’t match!";
+        if (user.getPassword().equals(password))
+            return "Username and password didn’t match!";
+        User.setLoggedInUser(user);
+        return "user logged in successfully!";
     }
 
-    public Boolean enterMenu(Matcher matcher) {
+    public String enterMenu(Matcher matcher) {
         String menuName = matcher.group("menuName");
         if (User.getLoggedInUser() == null)
-            System.out.println("please login first");
-        else if (menuName.equals("Main Menu")) {
-            return true;
-        }
-        else
-            System.out.println("menu navigation is not possible");
-        return false;
+            return "please login first";
+        if (menuName.equals("Main Menu"))
+            return "";
+        return "menu navigation is not possible";
     }
 
-    private User isExistUsername(ArrayList<User> users,String username) {
+    private User isExistUsername(ArrayList<User> users, String username) {
         for (User user : users) {
             if (user.getUsername().equals(username))
                 return user;
@@ -69,7 +62,7 @@ public class LoginController {
         return null;
     }
 
-    private User isExistNickname(ArrayList<User> users,String nickname) {
+    private User isExistNickname(ArrayList<User> users, String nickname) {
         for (User user : users) {
             if (user.getNickname().equals(nickname))
                 return user;
