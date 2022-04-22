@@ -22,7 +22,7 @@ public class GameController {
     }
 
     public void setGold(int gold) {
-        Civilization civilization = new Civilization(null, 1, null, null);
+        Civilization civilization = new Civilization(null, null);
         civilization.getGold();
     }
 
