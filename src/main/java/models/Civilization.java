@@ -3,24 +3,25 @@ package models;
 import java.util.ArrayList;
 
 public class Civilization {
-    private String name;
+    private String leaderName;
+    private ArrayList<City> cities = new ArrayList<>();
+    private City capital;
+    private ArrayList<Unit> units = new ArrayList<>();
     private int happiness, gold, turn;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
-    private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<City> cities = new ArrayList<>();
-    private City capital;
 
-    public Civilization(String name, int turn, ArrayList<Tile> tiles, City capital) {
-        this.name = name;
-        this.turn = turn;
-        this.tiles = tiles;
+
+
+    public Civilization(String leaderName, City capital) {
+        this.leaderName = leaderName;
         this.capital = capital;
+        cities.add(capital);
     }
 
-    public String getName() {
-        return name;
+    public String getLeaderName() {
+        return leaderName;
     }
 
     public int getHappiness() {

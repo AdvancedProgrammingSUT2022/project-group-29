@@ -14,12 +14,16 @@ public enum MenuCommands {
     CREATE_USER5("user create --(n|nickname) (?<nickname>\\S+) --(u|username) (?<username>\\S+) --(p|password) (?<password>\\S+)"),
     CREATE_USER6("user create --(n|nickname) (?<nickname>\\S+) --(p|password) (?<password>\\S+) --(u|username) (?<username>\\S+)"),
 
+<<<<<<< HEAD:src/main/java/enums/MenuCommands.java
     ENTER_MENU("menu enter (?<menuName>Main|Play Game|Profile)"),
 
     PROFILE_CHANGE("profile change --(n|nickname) (?<nickname>\\S+)"),
     PASSWORD_CHANGE("profile change --(p|password) --(c|current) (?<current password>\\S+) --(n|new) (?<new password>\\S+)")
     ;
 
+=======
+    ENTER_MENU("menu enter (?<menuName>(Main|Play Game|Profile) Menu)");
+>>>>>>> Erfan:src/main/java/enums/LoginMenuCommands.java
     private String regex;
 
     MenuCommands(String regex) {
