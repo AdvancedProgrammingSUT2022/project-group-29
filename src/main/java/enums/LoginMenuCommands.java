@@ -3,7 +3,7 @@ package enums;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum MenuCommands {
+public enum LoginMenuCommands {
     LOGIN_USER1("user login --(u|username) (?<username>\\S+) --(p|password) (?<password>\\S+)"),
     LOGIN_USER2("user login --(p|password) (?<password>\\S+) --(u|username) (?<username>\\S+)"),
 
@@ -14,23 +14,15 @@ public enum MenuCommands {
     CREATE_USER5("user create --(n|nickname) (?<nickname>\\S+) --(u|username) (?<username>\\S+) --(p|password) (?<password>\\S+)"),
     CREATE_USER6("user create --(n|nickname) (?<nickname>\\S+) --(p|password) (?<password>\\S+) --(u|username) (?<username>\\S+)"),
 
-<<<<<<< HEAD:src/main/java/enums/MenuCommands.java
-    ENTER_MENU("menu enter (?<menuName>Main|Play Game|Profile)"),
-
-    PROFILE_CHANGE("profile change --(n|nickname) (?<nickname>\\S+)"),
-    PASSWORD_CHANGE("profile change --(p|password) --(c|current) (?<current password>\\S+) --(n|new) (?<new password>\\S+)")
-    ;
-
-=======
     ENTER_MENU("menu enter (?<menuName>(Main|Play Game|Profile) Menu)");
->>>>>>> Erfan:src/main/java/enums/LoginMenuCommands.java
+
     private String regex;
 
-    MenuCommands(String regex) {
+    LoginMenuCommands(String regex) {
         this.regex = regex;
     }
 
-    public static Matcher isMatch(String input, MenuCommands command) {
+    public static Matcher isMatch(String input, LoginMenuCommands command) {
         Matcher matcher = Pattern.compile(command.regex).matcher(input);
         if (matcher.matches()) {
             return matcher;

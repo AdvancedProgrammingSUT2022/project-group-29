@@ -3,6 +3,7 @@ package controllers;
 import models.User;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class ProfileController {
     private static ProfileController instance = null;
@@ -16,6 +17,25 @@ public class ProfileController {
         return instance;
     }
 
+    public String changeNickname(Matcher matcher) {
+        String nickname = matcher.group("nickname");
+        if (isExistNickname(nickname) != null)
+            return "user with nickname " + nickname + " already exists";
+        User.getLoggedInUser().setNickname(nickname);
+        return "nickname changed successfully!";
+    }
+
+    public String changePassword(Matcher matcher) {
+        String currentPassword = matcher.group("currentPassword");
+        String newPassword = matcher.group("newPassword");
+        if (User.getLoggedInUser().getPassword().equals(currentPassword))
+            return "current password is invalid";
+        if (User.getLoggedInUser().getPassword().equals(newPassword))
+            return "please enter a new password";
+        User.getLoggedInUser().setPassword(newPassword);
+        return "password changed successfully!";
+    }
+
     public User isExistNickname(String nickname) {
         ArrayList<User> users = User.getAllUsers();
         for (User user : users) {
@@ -25,19 +45,4 @@ public class ProfileController {
         return null;
     }
 
-    public void changeProfile(String nickname) {
-        User.getLoggedInUser().setNickname(nickname);
-    }
-
-    public boolean isPasswordCorrect(String current_password) {
-        return User.getLoggedInUser().getPassword().equals(current_password);
-    }
-
-    public boolean newAndOldPasswordsAreSame(String new_password) {
-        return User.getLoggedInUser().getPassword().equals(new_password);
-    }
-
-    public void changePassword(String new_password) {
-        User.getLoggedInUser().setPassword(new_password);
-    }
 }

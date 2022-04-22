@@ -1,16 +1,8 @@
 package views;
 
-<<<<<<< HEAD
-import enums.MenuCommands;
-=======
-import com.sun.tools.javac.Main;
-import controllers.Controller;
-import controllers.LoginController;
 import controllers.MainController;
-import enums.LoginMenuCommands;
 import enums.MainMenuCommands;
-import models.User;
->>>>>>> Erfan
+
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -34,15 +26,6 @@ public class MainMenu {
         while (true) {
             String command = scanner.nextLine();
             Matcher matcher;
-<<<<<<< HEAD
-            if (command.equals("menu exit"))
-                System.exit(0);
-            else if (command.equals("menu show-current"))
-                System.out.println("Login menu");
-            else if (MenuCommands.isMatch(command, MenuCommands.ENTER_MENU) != null)
-                System.out.println("please login first");
-            else
-=======
             if (command.equals("menu show-current"))
                 System.out.println("Main Menu");
             else if (command.equals("menu exit"))
@@ -58,7 +41,6 @@ public class MainMenu {
                 }
                 System.out.println(message);
             } else
->>>>>>> Erfan
                 System.out.println("invalid command");
         }
 
