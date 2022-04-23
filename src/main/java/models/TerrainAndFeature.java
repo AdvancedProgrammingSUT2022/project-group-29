@@ -4,7 +4,7 @@ import enums.TerrainsAndFeaturesEnum;
 
 import java.util.ArrayList;
 
-public class TerrainAndFeatures {
+public class TerrainAndFeature {
     private final String kind;
     private final int food;
     private final int production;
@@ -12,8 +12,7 @@ public class TerrainAndFeatures {
     private final int movementCost;
     private final double battleEffect;
     private ArrayList<Resource> possibleResources;
-
-    public TerrainAndFeatures(TerrainsAndFeaturesEnum type) {
+    public TerrainAndFeature(TerrainsAndFeaturesEnum type) {
         this.kind = type.getKind();
         this.food = type.getFood();
         this.production = type.getProduction();
