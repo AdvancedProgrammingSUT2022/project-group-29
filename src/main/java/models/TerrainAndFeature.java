@@ -10,7 +10,7 @@ public class TerrainAndFeature {
     private final int production;
     private final int gold;
     private final int movementCost;
-    private final double battleEffect;
+    private final double battleEffect ;
     private ArrayList<Resource> possibleResources;
     public TerrainAndFeature(TerrainsAndFeaturesEnum type) {
         this.kind = type.getKind();
