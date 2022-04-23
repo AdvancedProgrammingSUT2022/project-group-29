@@ -3,7 +3,7 @@ package models;
 
 import enums.TerrainsAndFeaturesEnum;
 
-public class Terrain {
+public class TerrainAndFeature {
     private final String kind;
     private final int food;
     private final int production;
@@ -11,7 +11,7 @@ public class Terrain {
     private final int movementCost;
     private final double battleEffect;
 
-    public Terrain(TerrainsAndFeaturesEnum type) {
+    public TerrainAndFeature(TerrainsAndFeaturesEnum type) {
         this.kind = type.getKind();
         this.food = type.getFood();
         this.production = type.getProduction();
