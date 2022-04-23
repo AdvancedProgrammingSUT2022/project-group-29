@@ -52,11 +52,4 @@ public class User {
         this.password = password;
     }
 
-    public User getUserByUsername(String username) {
-        for (User user : allUsers) {
-            if (user.getUsername().equals(username))
-                return user;
-        }
-        return null;
-    }
 }

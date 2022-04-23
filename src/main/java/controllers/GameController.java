@@ -1,14 +1,29 @@
 package controllers;
 
-import models.City;
-import models.Civilization;
-import models.Game;
-import models.MilitaryUnit;
+import models.*;
+
+import java.util.ArrayList;
 
 public class GameController {
-    private static Game game;
 
-    public static void startGame() {
+    private static GameController instance = null;
+
+    private GameController(){
+    }
+
+    public static GameController getInstance() {
+        if (instance == null)
+            instance = new GameController();
+        return instance;
+    }
+    private Game game;
+
+    public void startGame(ArrayList<User> users) {
+        ArrayList<Tile> map = new ArrayList<>();
+        createMap(map);
+    }
+
+    private void createMap(ArrayList<Tile> map) {
 
     }
 
@@ -30,7 +45,7 @@ public class GameController {
         game.nextTurn();
     }
 
-    public static Game getGame() {
+    public Game getGame() {
         return game;
     }
 

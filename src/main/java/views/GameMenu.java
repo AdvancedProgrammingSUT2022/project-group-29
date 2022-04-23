@@ -20,7 +20,7 @@ public class GameMenu {
 
 
     public void run(Scanner scanner, ArrayList <User> users) {
-        GameController.startGame();
+        GameController.getInstance().startGame(users);
     }
 
     private void showMap() {
@@ -36,6 +36,6 @@ public class GameMenu {
     }
 
     private void showInfo() {
-        ArrayList<Civilization> civilizations = GameController.getGame().getCivilizations();
+        ArrayList<Civilization> civilizations = GameController.getInstance().getGame().getCivilizations();
     }
 }
