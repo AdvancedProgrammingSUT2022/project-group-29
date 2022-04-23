@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class LuxuryResources extends Resource {
     private static ArrayList<LuxuryResources> allLuxuryResources = new ArrayList<>();
-
+    /*TODO First Happiness = 4
+     */
     static {
         allLuxuryResources.add(new LuxuryResources("Luxury", "Cotton", 0, 0, 2,  Improvement.getImprovementByName("Field")));
         allLuxuryResources.add(new LuxuryResources("Luxury", "Dyes", 0, 0, 2,  Improvement.getImprovementByName("Plantation")));
