@@ -57,7 +57,7 @@ public class MainController {
         return users;
     }
 
-    private User isExistUsername(String username) {
+    public User isExistUsername(String username) {
         ArrayList<User> users = User.getAllUsers();
         for (User user : users) {
             if (user.getUsername().equals(username))

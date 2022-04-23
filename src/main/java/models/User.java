@@ -52,4 +52,8 @@ public class User {
         this.password = password;
     }
 
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
+    }
+
 }
