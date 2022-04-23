@@ -8,7 +8,7 @@ public class Resource {
     protected int food;
     protected int production;
     protected int gold;
-    protected ArrayList<Tile> validTiles = new ArrayList<>();//ToDO Edit ValidTiles in Cunstructor affter Feature
+    protected ArrayList<Tile> validTiles = new ArrayList<>();//ToDO Edit ValidTiles in Cunstructor after Feature
     protected Improvement neededImprovement;
 
     public Resource(String type, String name, int food, int production, int gold,
