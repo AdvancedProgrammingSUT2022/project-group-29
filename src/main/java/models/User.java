@@ -23,33 +23,35 @@ public class User {
     public static User getLoggedInUser() {
         return loggedInUser;
     }
-
-    public static void setLoggedInUser(User loggedInUser) {
-        User.loggedInUser = loggedInUser;
-    }
-
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
-
     public String getUsername() {
         return username;
     }
-
     public String getNickname() {
         return nickname;
     }
-
     public String getPassword() {
         return password;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
     public void setPassword(String password) {
         this.password = password;
+    }
+    public static void setLoggedInUser(User loggedInUser) {
+        User.loggedInUser = loggedInUser;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 
     public static void setAllUsers(ArrayList<User> allUsers) {

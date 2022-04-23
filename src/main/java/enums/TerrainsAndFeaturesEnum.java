@@ -10,6 +10,7 @@ public enum TerrainsAndFeaturesEnum {
     PLAINS("plains",1,1,0,1,-33),
     SNOW("snow",0,0,0,1,-33),
     TUNDRA("tundra",1,0,0,1,-33),
+
     /*Features: */
     FLOODPLAINS("floodPlains",2,0,0,1,-33),
     FOREST("forest",1,1,0,2,+25),

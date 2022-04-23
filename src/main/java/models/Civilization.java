@@ -3,7 +3,7 @@ package models;
 import java.util.ArrayList;
 
 public class Civilization {
-    private String leaderName;
+    private User Leader;
     private ArrayList<Unit> units;
     private ArrayList<City> cities = new ArrayList<>();
     private City capital;
@@ -12,13 +12,12 @@ public class Civilization {
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
 
-    public Civilization(String leaderName, ArrayList<Unit> units) {
-        this.leaderName = leaderName;
-        this.units = units;
+    public Civilization(User leader) {
+        Leader = leader;
     }
 
-    public String getLeaderName() {
-        return leaderName;
+    public User getLeader() {
+        return Leader;
     }
 
     public int getHappiness() {

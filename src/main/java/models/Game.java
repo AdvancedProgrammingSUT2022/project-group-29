@@ -3,12 +3,12 @@ package models;
 import java.util.ArrayList;
 
 public class Game {
-    private ArrayList<Civilization> civilizations = new ArrayList<>();
+    private ArrayList<Civilization> civilizations;
     private int time;
-    private ArrayList <Tile> map;
+    private Tile[][] map;
     private int turn;
 
-    public Game(ArrayList<Civilization> civilizations, int time, ArrayList<Tile> map, int turn) {
+    public Game(ArrayList<Civilization> civilizations, int time, Tile[][] map, int turn) {
         this.civilizations = civilizations;
         this.time = time;
         this.map = map;
