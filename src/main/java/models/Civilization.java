@@ -4,20 +4,17 @@ import java.util.ArrayList;
 
 public class Civilization {
     private String leaderName;
+    private ArrayList<Unit> units;
     private ArrayList<City> cities = new ArrayList<>();
     private City capital;
-    private ArrayList<Unit> units = new ArrayList<>();
     private int happiness, gold, turn;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
 
-
-
-    public Civilization(String leaderName, City capital) {
+    public Civilization(String leaderName, ArrayList<Unit> units) {
         this.leaderName = leaderName;
-        this.capital = capital;
-        cities.add(capital);
+        this.units = units;
     }
 
     public String getLeaderName() {
