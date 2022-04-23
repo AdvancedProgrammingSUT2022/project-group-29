@@ -5,16 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1061df70-b7f3-4995-851a-ac85dfa6e2b6" name="Changes" comment="edited all menus">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/enums/TerrainsAndFeaturesEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/Terrain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/TerrainAndFeatures.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/controllers/MainController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/LoginMenuCommands.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/MainMenuCommands.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/ProfileMenuCommands.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/models/BonusResources.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/models/Terrain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-group-29.iml" beforeDir="false" afterPath="$PROJECT_DIR$/project-group-29.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/LoginMenuCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/LoginMenuCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/ProfileMenuCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/ProfileMenuCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Feature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Feature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/LuxuryResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/LuxuryResources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/StrategicResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/StrategicResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Technology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Technology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Terrain.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/ProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Civilization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Feature.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Feature.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Improvement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Improvement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/LuxuryResources.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/LuxuryResources.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Resource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Resource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/StrategicResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/StrategicResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Technology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Technology.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/MainMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/ProfileMenu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

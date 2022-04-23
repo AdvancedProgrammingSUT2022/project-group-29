@@ -1,17 +1,19 @@
 package models;
 
-
 import enums.TerrainsAndFeaturesEnum;
 
-public class Terrain {
+import java.util.ArrayList;
+
+public class TerrainAndFeatures {
     private final String kind;
     private final int food;
     private final int production;
     private final int gold;
     private final int movementCost;
     private final double battleEffect;
+    private ArrayList<Resource> possibleResources;
 
-    public Terrain(TerrainsAndFeaturesEnum type) {
+    public TerrainAndFeatures(TerrainsAndFeaturesEnum type) {
         this.kind = type.getKind();
         this.food = type.getFood();
         this.production = type.getProduction();
@@ -43,4 +45,9 @@ public class Terrain {
     public double getBattleEffect() {
         return battleEffect;
     }
+
+    public ArrayList<Resource> getPossibleResources() {
+        return possibleResources;
+    }
+
 }

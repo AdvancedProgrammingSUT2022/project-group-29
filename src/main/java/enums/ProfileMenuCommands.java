@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 
 public enum ProfileMenuCommands {
     ENTER_MENU("menu enter ((?<menuName>Main|Play Game|Login) Menu)"),
-    NICKNAME_CHANGE("profile change --(n|nickname) (?<nickname>\\S+)"),
-    PASSWORD_CHANGE1("profile change --(p|password) --(c|current) (?<currentPassword>\\S+) --(n|new) (?<newPassword>\\S+)"),
-    PASSWORD_CHANGE2("profile change --(p|password) --(n|new) (?<newPassword>\\S+) --(c|current) (?<currentPassword>\\S+)");
+    NICKNAME_CHANGE("profile change -(n|-nickname) (?<nickname>\\S+)"),
+    PASSWORD_CHANGE1("profile change -(p|-password) -(c|-current) (?<currentPassword>\\S+) -(n|-new) (?<newPassword>\\S+)"),
+    PASSWORD_CHANGE2("profile change -(p|-password) -(n|-new) (?<newPassword>\\S+) -(c|-current) (?<currentPassword>\\S+)");
 
     private String regex;
     ProfileMenuCommands(String regex) {
