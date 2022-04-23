@@ -8,13 +8,11 @@ public class Resource {
     protected int food;
     protected int production;
     protected int gold;
-    protected ArrayList<Tile> validTiles = new ArrayList<>();
+    protected ArrayList<Tile> validTiles = new ArrayList<>();//ToDO Edit ValidTiles in Cunstructor affter Feature
     protected Improvement neededImprovement;
-    protected ArrayList<Terrain> CanBeFoundOnThisTerrain = new ArrayList<>();//TODO Edit ValidTiles in Cunstructor after Feature
+    protected ArrayList<TerrainAndFeatures> CanBeFoundOnThisTerrain = new ArrayList<>();//TODO Edit ValidTiles in Cunstructor after Feature
 
-    public Resource(String type, String name, int food, int production, int gold,
-                     Improvement neededImprovement) {
-
+    public Resource(String type, String name, int food, int production, int gold,Improvement neededImprovement) {
         this.type = type;
         this.name = name;
         this.food = food;

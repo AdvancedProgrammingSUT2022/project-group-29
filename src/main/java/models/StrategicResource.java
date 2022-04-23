@@ -21,5 +21,6 @@ public class StrategicResource extends Resource{
                              Improvement neededImprovement,Technology neededTechnology) {
         super(type, name, food, production, gold, neededImprovement);
         this.neededTechnology = neededTechnology;
+
     }
 }

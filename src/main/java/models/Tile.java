@@ -3,12 +3,15 @@ package models;
 import java.util.ArrayList;
 
 public class Tile {
-    private int x, y, movementCost;
+    private int x, y;
+    private int movementCost;
     private double battleEffect;
     private Unit civilian = null;
     private MilitaryUnit militaryUnit = null;
     private String kind;
-    private Terrain feature;
+
+    private TerrainAndFeature feature;
+
     private ArrayList<Resource> possibleResources = new ArrayList<>();
     private Civilization civilization = null;
     private ArrayList<Resource> resources = new ArrayList<>();
