@@ -8,7 +8,7 @@ public class Tile {
     private Unit civilian = null;
     private MilitaryUnit militaryUnit = null;
     private String kind;
-    private Feature feature;
+    private Terrain feature;
     private ArrayList<Resource> possibleResources = new ArrayList<>();
     private Civilization civilization = null;
     private ArrayList<Resource> resources = new ArrayList<>();
