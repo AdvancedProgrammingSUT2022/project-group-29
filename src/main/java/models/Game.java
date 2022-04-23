@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Civilization> civilizations = new ArrayList<>();
-    private int turn, time;
+    private int time;
+    private ArrayList <Tile> map;
+    private int turn;
 
-    public Game(ArrayList<Civilization> civilizations, int time) {
+    public Game(ArrayList<Civilization> civilizations, int time, ArrayList<Tile> map, int turn) {
         this.civilizations = civilizations;
         this.time = time;
+        this.map = map;
+        this.turn = turn;
     }
 
     public void nextTurn() {

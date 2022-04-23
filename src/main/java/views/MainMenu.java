@@ -2,8 +2,10 @@ package views;
 
 import controllers.MainController;
 import enums.MainMenuCommands;
+import models.User;
 
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -21,6 +23,8 @@ public class MainMenu {
 
     public void run(Scanner scanner) {
         int a = 1;
+        int count;
+        ArrayList <User> users = null;
         String message;
 
         while (true) {
@@ -40,13 +44,25 @@ public class MainMenu {
                     break;
                 }
                 System.out.println(message);
+            } else if (MainMenuCommands.isMatch(command, MainMenuCommands.PLAY_GAME) != null) {
+                if ((count = MainController.getInstance().checkIsValidPlayGame(command)) == -1)
+                    System.out.println("invalid command");
+                else if ((users = MainController.getInstance().checkIsValidUsername(count,command)) == null)
+                    System.out.println("some usernames are invalid");
+                else {
+                    System.out.println("A new game started");
+                    a = 3;
+                    break;
+                }
             } else
                 System.out.println("invalid command");
         }
 
         if (a == 1)
             LoginMenu.getInstance().run(scanner);
-        else
+        else if (a == 2)
             ProfileMenu.getInstance().run(scanner);
+        else
+            GameMenu.getInstance().run(scanner,users);
     }
 }
