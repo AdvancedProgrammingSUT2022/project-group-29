@@ -27,8 +27,10 @@ public class LoginMenu {
                 System.out.println(LoginController.getInstance().createUser(matcher));
             else if ((matcher = LoginMenuCommands.isMatchLoginUser(command)) != null)
                 System.out.println(LoginController.getInstance().loginUser(matcher));
-            else if (command.equals("menu exit"))
+            else if (command.equals("menu exit")) {
+                //LoginController.getInstance().writeUserInfo();
                 System.exit(0);
+            }
             else if (command.equals("menu show-current"))
                 System.out.println("Login menu");
             else if ((matcher = LoginMenuCommands.isMatch(command, LoginMenuCommands.ENTER_MENU)) != null) {

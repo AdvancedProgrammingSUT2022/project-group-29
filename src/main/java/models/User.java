@@ -59,4 +59,8 @@ public class User {
         }
         return null;
     }
+
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
+    }
 }
