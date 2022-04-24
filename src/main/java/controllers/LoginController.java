@@ -64,7 +64,6 @@ public class LoginController {
 
 
     public void writeUserInfo() {
-        System.out.println("1");
         try {
             FileWriter fileWriter = new FileWriter("user.txt");
             fileWriter.write(new Gson().toJson(User.getAllUsers()));

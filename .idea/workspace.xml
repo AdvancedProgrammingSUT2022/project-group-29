@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1061df70-b7f3-4995-851a-ac85dfa6e2b6" name="Changes" comment="edited all menus">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-group-29.iml" beforeDir="false" afterPath="$PROJECT_DIR$/project-group-29.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +137,7 @@
       <workItem from="1650666501185" duration="3192000" />
       <workItem from="1650711901238" duration="1389000" />
       <workItem from="1650743273206" duration="922000" />
+      <workItem from="1650816626168" duration="287000" />
     </task>
     <task id="LOCAL-00001" summary="Edited UML">
       <created>1650229176391</created>
