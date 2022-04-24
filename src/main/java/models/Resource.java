@@ -8,7 +8,6 @@ public class Resource {
     protected int food;
     protected int production;
     protected int gold;
-    protected ArrayList<Tile> validTiles = new ArrayList<>();//ToDO Edit ValidTiles in Cunstructor affter Feature
     protected Improvement neededImprovement;
     protected ArrayList <TerrainAndFeature> CanBeFoundOnThisTerrain = new ArrayList<>();//TODO Edit ValidTiles in Cunstructor after Feature
 
