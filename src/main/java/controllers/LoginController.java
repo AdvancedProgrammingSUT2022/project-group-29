@@ -1,15 +1,13 @@
 package controllers;
 
-import com.google.gson.reflect.TypeToken;
+
 import models.User;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.Gson;
 import java.util.regex.Matcher;
 
 public class LoginController {
@@ -21,7 +19,7 @@ public class LoginController {
     public static LoginController getInstance() {
         if (instance == null) {
             instance = new LoginController();
-            readUserInfo();
+            //readUserInfo();
         }
         return instance;
     }
@@ -63,7 +61,7 @@ public class LoginController {
 
 
 
-    public void writeUserInfo() {
+    /*public void writeUserInfo() {
         try {
             FileWriter fileWriter = new FileWriter("user.txt");
             fileWriter.write(new Gson().toJson(User.getAllUsers()));
@@ -81,5 +79,5 @@ public class LoginController {
             e.printStackTrace();
         }
 
-    }
+    }*/
 }

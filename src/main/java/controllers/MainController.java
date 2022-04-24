@@ -34,12 +34,16 @@ public class MainController {
 
     public int checkIsValidPlayGame(String command) {
         int count = MainMenuCommands.countMatches(command);
-        if (count < 2)
+        if (count < 2) {
+            System.out.println(1);
             return -1;
+        }
         for (int i = 1; i <= count; i++) {
             Matcher matcher = Pattern.compile(".*-(p|-player)" + i + " (?<username>\\S+).*").matcher(command);
-            if (matcher.matches())
+            if (matcher.matches()) {
+                System.out.println(2);
                 return -1;
+            }
         }
         return count;
     }
