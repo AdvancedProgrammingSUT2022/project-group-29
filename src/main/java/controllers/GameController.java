@@ -9,7 +9,8 @@ import java.util.Random;
 public class GameController {
 
     private static GameController instance = null;
-
+    private final int LENGTH = 30;
+    private final int WIDTH = 40;
     private GameController() {
     }
 
@@ -22,7 +23,7 @@ public class GameController {
     private Game game;
 
     public void startGame(ArrayList<User> users) {
-        Tile[][] map = new Tile[30][40];
+        Tile[][] map = new Tile[LENGTH][WIDTH];
         createMap(map);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations,users);
@@ -66,13 +67,10 @@ public class GameController {
         }
     }
 
-    public static void showMap() {
+    public void cheatTurn(int turn) {
     }
 
-    public static void cheatTurn(int turn) {
-    }
-
-    public static void cheatGold(int turn) {
+    public void cheatGold(int turn) {
     }
 
     public void setGold(int gold) {
@@ -94,5 +92,13 @@ public class GameController {
 
     public void combat(MilitaryUnit militaryUnit, City city) {
 
+    }
+
+    public int getLENGTH() {
+        return LENGTH;
+    }
+
+    public int getWIDTH() {
+        return WIDTH;
     }
 }

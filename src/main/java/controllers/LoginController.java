@@ -44,7 +44,7 @@ public class LoginController {
         User user;
         if ((user = MainController.getInstance().isExistUsername(username)) == null)
             return "Username and password didn’t match!";
-        if (user.getPassword().equals(password))
+        if (!user.getPassword().equals(password))
             return "Username and password didn’t match!";
         User.setLoggedInUser(user);
         return "user logged in successfully!";

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class TerrainAndFeature {
     private final String kind;
+    private final String color;
     private final int food;
     private final int production;
     private final int gold;
@@ -19,6 +20,7 @@ public class TerrainAndFeature {
         this.gold = type.getGold();
         this.movementCost = type.getMovementCost();
         this.battleEffect = type.getBattleEffect();
+        this.color = type.getColor();
     }
 
     public String getKind() {
@@ -49,4 +51,7 @@ public class TerrainAndFeature {
         return possibleResources;
     }
 
+    public String getColor() {
+        return color;
+    }
 }

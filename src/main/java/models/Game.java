@@ -30,4 +30,8 @@ public class Game {
     public ArrayList<Civilization> getCivilizations() {
         return civilizations;
     }
+
+    public Tile[][] getMap() {
+        return map;
+    }
 }

@@ -26,4 +26,11 @@ public class Tile {
         this.militaryUnit = militaryUnit;
     }
 
+    public TerrainAndFeature getTerrain() {
+        return terrain;
+    }
+
+    public TerrainAndFeature getFeature() {
+        return feature;
+    }
 }
