@@ -2,6 +2,7 @@ package controllers;
 
 import enums.TerrainsAndFeaturesEnum;
 import models.*;
+import views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,8 +27,7 @@ public class GameController {
         createMap(map);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations,users);
-        game = new Game(civilizations,-4000,map,1);
-        printMap();
+        game = new Game(civilizations,-4000,map);
     }
 
     private void createMap(Tile[][] map) {
@@ -60,84 +60,13 @@ public class GameController {
     }
 
     private void createCivilizations(ArrayList<Civilization> civilizations,ArrayList<User> users) {
-        StringBuilder stringBuilder = new StringBuilder("A new game started between ");
         for (User user : users) {
             Civilization civilization = new Civilization(user);
             civilizations.add(civilization);
             user.setCivilization(civilization);
-            stringBuilder.append(user.getUsername()).append(", ");
-        }
-        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
-        System.out.println(stringBuilder);
-    }
-
-    private void printMap(){
-        Tile[][] tiles = game.getMap();
-
-        for (int i = 0; i < LENGTH * 6; i++) {
-            for (int j = 0; j < 11 * WIDTH; j++) {
-
-                if (i % 6 == 0) {
-
-                    if (j % 20 >= 2 && j % 20 < 10)
-                        System.out.print("=");
-                    else
-                        System.out.print(" ");
-
-                } else if (i % 6 == 1) {
-
-                    if (j % 20 == 1) {
-                        System.out.print("/" + (i / 6 < LENGTH && j / 10 < WIDTH ? tiles[i / 6][j / 10].getTerrain().getColor() : "") +
-                                "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
-                        j += 7;
-                    } else if (j % 20 == 10)
-                        System.out.print("\033[000m\\");
-                    else
-                        System.out.print(" ");
-
-                } else if (i % 6 == 2) {
-
-                    if (j % 20 == 0) {
-                        /*String s = GameController.getCivilization(tiles[i / 6][j / 10]);
-                        System.out.print("/    " + (i / 6 < x && j / 10 < y ? s : ""));
-                        j +=5;*/
-                        System.out.print("/");
-                    }
-                    else if (j % 20 == 11)
-                        System.out.print("\\");
-                    else
-                        System.out.print(" ");
-
-                } else if (i % 6 == 3) {
-
-                    if (j % 20 >= 12)
-                        System.out.print("=");
-                    else
-                        System.out.print(" ");
-
-                } else if (i % 6 == 4) {
-                    if (j % 20 == 0)
-                        System.out.print("\u001B[0m\\");
-                    else if (j % 20 == 11) {
-                        System.out.print("/" + (i / 6 < LENGTH && j / 10 < WIDTH ? tiles[i / 6][j / 10].getTerrain().getColor() : "") +
-                                "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
-                        j += 7;
-                    } else
-                        System.out.print(" ");
-
-                } else  {
-
-                    if (j % 20 == 1)
-                        System.out.print("\\");
-                    else if (j % 20 == 10)
-                        System.out.print("/");
-                    else
-                        System.out.print(" ");
-                }
-            }
-            System.out.println();
         }
     }
+
 
     public void cheatTurn(int turn) {
     }
@@ -146,12 +75,7 @@ public class GameController {
     }
 
     public void setGold(int gold) {
-        Civilization civilization = new Civilization(null);
-        civilization.getGold();
-    }
-
-    public void nextTurn() {
-        game.nextTurn();
+        
     }
 
     public Game getGame() {
@@ -165,6 +89,12 @@ public class GameController {
     public void combat(MilitaryUnit militaryUnit, City city) {
 
     }
+
+    /*public boolean isTerrainVisible(int x, int y) {
+        for (City city : game.getCurrentCivilization().getCities()) {
+            if ()
+        }
+    }*/
 
     public int getLENGTH() {
         return LENGTH;

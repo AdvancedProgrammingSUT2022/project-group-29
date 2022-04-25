@@ -12,16 +12,4 @@ public class City {
         this.tiles = tiles;
     }
 
-    public ArrayList<Tile> getTiles() {
-        return tiles;
-    }
-
-    public Unit getCivilian() {
-        return civilian;
-    }
-
-    public MilitaryUnit getMilitaryUnit() {
-        return militaryUnit;
-    }
-
 }
