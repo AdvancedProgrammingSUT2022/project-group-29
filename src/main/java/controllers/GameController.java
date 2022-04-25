@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
-
     private static GameController instance = null;
     private final int LENGTH = 30;
     private final int WIDTH = 40;
@@ -67,6 +66,7 @@ public class GameController {
             user.setCivilization(civilization);
         }
     }
+
 
     public void cheatTurn(int turn) {
     }

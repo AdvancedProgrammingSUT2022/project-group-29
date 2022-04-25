@@ -14,11 +14,11 @@ public class Game {
         this.currentCivilization = civilizations.get(0);
         this.time = time;
         this.map = map;
-        this.turn = 1;
+        this.turn = 0;
     }
 
     public void nextTurn() {
-        currentCivilization = civilizations.get(++turn);
+        currentCivilization = civilizations.get(++turn % civilizations.size());
     }
 
     public int getTurn() {

@@ -1,5 +1,7 @@
 package models;
 
+import enums.MilitaryUnitsEnum;
+
 import java.util.ArrayList;
 
 public class Civilization {
@@ -15,6 +17,8 @@ public class Civilization {
 
     public Civilization(User leader) {
         Leader = leader;
+        MilitaryUnit unit = new MilitaryUnit(MilitaryUnitsEnum.ARCHER);
+        militaryUnits.add(unit);
     }
 
     public ArrayList<Tile> getTiles() {

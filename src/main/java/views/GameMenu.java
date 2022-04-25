@@ -22,10 +22,22 @@ public class GameMenu {
     }
 
 
-    public void run(Scanner scanner, ArrayList<User> users) {
+
+    public void run(Scanner scanner, ArrayList <User> users) {
+        printGameStarted(users);
+
         GameController.getInstance().startGame(users);
 
         showMap();
+    }
+
+    private void printGameStarted(ArrayList <User> users) {
+        StringBuilder stringBuilder = new StringBuilder("A new game started between ");
+        for (User user : users) {
+            stringBuilder.append(user.getUsername()).append(", ");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
+        System.out.println(stringBuilder);
     }
 
     private void showMap() {
@@ -64,7 +76,9 @@ public class GameMenu {
                         System.out.print("/    " + (i / 6 < x && j / 10 < y ? s : ""));
                         j +=5;*/
                         System.out.print("/");
+
                     } else if (j % 20 == 11)
+
                         System.out.print("\\");
                     else
                         System.out.print(" ");
@@ -98,10 +112,8 @@ public class GameMenu {
                         System.out.print("/");
                     else
                         System.out.print(" ");
-
                 }
             }
-            System.out.println();
         }
     }
 
