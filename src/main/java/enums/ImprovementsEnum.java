@@ -8,15 +8,15 @@ import java.util.Arrays;
 
 public enum ImprovementsEnum {
     //TODO Change DEFAULT Technology And TerrainANDFeature
-    CAMP("Camp", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
-    FARM("Farm", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 1, 0, 0),
-    MINE("Mine", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 1, 0),
-    PASTURE("Pasture", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
-    PLANTATION("Plantation", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
-    QUARRY("Quarry", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
-    TRADING_POST("TradingPost", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 1),
-    LUMBER_MILL("LumberMill", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 1, 0),
-    MANUFACTORY("Manufactory", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 2, 0);
+    CAMP("Camp", new Technology(TechnologyEnum.TRAPPING), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
+    FARM("Farm", new Technology(TechnologyEnum.AGRICULTURE), new ArrayList<TerrainAndFeature>(), 1, 0, 0),
+    MINE("Mine", new Technology(TechnologyEnum.MINING), new ArrayList<TerrainAndFeature>(), 0, 1, 0),
+    PASTURE("Pasture", new Technology(TechnologyEnum.ANIMAL_HUSBANDRY), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
+    PLANTATION("Plantation", new Technology(TechnologyEnum.CALENDAR), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
+    QUARRY("Quarry", new Technology(TechnologyEnum.MASONRY), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
+    TRADING_POST("TradingPost", new Technology(TechnologyEnum.TRAPPING), new ArrayList<TerrainAndFeature>(), 0, 0, 1),
+    LUMBER_MILL("LumberMill", new Technology(TechnologyEnum.ENGINEERING), new ArrayList<TerrainAndFeature>(), 0, 1, 0),
+    MANUFACTORY("Manufactory", new Technology(TechnologyEnum.ENGINEERING), new ArrayList<TerrainAndFeature>(), 0, 2, 0);
 
 
     private String name;
