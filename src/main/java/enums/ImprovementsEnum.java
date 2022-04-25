@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public enum ImprovementsEnum {
     //TODO Change DEFAULT Technology And TerrainANDFeature
-    CAMP("Camp", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(Arrays.asList()), 0, 0, 0),
+    CAMP("Camp", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
     FARM("Farm", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 1, 0, 0),
     MINE("Mine", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 1, 0),
     PASTURE("Pasture", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
