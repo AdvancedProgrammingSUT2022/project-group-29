@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
-
     private static GameController instance = null;
     private final int LENGTH = 30;
     private final int WIDTH = 40;
+    private Game game;
+
     private GameController() {
     }
 
@@ -20,20 +21,19 @@ public class GameController {
         return instance;
     }
 
-    private Game game;
-
     public void startGame(ArrayList<User> users) {
         Tile[][] map = new Tile[LENGTH][WIDTH];
         createMap(map);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations,users);
         game = new Game(civilizations,-4000,map,1);
+        printMap();
     }
 
     private void createMap(Tile[][] map) {
         Random random = new Random();
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 40; j++) {
+        for (int i = 0; i < LENGTH; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 TerrainAndFeature terrain = addTerrain(random);
                 map[i][j] = new Tile(i,j,terrain);
             }
@@ -69,6 +69,74 @@ public class GameController {
         }
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         System.out.println(stringBuilder);
+    }
+
+    private void printMap(){
+        Tile[][] tiles = game.getMap();
+
+        for (int i = 0; i < LENGTH * 6; i++) {
+            for (int j = 0; j < 11 * WIDTH; j++) {
+
+                if (i % 6 == 0) {
+
+                    if (j % 20 >= 2 && j % 20 < 10)
+                        System.out.print("=");
+                    else
+                        System.out.print(" ");
+
+                } else if (i % 6 == 1) {
+
+                    if (j % 20 == 1) {
+                        System.out.print("/" + (i / 6 < LENGTH && j / 10 < WIDTH ? tiles[i / 6][j / 10].getTerrain().getColor() : "") +
+                                "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
+                        j += 7;
+                    } else if (j % 20 == 10)
+                        System.out.print("\033[000m\\");
+                    else
+                        System.out.print(" ");
+
+                } else if (i % 6 == 2) {
+
+                    if (j % 20 == 0) {
+                        /*String s = GameController.getCivilization(tiles[i / 6][j / 10]);
+                        System.out.print("/    " + (i / 6 < x && j / 10 < y ? s : ""));
+                        j +=5;*/
+                        System.out.print("/");
+                    }
+                    else if (j % 20 == 11)
+                        System.out.print("\\");
+                    else
+                        System.out.print(" ");
+
+                } else if (i % 6 == 3) {
+
+                    if (j % 20 >= 12)
+                        System.out.print("=");
+                    else
+                        System.out.print(" ");
+
+                } else if (i % 6 == 4) {
+                    if (j % 20 == 0)
+                        System.out.print("\u001B[0m\\");
+                    else if (j % 20 == 11) {
+                        System.out.print("/" + (i / 6 < LENGTH && j / 10 < WIDTH ? tiles[i / 6][j / 10].getTerrain().getColor() : "") +
+                                "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
+                        j += 7;
+                    } else
+                        System.out.print(" ");
+
+                } else  {
+
+                    if (j % 20 == 1)
+                        System.out.print("\\");
+                    else if (j % 20 == 10)
+                        System.out.print("/");
+                    else
+                        System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
     }
 
     public void cheatTurn(int turn) {

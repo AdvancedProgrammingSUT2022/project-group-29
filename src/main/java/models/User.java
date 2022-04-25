@@ -49,11 +49,9 @@ public class User {
     public static void setLoggedInUser(User loggedInUser) {
         User.loggedInUser = loggedInUser;
     }
-
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
     }
-
     public static void setAllUsers(ArrayList<User> allUsers) {
         User.allUsers = allUsers;
     }
