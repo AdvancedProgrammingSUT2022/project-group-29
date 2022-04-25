@@ -1,18 +1,16 @@
 package models;
 
+import enums.ResourceEnum;
+
 import java.util.ArrayList;
 
-public class StrategicResource extends Resource{
-    /*TODO Part Buildings Requiring this Resource And Complete  Technology
+public class StrategicResource extends Resource {
+    /*TODO Part Buildings Requiring this Resource And Complete  neededTechnology
      */
-    private static ArrayList<StrategicResource> allStrategicResource = new ArrayList<>();
     private Technology neededTechnology;
-    private final ArrayList<Unit>UnitsRequiringThisResource = new ArrayList<>();
+    private final ArrayList<Unit> UnitsRequiringThisResource = new ArrayList<>();
 
-    public StrategicResource(String type, String name, int food, int production, int gold ,
-                             Improvement neededImprovement,Technology neededTechnology) {
-        super(type, name, food, production, gold, neededImprovement);
-        this.neededTechnology = neededTechnology;
-
+    public StrategicResource(ResourceEnum type) {
+        super(type);
     }
 }
