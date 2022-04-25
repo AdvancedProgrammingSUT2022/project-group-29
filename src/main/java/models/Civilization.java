@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Civilization {
     private User Leader;
-    private ArrayList<Unit> units;
-    private ArrayList<MilitaryUnit> militaryUnits;
+    private ArrayList<Unit> units = new ArrayList<>();
+    private ArrayList<MilitaryUnit> militaryUnits = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
     private City capital;
     private int happiness, gold;
