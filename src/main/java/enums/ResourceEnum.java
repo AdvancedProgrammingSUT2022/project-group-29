@@ -5,27 +5,27 @@ import models.LuxuryResources;
 import models.StrategicResource;
 
 public enum ResourceEnum {
-    BANANA("Bonus", "Banana", 1, 0, 0, Improvement.getImprovementByName("Plantation")),
-    CATTLE("Bonus", "Cattle", 1, 0, 0, Improvement.getImprovementByName("Pasture")),
-    DEER("Bonus", "Deer", 1, 0, 0, Improvement.getImprovementByName("Camp")),
-    SHEEP("Bonus", "Sheep", 1, 0, 0, Improvement.getImprovementByName("Pasture")),
-    WHEAT("Bonus", "Wheat", 1, 0, 0, Improvement.getImprovementByName("Farm")),
+    BANANA("Bonus", "Banana", 1, 0, 0, new Improvement(ImprovementsEnum.PLANTATION)),
+    CATTLE("Bonus", "Cattle", 1, 0, 0, new Improvement(ImprovementsEnum.PASTURE)),
+    DEER("Bonus", "Deer", 1, 0, 0,  new Improvement(ImprovementsEnum.CAMP)),
+    SHEEP("Bonus", "Sheep", 1, 0, 0, new Improvement(ImprovementsEnum.PASTURE)),
+    WHEAT("Bonus", "Wheat", 1, 0, 0, new Improvement(ImprovementsEnum.FARM)),
 
-    COTTON("Luxury", "Cotton", 0, 0, 2, Improvement.getImprovementByName("Field")),
-    DYES("Luxury", "Dyes", 0, 0, 2, Improvement.getImprovementByName("Plantation")),
-    FURS("Luxury", "Furs", 0, 0, 2, Improvement.getImprovementByName("Camp")),
-    GEMS("Luxury", "Gems", 0, 0, 3, Improvement.getImprovementByName("Mine")),
-    GOLD("Luxury", "Gold", 0, 0, 2, Improvement.getImprovementByName("Mine")),
-    INCENSE("Luxury", "Incense", 0, 0, 2, Improvement.getImprovementByName("Plantation")),
-    IVORY("Luxury", "Ivory", 0, 0, 2, Improvement.getImprovementByName("Camp")),
-    MARBLE("Luxury", "Marble", 0, 0, 2, Improvement.getImprovementByName("Quarry")),
-    SILK("Luxury", "Silk", 0, 0, 2, Improvement.getImprovementByName("Plantation")),
-    SILVER("Luxury", "Silver", 0, 0, 2, Improvement.getImprovementByName("Mine")),
-    SUGAR("Luxury", "Sugar", 0, 0, 2, Improvement.getImprovementByName("Plantation")),
+    COTTON("Luxury", "Cotton", 0, 0, 2, new Improvement(ImprovementsEnum.PLANTATION)),
+    DYES("Luxury", "Dyes", 0, 0, 2, new Improvement(ImprovementsEnum.PLANTATION)),
+    FURS("Luxury", "Furs", 0, 0, 2, new Improvement(ImprovementsEnum.CAMP)),
+    GEMS("Luxury", "Gems", 0, 0, 3, new Improvement(ImprovementsEnum.MINE)),
+    GOLD("Luxury", "Gold", 0, 0, 2,  new Improvement(ImprovementsEnum.MINE)),
+    INCENSE("Luxury", "Incense", 0, 0, 2, new Improvement(ImprovementsEnum.PLANTATION)),
+    IVORY("Luxury", "Ivory", 0, 0, 2, new Improvement(ImprovementsEnum.CAMP)),
+    MARBLE("Luxury", "Marble", 0, 0, 2, new Improvement(ImprovementsEnum.QUARRY)),
+    SILK("Luxury", "Silk", 0, 0, 2, new Improvement(ImprovementsEnum.PLANTATION)),
+    SILVER("Luxury", "Silver", 0, 0, 2, new Improvement(ImprovementsEnum.MINE)),
+    SUGAR("Luxury", "Sugar", 0, 0, 2, new Improvement(ImprovementsEnum.PLANTATION)),
 
-    COAL("Strategic", "Coal", 0, 1, 0, Improvement.getImprovementByName("Mine")),
-    HORSES("Strategic", "Horses", 0, 1, 0, Improvement.getImprovementByName("Pasture")),
-    IRON("Strategic", "Iron", 0, 1, 0, Improvement.getImprovementByName("Mine"));
+    COAL("Strategic", "Coal", 0, 1, 0,  new Improvement(ImprovementsEnum.MINE)),
+    HORSES("Strategic", "Horses", 0, 1, 0, new Improvement(ImprovementsEnum.PASTURE)),
+    IRON("Strategic", "Iron", 0, 1, 0,  new Improvement(ImprovementsEnum.MINE));
     private String type;
     private String name;
     private int food;

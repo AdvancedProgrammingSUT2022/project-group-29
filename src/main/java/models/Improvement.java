@@ -1,35 +1,47 @@
 package models;
 
+import enums.ImprovementsEnum;
+
 import java.util.ArrayList;
 
 public class Improvement {
-    private String type;
     private String name;
     private Technology neededTechnology;
-    private ArrayList<Tile> validTiles = new ArrayList<>();
-    private static ArrayList<Improvement> allImprovements = new ArrayList<>();
+    private ArrayList<TerrainAndFeature> TerrainFeaturesThatCanBeBuilt;
+    private int FoodChange;
+    private int ProductionChange;
+    private int GoldChange;
 
-    public Improvement(String type) {
-        this.type = type;
+    public Improvement(ImprovementsEnum type) {
+        this.name = type.getName();
+        this.neededTechnology = type.getNeededTechnology();
+        TerrainFeaturesThatCanBeBuilt = type.getTerrainFeaturesThatCanBeBuilt();
+        this.FoodChange = type.getFoodChange();
+        this.ProductionChange = type.getProductionChange();
+        this.GoldChange = type.getGoldChange();
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
     public Technology getNeededTechnology() {
         return neededTechnology;
     }
 
-    public ArrayList<Tile> getValidTiles() {
-        return validTiles;
+    public ArrayList<TerrainAndFeature> getTerrainFeaturesThatCanBeBuilt() {
+        return TerrainFeaturesThatCanBeBuilt;
     }
 
-    public static Improvement getImprovementByName(String name) {
-        for (Improvement improvement : allImprovements) {
-            if (name.equals(improvement.name))
-                return improvement;
-        }
-        return null;
+    public int getFoodChange() {
+        return FoodChange;
+    }
+
+    public int getProductionChange() {
+        return ProductionChange;
+    }
+
+    public int getGoldChange() {
+        return GoldChange;
     }
 }
