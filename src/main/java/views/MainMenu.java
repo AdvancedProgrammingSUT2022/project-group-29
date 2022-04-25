@@ -50,7 +50,6 @@ public class MainMenu {
                 else if ((users = MainController.getInstance().checkIsValidUsername(count,command)) == null)
                     System.out.println("some usernames are invalid");
                 else {
-                    System.out.println("A new game started");
                     a = 3;
                     break;
                 }

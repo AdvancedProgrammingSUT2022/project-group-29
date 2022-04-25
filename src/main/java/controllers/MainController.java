@@ -54,7 +54,6 @@ public class MainController {
                 if ((user = isExistUsername(username)) == null)
                     return null;
                 users.add(user);
-                System.out.println(matcher.group("username"));
             }
         }
         return users;

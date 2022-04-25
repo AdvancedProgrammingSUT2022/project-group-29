@@ -60,11 +60,15 @@ public class GameController {
     }
 
     private void createCivilizations(ArrayList<Civilization> civilizations,ArrayList<User> users) {
+        StringBuilder stringBuilder = new StringBuilder("A new game started between ");
         for (User user : users) {
             Civilization civilization = new Civilization(user);
             civilizations.add(civilization);
             user.setCivilization(civilization);
+            stringBuilder.append(user.getUsername()).append(", ");
         }
+        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
+        System.out.println(stringBuilder);
     }
 
     public void cheatTurn(int turn) {
