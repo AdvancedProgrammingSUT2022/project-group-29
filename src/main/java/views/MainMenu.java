@@ -46,7 +46,7 @@ public class MainMenu {
                 System.out.println(message);
             } else if (MainMenuCommands.isMatch(command, MainMenuCommands.PLAY_GAME) != null) {
                 if ((count = MainController.getInstance().checkIsValidPlayGame(command)) == -1)
-                    System.out.println("invalid command1");
+                    System.out.println("invalid command");
                 else if ((users = MainController.getInstance().checkIsValidUsername(count,command)) == null)
                     System.out.println("some usernames are invalid");
                 else {
@@ -55,7 +55,7 @@ public class MainMenu {
                     break;
                 }
             } else
-                System.out.println("invalid command0");
+                System.out.println("invalid command");
         }
 
         if (a == 1)
