@@ -30,8 +30,8 @@ public class GameMenu {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
         int x = GameController.getInstance().getLENGTH();
         int y = GameController.getInstance().getWIDTH();
-        for (int i = 0; i < x * 6; i++) {
-            for (int i1 = 0; i1 < 11 * y; i1++) {
+        for (int i = 0; i < x * 6 + 2; i++) {
+            for (int i1 = 0; i1 < 10 * y + 1; i1++) {
 
                 if (i % 6 == 0) {
 

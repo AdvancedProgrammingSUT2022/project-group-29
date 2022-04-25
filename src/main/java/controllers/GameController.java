@@ -2,6 +2,7 @@ package controllers;
 
 import enums.TerrainsAndFeaturesEnum;
 import models.*;
+import views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +12,7 @@ public class GameController {
     private static GameController instance = null;
     private final int LENGTH = 30;
     private final int WIDTH = 40;
+    private Game game;
     private GameController() {
     }
 
@@ -20,20 +22,18 @@ public class GameController {
         return instance;
     }
 
-    private Game game;
-
     public void startGame(ArrayList<User> users) {
         Tile[][] map = new Tile[LENGTH][WIDTH];
         createMap(map);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations,users);
-        game = new Game(civilizations,-4000,map,1);
+        game = new Game(civilizations,-4000,map);
     }
 
     private void createMap(Tile[][] map) {
         Random random = new Random();
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 40; j++) {
+        for (int i = 0; i < LENGTH; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 TerrainAndFeature terrain = addTerrain(random);
                 map[i][j] = new Tile(i,j,terrain);
             }
@@ -74,12 +74,7 @@ public class GameController {
     }
 
     public void setGold(int gold) {
-        Civilization civilization = new Civilization(null);
-        civilization.getGold();
-    }
-
-    public void nextTurn() {
-        game.nextTurn();
+        
     }
 
     public Game getGame() {
@@ -93,6 +88,12 @@ public class GameController {
     public void combat(MilitaryUnit militaryUnit, City city) {
 
     }
+
+    /*public boolean isTerrainVisible(int x, int y) {
+        for (City city : game.getCurrentCivilization().getCities()) {
+            if ()
+        }
+    }*/
 
     public int getLENGTH() {
         return LENGTH;

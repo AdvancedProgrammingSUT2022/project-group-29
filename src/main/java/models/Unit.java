@@ -1,10 +1,10 @@
 package models;
 
 public class Unit {
-    protected int cost;
-    protected String type;
-    protected int movement;
-    protected String combatType;
+    private int cost;
+    private String type;
+    private int movement;
+    private String combatType;
 
     public Unit(String type) {
         this.type = type;

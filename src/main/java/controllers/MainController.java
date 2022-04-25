@@ -49,12 +49,13 @@ public class MainController {
         User user;
         for (int i = 1; i <= count; i++) {
             Matcher matcher = Pattern.compile(".*-(p|-player)" + i + " (?<username>\\S+).*").matcher(command);
-            String username = null;
-            if (matcher.matches())
-            username = matcher.group("username");
-            if ((user = isExistUsername(username)) == null)
-                return null;
-            users.add(user);
+
+            if (matcher.find()) {
+                String username = matcher.group("username");
+                if ((user = isExistUsername(username)) == null)
+                    return null;
+                users.add(user);
+            }
         }
         return users;
     }
