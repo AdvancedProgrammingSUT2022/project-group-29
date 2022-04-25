@@ -1,24 +1,53 @@
 package models;
 
+import enums.ResourceEnum;
+
 import java.util.ArrayList;
 
 public class Resource {
-    protected String type ;
+    protected String type;
     protected String name;
     protected int food;
     protected int production;
     protected int gold;
-    protected ArrayList<Tile> validTiles = new ArrayList<>();//ToDO Edit ValidTiles in Cunstructor affter Feature
     protected Improvement neededImprovement;
-    protected ArrayList <TerrainAndFeature> CanBeFoundOnThisTerrain = new ArrayList<>();//TODO Edit ValidTiles in Cunstructor after Feature
+    protected ArrayList<TerrainAndFeature> CanBeFoundOnThisTerrain = new ArrayList<>();
+    //TODO Edit CanBeFoundOnThisTerrain in Constructor after TerrainAndFeature
 
-    public Resource(String type, String name, int food, int production, int gold,Improvement neededImprovement) {
-        this.type = type;
-        this.name = name;
-        this.food = food;
-        this.production = production;
-        this.gold = gold;
-        this.neededImprovement = neededImprovement;
+    public Resource(ResourceEnum type) {
+        this.type = type.getType();
+        this.name = type.getName();
+        this.food = type.getFood();
+        this.production = type.getProduction();
+        this.gold = type.getGold();
+        this.neededImprovement = type.getNeededImprovement();
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public int getProduction() {
+        return production;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public Improvement getNeededImprovement() {
+        return neededImprovement;
+    }
+
+    public ArrayList<TerrainAndFeature> getCanBeFoundOnThisTerrain() {
+        return CanBeFoundOnThisTerrain;
+    }
 }
