@@ -8,7 +8,7 @@ public enum ResourceEnum {
     BANANA("Bonus", "Banana", 1, 0, 0, new Improvement(ImprovementsEnum.PLANTATION)),
     CATTLE("Bonus", "Cattle", 1, 0, 0, new Improvement(ImprovementsEnum.PASTURE)),
     DEER("Bonus", "Deer", 1, 0, 0,  new Improvement(ImprovementsEnum.CAMP)),
-    SHEEP("Bonus", "Sheep", 1, 0, 0, new Improvement(ImprovementsEnum.PASTURE)),
+    SHEEP("Bonus", "Sheep", 2, 0, 0, new Improvement(ImprovementsEnum.PASTURE)),
     WHEAT("Bonus", "Wheat", 1, 0, 0, new Improvement(ImprovementsEnum.FARM)),
 
     COTTON("Luxury", "Cotton", 0, 0, 2, new Improvement(ImprovementsEnum.PLANTATION)),

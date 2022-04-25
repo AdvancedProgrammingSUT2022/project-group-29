@@ -14,8 +14,10 @@ public enum ImprovementsEnum {
     PASTURE("Pasture", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
     PLANTATION("Plantation", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
     QUARRY("Quarry", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 0),
-    TRADING_POST("TradingPost", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 2),
-    LUMBER_MILL("LumberMill", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 1, 0);
+    TRADING_POST("TradingPost", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 0, 1),
+    LUMBER_MILL("LumberMill", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 1, 0),
+    MANUFACTORY("Manufactory", new Technology("DEFAULT"), new ArrayList<TerrainAndFeature>(), 0, 2, 0);
+
 
     private String name;
     private Technology neededTechnology;
