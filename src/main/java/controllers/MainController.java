@@ -37,8 +37,8 @@ public class MainController {
         if (count < 2)
             return -1;
         for (int i = 1; i <= count; i++) {
-            Matcher matcher = Pattern.compile(".*-(p|-player)" + i + " (?<username>\\S+).*").matcher(command);
-            if (!matcher.matches())
+            Matcher matcher = Pattern.compile("-(p|-player)" + i + " (?<username>\\S+)").matcher(command);
+            if (!matcher.find())
                 return -1;
         }
         return count;
@@ -48,13 +48,14 @@ public class MainController {
         ArrayList<User> users = new ArrayList<>();
         User user;
         for (int i = 1; i <= count; i++) {
-            Matcher matcher = Pattern.compile(".*-(p|-player)" + i + " (?<username>\\S+).*").matcher(command);
-            String username = null;
-            if (matcher.matches())
-            username = matcher.group("username");
-            if ((user = isExistUsername(username)) == null)
-                return null;
-            users.add(user);
+            Matcher matcher = Pattern.compile("-(p|-player)" + i + " (?<username>\\S+)").matcher(command);
+            if (matcher.find()) {
+                String username = matcher.group("username");
+                if ((user = isExistUsername(username)) == null)
+                    return null;
+                users.add(user);
+                System.out.println(matcher.group("username"));
+            }
         }
         return users;
     }
