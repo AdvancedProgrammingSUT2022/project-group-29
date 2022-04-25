@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1061df70-b7f3-4995-851a-ac85dfa6e2b6" name="Changes" comment="edited all menus">
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/GameController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/unitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_25_2022_10_17_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_25_2022_10_17_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/City.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Civilization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/GameMenu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -67,6 +64,9 @@
         <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="27wMHDppYUfrX0CMjilmdhjlmzk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -209,9 +209,9 @@
     <MESSAGE value="Edited UML" />
     <MESSAGE value="LoginMenu Edited!" />
     <MESSAGE value="LoginMenu Edited again" />
-    <MESSAGE value="merged" />
     <MESSAGE value="edited all menus" />
-    <option name="LAST_COMMIT_MESSAGE" value="edited all menus" />
+    <MESSAGE value="merged" />
+    <option name="LAST_COMMIT_MESSAGE" value="merged" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
