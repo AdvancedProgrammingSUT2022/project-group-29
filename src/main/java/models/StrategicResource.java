@@ -1,6 +1,6 @@
 package models;
 
-import enums.ResourceEnum;
+import enums.modelsEnum.ResourceEnum;
 
 import java.util.ArrayList;
 

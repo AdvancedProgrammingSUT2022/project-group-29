@@ -1,10 +1,10 @@
-package enums;
+package enums.modelsEnum;
 
+import enums.modelsEnum.TechnologyEnum;
 import models.Technology;
 import models.TerrainAndFeature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public enum ImprovementsEnum {
     //TODO Change DEFAULT Technology And TerrainANDFeature

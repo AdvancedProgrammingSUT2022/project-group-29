@@ -1,8 +1,7 @@
 package controllers;
 
-import enums.TerrainsAndFeaturesEnum;
+import enums.modelsEnum.TerrainsAndFeaturesEnum;
 import models.*;
-import views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Random;

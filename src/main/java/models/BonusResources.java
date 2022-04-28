@@ -1,6 +1,6 @@
 package models;
 
-import enums.ResourceEnum;
+import enums.modelsEnum.ResourceEnum;
 
 public class BonusResources extends Resource {
 

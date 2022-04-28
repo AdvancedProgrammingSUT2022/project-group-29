@@ -1,5 +1,7 @@
-package enums;
+package enums.modelsEnum;
 
+import enums.modelsEnum.ResourceEnum;
+import enums.modelsEnum.TechnologyEnum;
 import models.Resource;
 import models.Technology;
 

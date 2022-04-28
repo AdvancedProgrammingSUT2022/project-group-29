@@ -1,18 +1,18 @@
 package models;
 
-import enums.ResourceEnum;
+import enums.modelsEnum.ResourceEnum;
 
 import java.util.ArrayList;
 
 public class Resource {
-    protected String type;
-    protected String name;
-    protected int food;
-    protected int production;
-    protected int gold;
-    protected Improvement neededImprovement;
-    protected ArrayList<TerrainAndFeature> CanBeFoundOnThisTerrain = new ArrayList<>();
-    //TODO Edit CanBeFoundOnThisTerrain in Constructor after TerrainAndFeature
+    private final String type;
+    private final String name;
+    private final int food;
+    private final int production;
+    private final int gold;
+    private final Improvement neededImprovement;
+    private final Technology neededTechnology;
+    private static ArrayList<Resource> discoveredLuxuryResources = new ArrayList<>();
 
     public Resource(ResourceEnum type) {
         this.type = type.getType();
@@ -21,33 +21,35 @@ public class Resource {
         this.production = type.getProduction();
         this.gold = type.getGold();
         this.neededImprovement = type.getNeededImprovement();
+        this.neededTechnology = type.getNeededTechnology();
     }
 
     public String getType() {
         return type;
     }
-
     public String getName() {
         return name;
     }
-
     public int getFood() {
         return food;
     }
-
     public int getProduction() {
         return production;
     }
-
     public int getGold() {
         return gold;
     }
-
     public Improvement getNeededImprovement() {
         return neededImprovement;
     }
-
-    public ArrayList<TerrainAndFeature> getCanBeFoundOnThisTerrain() {
-        return CanBeFoundOnThisTerrain;
+    public Technology getNeededTechnology() {
+        return neededTechnology;
     }
+    public static ArrayList<Resource> getDiscoveredLuxuryResources() {
+        return discoveredLuxuryResources;
+    }
+    public static void addDiscoveredLuxuryResource(Resource resource) {
+        discoveredLuxuryResources.add(resource);
+    }
+
 }

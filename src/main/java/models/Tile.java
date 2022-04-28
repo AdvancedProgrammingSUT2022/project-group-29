@@ -6,16 +6,16 @@ public class Tile {
     private int x, y;
     private TerrainAndFeature terrain;
     private TerrainAndFeature feature;
-    private Unit civilian = null;
-    private MilitaryUnit militaryUnit = null;
-    private ArrayList<Resource> possibleResources = new ArrayList<>();
-    private ArrayList<Resource> resources = new ArrayList<>();
+    private Resource resource;
+    private Unit civilian ;
+    private MilitaryUnit militaryUnit ;
 
-    public Tile(int x, int y, TerrainAndFeature terrain) {
+    public Tile(int x, int y, TerrainAndFeature terrain, TerrainAndFeature feature, Resource resource) {
         this.x = x;
         this.y = y;
         this.terrain = terrain;
-        this.feature = null;
+        this.feature = feature;
+        this.resource = resource;
     }
 
     public void setCivilian(Unit civilian) {
