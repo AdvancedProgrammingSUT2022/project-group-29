@@ -34,7 +34,7 @@ public class GameController {
         for (int i = 0; i < LENGTH; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 TerrainAndFeature terrain = addTerrain(random);
-                map[i][j] = new Tile(i,j,terrain);
+                map[i][j] = new Tile(i,j,terrain,null,null);
             }
         }
     }
