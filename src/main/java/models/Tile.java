@@ -33,4 +33,20 @@ public class Tile {
     public TerrainAndFeature getFeature() {
         return feature;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Unit getCivilian() {
+        return civilian;
+    }
+
+    public MilitaryUnit getMilitaryUnit() {
+        return militaryUnit;
+    }
 }

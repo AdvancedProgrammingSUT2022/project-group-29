@@ -12,4 +12,7 @@ public class City {
         this.tiles = tiles;
     }
 
+    public ArrayList<Tile> getTiles() {
+        return tiles;
+    }
 }

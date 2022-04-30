@@ -25,8 +25,8 @@ public class GameController {
         Tile[][] map = new Tile[LENGTH][WIDTH];
         createMap(map);
         ArrayList<Civilization> civilizations = new ArrayList<>();
-        createCivilizations(civilizations,users);
-        game = new Game(civilizations,-4000,map);
+        createCivilizations(civilizations, users);
+        game = new Game(civilizations, -4000, map);
     }
 
     private void createMap(Tile[][] map) {
@@ -34,7 +34,6 @@ public class GameController {
         for (int i = 0; i < LENGTH; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 TerrainAndFeature terrain = addTerrain(random);
-                map[i][j] = new Tile(i,j,terrain);
             }
         }
     }
@@ -58,7 +57,7 @@ public class GameController {
         return new TerrainAndFeature(TerrainsAndFeaturesEnum.TUNDRA);
     }
 
-    private void createCivilizations(ArrayList<Civilization> civilizations,ArrayList<User> users) {
+    private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
         for (User user : users) {
             Civilization civilization = new Civilization(user);
             civilizations.add(civilization);
@@ -74,7 +73,7 @@ public class GameController {
     }
 
     public void setGold(int gold) {
-        
+
     }
 
     public Game getGame() {
@@ -89,11 +88,43 @@ public class GameController {
 
     }
 
-    /*public boolean isTerrainVisible(int x, int y) {
+    public boolean isTerrainVisible(int x, int y) {
         for (City city : game.getCurrentCivilization().getCities()) {
-            if ()
+            for (Tile cityTile : city.getTiles()) {
+                if (x == cityTile.getX() && (y == cityTile.getY() || y == cityTile.getY() + 1 || y == cityTile.getY() - 1))
+                    return true;
+                if (y == cityTile.getY() && (x == cityTile.getX() || x == cityTile.getX() + 1 || x == cityTile.getX() - 1))
+                    return true;
+            }
         }
-    }*/
+        for (int i = x - 2; i < x + 2; i++) {
+            for (Unit unit : game.getCurrentCivilization().getUnits()) {
+                if (game.getMap()[i][y].getCivilian().equals(unit))
+                    return true;
+            }
+        }
+        for (int i = y - 2; i < y + 2; i++) {
+            for (Unit unit : game.getCurrentCivilization().getUnits()) {
+                if (game.getMap()[x][i].getCivilian().equals(unit))
+                    return true;
+            }
+        }
+
+        for (int i = x - 2; i < x + 2; i++) {
+            for (MilitaryUnit unit : game.getCurrentCivilization().getMilitaryUnits()) {
+                if (game.getMap()[i][y].getMilitaryUnit().equals(unit))
+                    return true;
+            }
+        }
+        for (int i = y - 2; i < y + 2; i++) {
+            for (MilitaryUnit unit : game.getCurrentCivilization().getMilitaryUnits()) {
+                if (game.getMap()[i][y].getMilitaryUnit().equals(unit))
+                    return true;
+            }
+        }
+
+        return false;
+    }
 
     public int getLENGTH() {
         return LENGTH;
