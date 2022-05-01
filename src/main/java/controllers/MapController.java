@@ -50,7 +50,7 @@ public class MapController {
         int LENGTH = GameController.getInstance().getLENGTH();
         int WIDTH = GameController.getInstance().getWIDTH();
         for (City city : game.getCurrentCivilization().getCities()) {
-            for (Tile cityTile : city.getTiles()) {
+            for (Tile cityTile : city.getCityTiles()) {
                 if (x == cityTile.getX() && (y == cityTile.getY() || y == cityTile.getY() + 1 || y == cityTile.getY() - 1))
                     return true;
                 if (y == cityTile.getY() && (x == cityTile.getX() || x == cityTile.getX() + 1 || x == cityTile.getX() - 1))
