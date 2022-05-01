@@ -6,6 +6,7 @@ import views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class GameController {
     private static GameController instance = null;
@@ -53,8 +54,8 @@ public class GameController {
         return game;
     }
 
-    public void combat(MilitaryUnit militaryUnit, MilitaryUnit militaryUnit1) {
-
+    public String combat(Matcher matcher) {
+        return null;
     }
 
     public void combat(MilitaryUnit militaryUnit, City city) {
@@ -76,6 +77,14 @@ public class GameController {
                     return civilization;
             }
         }
+        return null;
+    }
+
+    public String foundCity() {
+        return null;
+    }
+
+    public String cancelMission() {
         return null;
     }
 }

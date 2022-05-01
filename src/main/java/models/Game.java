@@ -8,6 +8,9 @@ public class Game {
     private int time;
     private Tile[][] map;
     private int turn;
+    private MilitaryUnit selectedCombatUnit = null;
+    private Unit selectedNonCombatUnit = null;
+    private City selectedCity = null;
 
     public Game(ArrayList<Civilization> civilizations, int time, Tile[][] map) {
         this.civilizations = civilizations;
@@ -49,4 +52,15 @@ public class Game {
         }
     }
 
+    public void setSelectedCombatUnit(MilitaryUnit selectedCombatUnit) {
+        this.selectedCombatUnit = selectedCombatUnit;
+    }
+
+    public void setSelectedNonCombatUnit(Unit selectedNonCombatUnit) {
+        this.selectedNonCombatUnit = selectedNonCombatUnit;
+    }
+
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
+    }
 }

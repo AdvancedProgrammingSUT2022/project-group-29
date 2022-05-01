@@ -4,6 +4,8 @@ import models.Civilization;
 import models.MilitaryUnit;
 import models.Unit;
 
+import java.util.regex.Matcher;
+
 public class UnitController {
     private static UnitController instance = null;
 
@@ -150,5 +152,89 @@ public class UnitController {
                 changePlaceAfterTurn(civilization.getMilitaryUnits().get(i));
             }
         }
+    }
+
+    public String moveUnit(Matcher matcher) {
+        return null;
+    }
+
+    public String unitSleep() {
+        return null;
+    }
+
+    public String unitAlert() {
+        return null;
+    }
+
+    public String unitHeal() {
+        return null;
+    }
+
+    public String unitFortify() {
+        return null;
+    }
+
+    public String unitGarrison() {
+        return null;
+    }
+
+    public String unitSetupRanged() {
+        return null;
+    }
+
+    public String unitWake() {
+        return null;
+    }
+
+    public String removeJungle() {
+        return null;
+    }
+
+    public String removeRoute() {
+        return null;
+    }
+
+    public String repair() {
+        return null;
+    }
+
+    public String buildRoad() {
+        return null;
+    }
+
+    public String buildRailroad() {
+        return null;
+    }
+
+    public String buildFarm() {
+        return null;
+    }
+
+    public String buildMine() {
+        return null;
+    }
+
+    public String buildTradingPost() {
+        return null;
+    }
+
+    public String buildLumberMill() {
+        return null;
+    }
+
+    public String buildPasture() {
+        return null;
+    }
+
+    public String buildCamp() {
+        return null;
+    }
+
+    public String buildPlantation() {
+        return null;
+    }
+
+    public String buildQuarry() {
+        return null;
     }
 }

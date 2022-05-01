@@ -1,7 +1,10 @@
 package views;
 
 import controllers.GameController;
+import controllers.GameMenuController;
 import controllers.MapController;
+import controllers.UnitController;
+import enums.GameMenuCommands;
 import enums.TechnologyEnum;
 import models.*;
 
@@ -30,9 +33,14 @@ public class GameMenu {
         Matcher matcher;
         while (true) {
             command = scanner.nextLine();
-            if (command.startsWith("info")) {
+            if (command.startsWith("info"))
                 showInfo(command);
-            }
+            else if (command.startsWith("select"))
+                select(command);
+            else if (command.startsWith("unit"))
+                unit(command);
+            else if (command.startsWith("map"))
+                map(command);
         }
     }
 
@@ -206,6 +214,104 @@ public class GameMenu {
             if (flag1)
                 System.out.println(technology.getName());
         }
+    }
 
+    private void select(String command) {
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_COMBAT)) != null)
+            System.out.println(GameMenuController.getInstance().selectCombatUnit(matcher));
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_NON_COMBAT)) != null)
+            System.out.println(GameMenuController.getInstance().selectNonCombatUnit(matcher));
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_CITY1)) != null)
+            System.out.println(GameMenuController.getInstance().selectCityByName(matcher));
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SELECT_CITY2)) != null)
+            System.out.println(GameMenuController.getInstance().selectCityByPosition(matcher));
+        else
+            err();
+    }
+
+    private void unit(String command) {
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_MOVE)) != null)
+            System.out.println(UnitController.getInstance().moveUnit(matcher));
+        else if (command.equals("unit sleep"))
+            System.out.println(UnitController.getInstance().unitSleep());
+        else if (command.equals("unit alert"))
+            System.out.println(UnitController.getInstance().unitAlert());
+        else if (command.equals("unit fortify heal"))
+            System.out.println(UnitController.getInstance().unitHeal());
+        else if (command.equals("unit fortify"))
+            System.out.println(UnitController.getInstance().unitFortify());
+        else if (command.equals("unit garrison"))
+            System.out.println(UnitController.getInstance().unitGarrison());
+        else if (command.equals("unit setup ranged"))
+            System.out.println(UnitController.getInstance().unitSetupRanged());
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.ATTACK)) != null)
+            System.out.println(GameController.getInstance().combat(matcher));
+        else if (command.equals("unit found city"))
+            System.out.println(GameController.getInstance().foundCity());
+        else if (command.equals("unit cancel mission"))
+            System.out.println(GameController.getInstance().cancelMission());
+        else if (command.equals("unit wake"))
+            System.out.println(UnitController.getInstance().unitWake());
+        else if (command.equals("unit build"))
+            unitBuild(command);
+        else if (command.equals("unit remove jungle"))
+            System.out.println(UnitController.getInstance().removeJungle());
+        else if (command.equals("unit remove route"))
+            System.out.println(UnitController.getInstance().removeRoute());
+        else if (command.equals("unit repair"))
+            System.out.println(UnitController.getInstance().repair());
+        else
+            err();
+    }
+
+    private void unitBuild(String command) {
+        String improvement = command.split(" ")[2];
+        if (improvement.equals("road"))
+            System.out.println(UnitController.getInstance().buildRoad());
+        else if (improvement.equals("railroad"))
+            System.out.println(UnitController.getInstance().buildRailroad());
+        else if (improvement.equals("farm"))
+            System.out.println(UnitController.getInstance().buildFarm());
+        else if (improvement.equals("mine"))
+            System.out.println(UnitController.getInstance().buildMine());
+        else if (improvement.equals("trading post"))
+            System.out.println(UnitController.getInstance().buildTradingPost());
+        else if (improvement.equals("lumber mill"))
+            System.out.println(UnitController.getInstance().buildLumberMill());
+        else if (improvement.equals("pasture"))
+            System.out.println(UnitController.getInstance().buildPasture());
+        else if (improvement.equals("camp"))
+            System.out.println(UnitController.getInstance().buildCamp());
+        else if (improvement.equals("plantation"))
+            System.out.println(UnitController.getInstance().buildPlantation());
+        else if (improvement.equals("quarry"))
+            System.out.println(UnitController.getInstance().buildQuarry());
+        else
+            err();
+    }
+
+    private void map(String command) {
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP1)) != null)
+            GameMenu.getInstance().showMapByPosition(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP2)) != null)
+            GameMenu.getInstance().showMapByCityName(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.MOVE_MAP)) != null)
+            GameMenu.getInstance().moveMap(matcher);
+    }
+
+    private void moveMap(Matcher matcher) {
+    }
+
+    private void showMapByCityName(Matcher matcher) {
+    }
+
+    private void showMapByPosition(Matcher matcher) {
+    }
+
+    private void err(){
+        System.out.println("invalid command");
     }
 }

@@ -12,7 +12,7 @@ public class City {
     private boolean isCapital = false;
     private double combatStrength;
     private int population;
-
+    private int x, y;
     private Unit civilian = null;
     private MilitaryUnit militaryUnit = null;
     private int hitPoint;
@@ -53,5 +53,13 @@ public class City {
 
     public ArrayList<Tile> getCityTiles() {
         return cityTiles;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
