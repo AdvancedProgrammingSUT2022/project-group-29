@@ -15,6 +15,7 @@ public class Game {
         this.time = time;
         this.map = map;
         this.turn = 0;
+        giveColor();
     }
 
     public void nextTurn() {
@@ -40,4 +41,12 @@ public class Game {
     public Civilization getCurrentCivilization() {
         return currentCivilization;
     }
+
+    private void giveColor() {
+        String color = "\033[48;5;0m";
+        for (int i = 0; i < civilizations.size(); i++) {
+            civilizations.get(i).setColor("\033[48;5;" + (10*i) +  "m");
+        }
+    }
+
 }

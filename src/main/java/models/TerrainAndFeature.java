@@ -24,35 +24,15 @@ public class TerrainAndFeature {
         this.color = type.getColor();
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public String getKind() {
         return kind;
     }
 
-    public int getFood() {
-        return food;
-    }
-
-    public int getProduction() {
-        return production;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
     public int getMovementCost() {
         return movementCost;
-    }
-
-    public double getBattleEffect() {
-        return battleEffect;
-    }
-
-    public ArrayList<Resource> getPossibleResources() {
-        return possibleResources;
-    }
-
-    public String getColor() {
-        return color;
     }
 }

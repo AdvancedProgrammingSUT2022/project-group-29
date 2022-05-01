@@ -1,13 +1,13 @@
 package views;
 
 import controllers.GameController;
-import models.Civilization;
-import models.Game;
-import models.Tile;
-import models.User;
+import controllers.MapController;
+import enums.TechnologyEnum;
+import models.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class GameMenu {
     private static GameMenu instance = null;
@@ -22,16 +22,21 @@ public class GameMenu {
     }
 
 
-
-    public void run(Scanner scanner, ArrayList <User> users) {
+    public void run(Scanner scanner, ArrayList<User> users) {
         printGameStarted(users);
-
         GameController.getInstance().startGame(users);
-
-        showMap();
+        int a = 0;
+        String command;
+        Matcher matcher;
+        while (true) {
+            command = scanner.nextLine();
+            if (command.startsWith("info")) {
+                showInfo(command);
+            }
+        }
     }
 
-    private void printGameStarted(ArrayList <User> users) {
+    private void printGameStarted(ArrayList<User> users) {
         StringBuilder stringBuilder = new StringBuilder("A new game started between ");
         for (User user : users) {
             stringBuilder.append(user.getUsername()).append(", ");
@@ -58,7 +63,7 @@ public class GameMenu {
 
                     if (j % 20 == 1) {
                         String color;
-                        if (GameController.getInstance().isTerrainVisible(i / 6, j / 10))
+                        if (i / 6 < x && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
                             color = (i / 6 < x && j / 10 < y ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
                         else
                             color = (i / 6 < x && j / 10 < y ? "\033[48;5;250m" : "");
@@ -72,10 +77,16 @@ public class GameMenu {
                 } else if (i % 6 == 2) {
 
                     if (j % 20 == 0) {
-                        /*String s = GameController.getCivilization(tiles[i / 6][j / 10]);
-                        System.out.print("/    " + (i / 6 < x && j / 10 < y ? s : ""));
-                        j +=5;*/
-                        System.out.print("/");
+                        String s = " ";
+                        if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
+                            s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
+                                    GameController.getInstance().getCivilization(i / 6, j / 10).LeaderName() +
+                                    "\033[000m";
+
+                        }
+                        System.out.print("/    " + (i / 6 < x && j / 10 < y ? s : " "));
+                        j += 5;
+
 
                     } else if (j % 20 == 11)
 
@@ -95,7 +106,7 @@ public class GameMenu {
                         System.out.print("\u001B[0m\\");
                     else if (j % 20 == 11) {
                         String color;
-                        if (GameController.getInstance().isTerrainVisible(i / 6, j / 10))
+                        if (i / 6 < x && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
                             color = (i / 6 < x && j / 10 < y ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
                         else
                             color = (i / 6 < x && j / 10 < y ? "\033[48;5;250m" : "");
@@ -114,6 +125,7 @@ public class GameMenu {
                         System.out.print(" ");
                 }
             }
+            System.out.println();
         }
     }
 
@@ -125,7 +137,75 @@ public class GameMenu {
         GameController.getInstance().cheatGold(turn);
     }
 
-    private void showInfo() {
-        ArrayList<Civilization> civilizations = GameController.getInstance().getGame().getCivilizations();
+    private void showInfo(String command) {
+        String newCommand = command.split(" ")[1];
+        if (newCommand.equals("research"))
+            showResearch();
+        else if (newCommand.equals("units"))
+            showUnits();
+        else if (newCommand.equals("cities"))
+            showCities();
+        else if (newCommand.equals("demographics"))
+            showDemographics();
+        else if (newCommand.equals("notifications"))
+            showNotifications();
+        else if (newCommand.equals("military"))
+            showMilitary();
+        else if (newCommand.equals("economic"))
+            showEconomic();
+    }
+
+    private void showEconomic() {
+    }
+
+    private void showMilitary() {
+    }
+
+    private void showNotifications() {
+    }
+
+    private void showDemographics() {
+
+    }
+
+    private void showCities() {
+        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        System.out.println("capital: " + civilization.getCapital().getName());
+        for (City city : civilization.getCities()) {
+            System.out.println(city.getName());
+        }
+    }
+
+    private void showUnits() {
+        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        System.out.println("all combat units:");
+        for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+            System.out.println(militaryUnit.toString());
+        }
+    }
+
+    private void showResearch() {
+        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        System.out.println("discovered technologies: ");
+        for (Technology technology : civilization.getTechnologies()) {
+            System.out.println(technology.getName());
+        }
+
+        System.out.println("detectable technologies: ");
+        for (TechnologyEnum technology : Technology.getAllTechnologies()) {
+            boolean flag1 = true;
+            for (Technology neededTechnology : technology.getNeededTechnologies()) {
+                boolean flag = false;
+                for (Technology civilizationTechnology : civilization.getTechnologies()) {
+                    if (neededTechnology.equals(civilizationTechnology))
+                        flag = true;
+                }
+                if (!flag)
+                    flag1 = false;
+            }
+            if (flag1)
+                System.out.println(technology.getName());
+        }
+
     }
 }

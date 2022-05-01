@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class City {
     private ArrayList<Tile> tiles = new ArrayList<>();
-
+    private String name;
     private Unit civilian = null;
     private MilitaryUnit militaryUnit = null;
 
@@ -14,5 +14,9 @@ public class City {
 
     public ArrayList<Tile> getTiles() {
         return tiles;
+    }
+
+    public String getName() {
+        return name;
     }
 }
