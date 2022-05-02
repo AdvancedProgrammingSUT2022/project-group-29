@@ -5,7 +5,7 @@ import controllers.GameMenuController;
 import controllers.MapController;
 import controllers.UnitController;
 import enums.GameMenuCommands;
-import enums.TechnologyEnum;
+import enums.modelsEnum.TechnologyEnum;
 import models.*;
 
 import java.util.ArrayList;
@@ -28,10 +28,10 @@ public class GameMenu {
     public void run(Scanner scanner, ArrayList<User> users) {
         printGameStarted(users);
         GameController.getInstance().startGame(users);
-<<<<<<< HEAD
         int a = 0;
         String command;
         Matcher matcher;
+        showMap();
         while (true) {
             command = scanner.nextLine();
             if (command.startsWith("info"))
@@ -42,10 +42,10 @@ public class GameMenu {
                 unit(command);
             else if (command.startsWith("map"))
                 map(command);
+            else
+                break;
         }
-=======
-        showMap();
->>>>>>> Erfan
+
     }
 
     private void printGameStarted(ArrayList<User> users) {
@@ -137,11 +137,8 @@ public class GameMenu {
                         System.out.print(" ");
                 }
             }
-<<<<<<< HEAD
+
             System.out.println();
-=======
-            System.out.println(" ");
->>>>>>> Erfan
         }
     }
 
