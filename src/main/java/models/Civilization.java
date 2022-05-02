@@ -12,6 +12,7 @@ public class Civilization {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
+    private String color;
 
     public Civilization(User leader) {
         Leader = leader;
@@ -21,10 +22,6 @@ public class Civilization {
 
     public ArrayList<Tile> getTiles() {
         return tiles;
-    }
-
-    public User getLeader() {
-        return Leader;
     }
 
     public ArrayList<Unit> getUnits() {
@@ -37,5 +34,25 @@ public class Civilization {
 
     public ArrayList<City> getCities() {
         return cities;
+    }
+
+    public String LeaderName() {
+        return this.Leader.getUsername();
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public ArrayList<Technology> getTechnologies() {
+        return technologies;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public City getCapital() {
+        return capital;
     }
 }

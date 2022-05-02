@@ -3,6 +3,7 @@ package models;
 import enums.modelsEnum.MilitaryUnitsEnum;
 
 public class MilitaryUnit{
+    private int x, y;
     private int cost;
     private String name;
     private int movement;
@@ -11,6 +12,7 @@ public class MilitaryUnit{
     private int rangedCombatStrength, range;
     private Technology neededTechnology;
     private Resource neededResource;
+    private int xEnd, yEnd;
 
     public MilitaryUnit(MilitaryUnitsEnum type) {
         this.cost = type.getCost();
@@ -24,4 +26,48 @@ public class MilitaryUnit{
         this.neededResource = type.getNeededResource();
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getMovement() {
+        return movement;
+    }
+
+    public void setMovement(int movement) {
+        this.movement = movement;
+    }
+
+    public int getxEnd() {
+        return xEnd;
+    }
+
+    public void setxEnd(int xEnd) {
+        this.xEnd = xEnd;
+    }
+
+    public int getyEnd() {
+        return yEnd;
+    }
+
+    public void setyEnd(int yEnd) {
+        this.yEnd = yEnd;
+    }
+
+    @Override
+    public String toString() {
+        return "name: " + name + "x , y: " + x + " , " + y;
+    }
 }

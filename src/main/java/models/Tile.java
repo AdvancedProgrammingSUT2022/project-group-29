@@ -6,9 +6,12 @@ public class Tile {
     private int x, y;
     private TerrainAndFeature terrain;
     private TerrainAndFeature feature;
+
     private Resource resource;
     private Unit civilian ;
     private MilitaryUnit militaryUnit ;
+    private ArrayList<Improvement> improvements;
+    private int movementCost;
 
     public Tile(int x, int y, TerrainAndFeature terrain) {
         this.x = x;
@@ -24,12 +27,10 @@ public class Tile {
         this.militaryUnit = militaryUnit;
     }
 
+
+
     public TerrainAndFeature getTerrain() {
         return terrain;
-    }
-
-    public TerrainAndFeature getFeature() {
-        return feature;
     }
 
     public int getX() {
@@ -40,11 +41,11 @@ public class Tile {
         return y;
     }
 
-    public Unit getCivilian() {
-        return civilian;
-    }
-
     public MilitaryUnit getMilitaryUnit() {
         return militaryUnit;
+    }
+
+    public int getMovementCost() {
+        return movementCost;
     }
 }
