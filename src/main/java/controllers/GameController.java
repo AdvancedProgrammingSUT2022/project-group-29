@@ -1,15 +1,18 @@
 package controllers;
 
+import enums.modelsEnum.ResourceEnum;
 import enums.modelsEnum.TerrainsAndFeaturesEnum;
+import jdk.internal.org.objectweb.asm.tree.TableSwitchInsnNode;
 import models.*;
+import org.omg.CORBA.TIMEOUT;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
     private static GameController instance = null;
-    private final int LENGTH = 30;
-    private final int WIDTH = 40;
+    private final int LENGTH = 45;
+    private final int WIDTH = 30;
     private Game game;
 
     private GameController() {
@@ -22,50 +25,20 @@ public class GameController {
     }
 
     public void startGame(ArrayList<User> users) {
-        Tile[][] map = new Tile[LENGTH][WIDTH];
-        createMap(map);
+        Tile[][] map = new Tile[WIDTH][LENGTH];
+        MapController.getInstance().createMap(map,WIDTH,LENGTH);
         ArrayList<Civilization> civilizations = new ArrayList<>();
-        createCivilizations(civilizations,users);
-        game = new Game(civilizations,-4000,map);
+        createCivilizations(civilizations, users);
+        game = new Game(civilizations, -4000, map);
     }
 
-    private void createMap(Tile[][] map) {
-        Random random = new Random();
-        for (int i = 0; i < LENGTH; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                TerrainAndFeature terrain = addTerrain(random);
-                map[i][j] = new Tile(i,j,terrain,null,null);
-            }
-        }
-    }
-
-    private TerrainAndFeature addTerrain(Random random) {
-        int x = random.nextInt() % 8 + 1;
-        if (x == 1)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.DESERT);
-        if (x == 2)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.GRASSLAND);
-        if (x == 3)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.HILLS);
-        if (x == 4)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.MOUNTAIN);
-        if (x == 5)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.OCEAN);
-        if (x == 6)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.PLAINS);
-        if (x == 7)
-            return new TerrainAndFeature(TerrainsAndFeaturesEnum.SNOW);
-        return new TerrainAndFeature(TerrainsAndFeaturesEnum.TUNDRA);
-    }
-
-    private void createCivilizations(ArrayList<Civilization> civilizations,ArrayList<User> users) {
+    private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
         for (User user : users) {
             Civilization civilization = new Civilization(user);
             civilizations.add(civilization);
             user.setCivilization(civilization);
         }
     }
-
 
     public void cheatTurn(int turn) {
     }
@@ -74,7 +47,7 @@ public class GameController {
     }
 
     public void setGold(int gold) {
-        
+
     }
 
     public Game getGame() {

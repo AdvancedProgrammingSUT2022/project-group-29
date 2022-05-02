@@ -23,7 +23,6 @@ public class GameMenu {
     public void run(Scanner scanner, ArrayList <User> users) {
         printGameStarted(users);
         GameController.getInstance().startGame(users);
-
         showMap();
     }
 
@@ -38,8 +37,8 @@ public class GameMenu {
 
     private void showMap() {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
-        int x = GameController.getInstance().getLENGTH();
-        int y = GameController.getInstance().getWIDTH();
+        int x = GameController.getInstance().getWIDTH();
+        int y = GameController.getInstance().getLENGTH();
         for (int i = 0; i < x * 6 + 2; i++) {
             for (int i1 = 0; i1 < 10 * y + 1; i1++) {
 
@@ -98,6 +97,7 @@ public class GameMenu {
                         System.out.print(" ");
                 }
             }
+            System.out.println(" ");
         }
     }
 

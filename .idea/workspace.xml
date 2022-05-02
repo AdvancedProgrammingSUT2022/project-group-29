@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f85162b2-f5a0-4498-b3b5-25f140c98b19" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/MapController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/modelsEnum/ImprovementsEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/modelsEnum/MilitaryUnitsEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/modelsEnum/ResourceEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/modelsEnum/TechnologyEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/enums/modelsEnum/TerrainsAndFeaturesEnum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-group-29.iml" beforeDir="false" afterPath="$PROJECT_DIR$/project-group-29.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/MainMenuCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/MainMenuCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/modelsEnum/ResourceEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/modelsEnum/ResourceEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/BonusResources.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/LuxuryResources.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/StrategicResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/ProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controllers/unitController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/unitController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/enums/LoginMenuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/enums/LoginMenuCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/enums/MainMenuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/enums/MainMenuCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/enums/ProfileMenuCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/enums/ProfileMenuCommands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/City.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/City.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Civilization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Improvement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Improvement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/MilitaryUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/MilitaryUnit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Resource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Resource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Technology.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Technology.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/TerrainAndFeature.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/TerrainAndFeature.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/GameMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/MainMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/views/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/ProfileMenu.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/controllers/GameController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/controllers/MainController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/enums/LoginMenuCommands.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/enums/MainMenuCommands.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/enums/ProfileMenuCommands.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/enums/modelsEnum/TerrainsAndFeaturesEnum.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/City.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/Civilization.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/Game.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/TerrainAndFeature.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/Tile.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/Unit.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/models/User.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/views/GameMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/views/LoginMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/views/MainMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/views/ProfileMenu.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="28XON1NtqUDDGOsvcXvCaCYFPrI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-18" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="project-group-29" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f85162b2-f5a0-4498-b3b5-25f140c98b19" name="Changes" comment="" />
+      <created>1651359425497</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1651359425497</updated>
+      <workItem from="1651359439573" duration="38000" />
+      <workItem from="1651361026916" duration="21634000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
