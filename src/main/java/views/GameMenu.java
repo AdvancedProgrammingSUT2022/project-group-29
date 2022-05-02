@@ -28,6 +28,7 @@ public class GameMenu {
     public void run(Scanner scanner, ArrayList<User> users) {
         printGameStarted(users);
         GameController.getInstance().startGame(users);
+<<<<<<< HEAD
         int a = 0;
         String command;
         Matcher matcher;
@@ -42,6 +43,9 @@ public class GameMenu {
             else if (command.startsWith("map"))
                 map(command);
         }
+=======
+        showMap();
+>>>>>>> Erfan
     }
 
     private void printGameStarted(ArrayList<User> users) {
@@ -55,8 +59,8 @@ public class GameMenu {
 
     private void showMap() {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
-        int x = GameController.getInstance().getLENGTH();
-        int y = GameController.getInstance().getWIDTH();
+        int x = GameController.getInstance().getWIDTH();
+        int y = GameController.getInstance().getLENGTH();
         for (int i = 0; i < x * 6 + 2; i++) {
             for (int j = 0; j < 10 * y + 1; j++) {
 
@@ -133,7 +137,11 @@ public class GameMenu {
                         System.out.print(" ");
                 }
             }
+<<<<<<< HEAD
             System.out.println();
+=======
+            System.out.println(" ");
+>>>>>>> Erfan
         }
     }
 

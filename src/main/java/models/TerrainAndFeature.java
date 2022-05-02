@@ -32,15 +32,9 @@ public class TerrainAndFeature {
     public int getMovementCost() {
         return movementCost;
     }
-<<<<<<< HEAD
 
     public double getBattleEffect() {
         return battleEffect;
     }
 
-    public String getColor() {
-        return color;
-    }
-=======
->>>>>>> origin/main
 }
