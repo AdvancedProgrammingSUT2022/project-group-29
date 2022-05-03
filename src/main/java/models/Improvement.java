@@ -1,6 +1,6 @@
 package models;
 
-import enums.ImprovementsEnum;
+import enums.modelsEnum.ImprovementsEnum;
 
 import java.util.ArrayList;
 

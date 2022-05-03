@@ -1,8 +1,6 @@
 package controllers;
 
-import enums.TerrainsAndFeaturesEnum;
 import models.*;
-import views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,8 +8,8 @@ import java.util.regex.Matcher;
 
 public class GameController {
     private static GameController instance = null;
-    private final int LENGTH = 30;
-    private final int WIDTH = 40;
+    private final int LENGTH = 45;
+    private final int WIDTH = 30;
     private Game game;
 
     private GameController() {
@@ -24,12 +22,13 @@ public class GameController {
     }
 
     public void startGame(ArrayList<User> users) {
-        Tile[][] map = new Tile[LENGTH][WIDTH];
-        MapController.getInstance().createMap(map);
+        Tile[][] map = new Tile[WIDTH][LENGTH];
+        MapController.getInstance().createMap(map,WIDTH,LENGTH);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations, users);
         game = new Game(civilizations, -4000, map);
     }
+
 
     private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
         for (User user : users) {
@@ -38,7 +37,6 @@ public class GameController {
             user.setCivilization(civilization);
         }
     }
-
 
     public void cheatTurn(int turn) {
     }

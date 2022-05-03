@@ -1,6 +1,5 @@
 package enums;
 
-import com.sun.tools.javac.Main;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

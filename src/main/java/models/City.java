@@ -17,7 +17,6 @@ public class City {
     private MilitaryUnit militaryUnit = null;
     private int hitPoint;
     private ArrayList<Tile> cityTiles = new ArrayList<>();
-    private ArrayList<Building> buildings = new ArrayList<>();
 
 
     public City(String name, Civilization civilization, boolean isCapital, ArrayList<Tile> cityTiles) {

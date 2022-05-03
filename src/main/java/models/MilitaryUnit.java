@@ -1,6 +1,6 @@
 package models;
 
-import enums.MilitaryUnitsEnum;
+import enums.modelsEnum.MilitaryUnitsEnum;
 
 public class MilitaryUnit{
     private int x, y;

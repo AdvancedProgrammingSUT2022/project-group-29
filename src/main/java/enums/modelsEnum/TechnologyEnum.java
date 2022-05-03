@@ -1,4 +1,4 @@
-package enums;
+package enums.modelsEnum;
 
 import models.Technology;
 

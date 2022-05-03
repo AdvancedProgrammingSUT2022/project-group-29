@@ -1,8 +1,8 @@
 package views;
 
 import controllers.ProfileController;
-import enums.LoginMenuCommands;
 import enums.ProfileMenuCommands;
+
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
