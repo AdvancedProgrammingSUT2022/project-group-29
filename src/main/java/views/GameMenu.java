@@ -1,9 +1,6 @@
 package views;
 
-import controllers.GameController;
-import controllers.GameMenuController;
-import controllers.MapController;
-import controllers.UnitController;
+import controllers.*;
 import enums.GameMenuCommands;
 import enums.modelsEnum.TechnologyEnum;
 import models.*;
@@ -43,6 +40,8 @@ public class GameMenu {
                 unit(command);
             else if (command.startsWith("map"))
                 map(command);
+            else if (command.startsWith("city"))
+                city(command);
             else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_TURN)) != null)
                 GameController.getInstance().cheatTurn(Integer.parseInt(matcher.group("amount")));
             else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_GOLD)) != null)
@@ -52,6 +51,7 @@ public class GameMenu {
         }
 
     }
+
 
     private void printGameStarted(ArrayList<User> users) {
         StringBuilder stringBuilder = new StringBuilder("A new game started between ");
@@ -330,7 +330,20 @@ public class GameMenu {
     private void showMapByPosition(Matcher matcher) {
         xMap = Integer.parseInt(matcher.group("x"));
         yMap = Integer.parseInt(matcher.group("y"));
-        showMap(xMap -  5, yMap - 5, xMap + 5, yMap + 5);
+        showMap(xMap - 5, yMap - 5, xMap + 5, yMap + 5);
+    }
+
+    private void city(String command) {
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CREATE_UNIT)) != null)
+            createUnit(matcher);
+        else
+            err();
+    }
+
+    private void createUnit(Matcher matcher) {
+        String unitName = matcher.group("unitName");
+        System.out.println(CityController.getInstance().createUnit(unitName));
     }
 
     private void err() {

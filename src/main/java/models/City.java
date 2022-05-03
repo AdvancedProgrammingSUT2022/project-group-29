@@ -61,4 +61,29 @@ public class City {
     public int getY() {
         return y;
     }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public Unit getCivilian() {
+        return civilian;
+    }
+
+    public void setCivilian(Unit civilian) {
+        this.civilian = civilian;
+    }
+
+    public MilitaryUnit getMilitaryUnit() {
+        return militaryUnit;
+    }
+
+    public void setMilitaryUnit(MilitaryUnit militaryUnit) {
+        this.militaryUnit = militaryUnit;
+    }
+
 }
