@@ -12,7 +12,9 @@ public enum GameMenuCommands {
     ATTACK("unit attack (?<x>\\d{1,2}) (?<y>\\d{1,2})"),
     SHOW_MAP1("map show (?<x>\\d{1,2}) (?<y>\\d{1,2})"),
     SHOW_MAP2("map show (?<name>)\\S+"),
-    MOVE_MAP("map move (?<direction>right|left|up|down) (?<c>\\d+)");
+    MOVE_MAP("map move (?<direction>right|left|up|down) (?<c>\\d+)"),
+    INCREASE_TURN("increase -turn (?<amount>\\d+)"),
+    INCREASE_GOLD("increase -gold (?<amount>\\d+)");
 
     private String regex;
 

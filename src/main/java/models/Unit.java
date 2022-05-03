@@ -7,6 +7,7 @@ public class Unit {
     private int movement;
     private String combatType;
     private int xEnd, yEnd;
+    private String state = "";
     public Unit(String type) {
         this.type = type;
     }
@@ -49,5 +50,13 @@ public class Unit {
 
     public void setyEnd(int yEnd) {
         this.yEnd = yEnd;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

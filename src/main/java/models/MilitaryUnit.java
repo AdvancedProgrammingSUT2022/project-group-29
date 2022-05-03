@@ -13,6 +13,7 @@ public class MilitaryUnit{
     private Technology neededTechnology;
     private Resource neededResource;
     private int xEnd, yEnd;
+    private String state= "";
 
     public MilitaryUnit(MilitaryUnitsEnum type) {
         this.cost = type.getCost();
@@ -69,5 +70,13 @@ public class MilitaryUnit{
     @Override
     public String toString() {
         return "name: " + name + "x , y: " + x + " , " + y;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

@@ -1,5 +1,7 @@
 package models;
 
+import enums.TerrainsAndFeaturesEnum;
+
 import java.util.ArrayList;
 
 public class Tile {
@@ -17,7 +19,7 @@ public class Tile {
         this.x = x;
         this.y = y;
         this.terrain = terrain;
-        this.feature = null;
+        this.feature = new TerrainAndFeature(TerrainsAndFeaturesEnum.FOREST);
         this.movementCost = terrain.getMovementCost() + feature.getMovementCost();
         this.improvements = new ArrayList<>();
     }

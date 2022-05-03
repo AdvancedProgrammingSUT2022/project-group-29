@@ -154,24 +154,73 @@ public class UnitController {
         }
     }
 
+    public void heal(MilitaryUnit militaryUnit) {
+
+    }
+
     public String moveUnit(Matcher matcher) {
-        return null;
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+            if (GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("mountain") ||
+                    GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("ocean"))
+                return "can not move to mountain or ocean";
+
+            GameController.getInstance().getGame().getSelectedCombatUnit().setxEnd(x);
+            GameController.getInstance().getGame().getSelectedCombatUnit().setyEnd(y);
+            changePlaceAfterTurn(GameController.getInstance().getGame().getSelectedCombatUnit());
+        } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
+            if (GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("mountain") ||
+                    GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("ocean"))
+                return "can not move to mountain or ocean";
+
+            GameController.getInstance().getGame().getSelectedNonCombatUnit().setxEnd(x);
+            GameController.getInstance().getGame().getSelectedNonCombatUnit().setyEnd(y);
+            changePlaceAfterTurn(GameController.getInstance().getGame().getSelectedNonCombatUnit());
+        } else
+            return "no selected unit";
+
+        return "unit moved successfully";
     }
 
     public String unitSleep() {
-        return null;
+        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+            GameController.getInstance().getGame().getSelectedCombatUnit().setState("sleep");
+        } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
+             GameController.getInstance().getGame().getSelectedNonCombatUnit().setState("sleep");
+        } else
+            return "no selected unit";
+        return "unit slept successfully";
     }
 
     public String unitAlert() {
-        return null;
+        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+            GameController.getInstance().getGame().getSelectedCombatUnit().setState("alert");
+        } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
+            GameController.getInstance().getGame().getSelectedNonCombatUnit().setState("alert");
+        } else
+            return "no selected unit";
+        return "unit alerted successfully";
     }
 
     public String unitHeal() {
+        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+
+        } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
+
+        } else
+            return "no selected unit";
         return null;
     }
 
     public String unitFortify() {
-        return null;
+        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+
+        } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
+            GameController.getInstance().getGame().getSelectedNonCombatUnit().setState("sleep");
+        } else
+            return "no selected unit";
+        return "unit slept successfully";
     }
 
     public String unitGarrison() {

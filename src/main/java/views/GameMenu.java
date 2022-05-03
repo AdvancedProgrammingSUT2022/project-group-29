@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 
 public class GameMenu {
     private static GameMenu instance = null;
+    private int xMap, yMap;
 
     private GameMenu() {
     }
@@ -26,8 +27,8 @@ public class GameMenu {
 
 
     public void run(Scanner scanner, ArrayList<User> users) {
-        printGameStarted(users);
         GameController.getInstance().startGame(users);
+        printGameStarted(users);
         int a = 0;
         String command;
         Matcher matcher;
@@ -41,6 +42,12 @@ public class GameMenu {
                 unit(command);
             else if (command.startsWith("map"))
                 map(command);
+            else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_TURN)) != null)
+                GameController.getInstance().cheatTurn(Integer.parseInt(matcher.group("amount")));
+            else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_GOLD)) != null)
+                GameController.getInstance().cheatGold(Integer.parseInt(matcher.group("amount")));
+            else
+                err();
         }
     }
 
@@ -53,12 +60,12 @@ public class GameMenu {
         System.out.println(stringBuilder);
     }
 
-    private void showMap() {
+    private void showMap(int xBegin, int yBegin, int xEnd, int yEnd) {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
         int x = GameController.getInstance().getLENGTH();
         int y = GameController.getInstance().getWIDTH();
-        for (int i = 0; i < x * 6 + 2; i++) {
-            for (int j = 0; j < 10 * y + 1; j++) {
+        for (int i = xBegin * 6; i < (xEnd + 1) * 6 + 3; i++) {
+            for (int j = yBegin * 10; j < 10 * (yEnd + 1) + 1; j++) {
 
                 if (i % 6 == 0) {
 
@@ -74,7 +81,7 @@ public class GameMenu {
                         if (i / 6 < x && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
                             color = (i / 6 < x && j / 10 < y ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
                         else
-                            color = (i / 6 < x && j / 10 < y ? "\033[48;5;250m" : "");
+                            color = (i / 6 < x && j / 10 < y ? "\033[48;5;0m" : "");
                         System.out.print("/" + color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
                         j += 7;
                     } else if (j % 20 == 10)
@@ -117,7 +124,7 @@ public class GameMenu {
                         if (i / 6 < x && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
                             color = (i / 6 < x && j / 10 < y ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
                         else
-                            color = (i / 6 < x && j / 10 < y ? "\033[48;5;250m" : "");
+                            color = (i / 6 < x && j / 10 < y ? "\033[48;5;0m" : "");
                         System.out.print("/" + color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
                         j += 7;
                     } else
@@ -295,23 +302,34 @@ public class GameMenu {
     private void map(String command) {
         Matcher matcher;
         if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP1)) != null)
-            GameMenu.getInstance().showMapByPosition(matcher);
+            showMapByPosition(matcher);
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP2)) != null)
-            GameMenu.getInstance().showMapByCityName(matcher);
+            showMapByCityName(matcher);
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.MOVE_MAP)) != null)
-            GameMenu.getInstance().moveMap(matcher);
+            moveMap(matcher);
     }
 
     private void moveMap(Matcher matcher) {
+        if (matcher.group("direction").equals("right"))
+            yMap += Integer.parseInt(matcher.group("c"));
+        else if (matcher.group("direction").equals("left"))
+            yMap -= Integer.parseInt(matcher.group("c"));
+        else if (matcher.group("direction").equals("down"))
+            xMap += Integer.parseInt(matcher.group("c"));
+        else if (matcher.group("direction").equals("up"))
+            xMap -= Integer.parseInt(matcher.group("c"));
     }
 
     private void showMapByCityName(Matcher matcher) {
     }
 
     private void showMapByPosition(Matcher matcher) {
+        xMap = Integer.parseInt(matcher.group("x"));
+        yMap = Integer.parseInt(matcher.group("y"));
+        showMap(xMap -  5, yMap - 5, xMap + 5, yMap + 5);
     }
 
-    private void err(){
+    private void err() {
         System.out.println("invalid command");
     }
 }

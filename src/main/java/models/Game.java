@@ -63,4 +63,16 @@ public class Game {
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
     }
+
+    public MilitaryUnit getSelectedCombatUnit() {
+        return selectedCombatUnit;
+    }
+
+    public Unit getSelectedNonCombatUnit() {
+        return selectedNonCombatUnit;
+    }
+
+    public City getSelectedCity() {
+        return selectedCity;
+    }
 }
