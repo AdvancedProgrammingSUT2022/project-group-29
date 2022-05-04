@@ -20,7 +20,6 @@ public class Tile {
         this.terrain = null;
         this.feature = null;
         this.resource = null;
-
     }
 
     public void setTerrain(TerrainAndFeature terrain) {
@@ -42,7 +41,6 @@ public class Tile {
     public void setMilitaryUnit(MilitaryUnit militaryUnit) {
         this.militaryUnit = militaryUnit;
     }
-
 
     public TerrainAndFeature getTerrain() {
         return terrain;

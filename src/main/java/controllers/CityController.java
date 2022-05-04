@@ -1,27 +1,25 @@
 package controllers;
 
 import enums.modelsEnum.MilitaryUnitsEnum;
-import models.City;
-import models.Civilization;
-import models.MilitaryUnit;
-import models.Tile;
+import models.*;
 
 public class CityController {
     private static CityController instance = null;
-
     public static CityController getInstance() {
         if (instance == null)
             instance = new CityController();
         return instance;
     }
 
-    public String createUnit(String unitName) {
-        City selectedCity;
-        Civilization civilization;
-        int gold;
-        MilitaryUnitsEnum militaryUnitEnum;
-        MilitaryUnit militaryUnit;
+    City selectedCity;
+    Civilization civilization;
+    int gold;
+    MilitaryUnitsEnum militaryUnitEnum;
+    MilitaryUnit militaryUnit;
+    Unit unit;
 
+    public String createUnit(String unitName) {
+        //TODO complete noncombat Enum and create noncombatUnit in city
         if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) == null)
             return "no selected city";
         else if ((militaryUnitEnum = UnitController.getInstance().isExistMilitaryUnits(unitName)) == null)
@@ -36,11 +34,20 @@ public class CityController {
         else if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
             return "do not have needed resources";
         else
+            addMilitaryUnitToCity();
             return "unit created successfully in city";
     }
 
+    private void addMilitaryUnitToCity() {
+        for (Tile tile : selectedCity.getCityTiles()) {
+            tile.setMilitaryUnit(militaryUnit);
+        }
+        selectedCity.setGold(selectedCity.getGold() - gold);
+        civilization.addMilitaryUnit(militaryUnit);
+    }
+
     private boolean doesCityHaveNeededResources(City selectedCity, MilitaryUnit militaryUnit) {
-        for (Tile tile : selectedCity.getCityTiles()){
+        for (Tile tile : selectedCity.getCityTiles()) {
             if (tile.getResource().equals(militaryUnit.getNeededResource()))
                 return true;
         }

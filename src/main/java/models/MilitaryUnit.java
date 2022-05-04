@@ -95,4 +95,6 @@ public class MilitaryUnit{
     public void setNeededResource(Resource neededResource) {
         this.neededResource = neededResource;
     }
+
+
 }

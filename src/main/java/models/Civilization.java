@@ -32,6 +32,10 @@ public class Civilization {
         return militaryUnits;
     }
 
+    public void addMilitaryUnit (MilitaryUnit militaryUnit){
+        this.militaryUnits.add(militaryUnit);
+    }
+
     public ArrayList<City> getCities() {
         return cities;
     }
