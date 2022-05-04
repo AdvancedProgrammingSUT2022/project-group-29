@@ -15,7 +15,7 @@ public enum GameMenuCommands {
     MOVE_MAP("map move (?<direction>right|left|up|down) (?<c>\\d+)"),
     INCREASE_TURN("increase -turn (?<amount>\\d+)"),
     INCREASE_GOLD("increase -gold (?<amount>\\d+)"),
-    CREATE_UNIT("create unit (?<unitName>[A-Za-z]+)");
+    CREATE_UNIT("city create unit (?<unitName>[A-Za-z]+)");
 
 
     private String regex;

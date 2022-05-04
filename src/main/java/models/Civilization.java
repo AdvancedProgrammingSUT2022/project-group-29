@@ -59,4 +59,8 @@ public class Civilization {
     public City getCapital() {
         return capital;
     }
+
+    public void addCivilianToCity(Unit civilianUnit) {
+        units.add(civilianUnit);
+    }
 }

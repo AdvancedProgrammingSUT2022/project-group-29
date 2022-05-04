@@ -1,10 +1,12 @@
 package controllers;
 
 import enums.modelsEnum.MilitaryUnitsEnum;
+import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
 public class CityController {
     private static CityController instance = null;
+
     public static CityController getInstance() {
         if (instance == null)
             instance = new CityController();
@@ -16,26 +18,45 @@ public class CityController {
     int gold;
     MilitaryUnitsEnum militaryUnitEnum;
     MilitaryUnit militaryUnit;
-    Unit unit;
+    nonCombatUnitsEnum nonCombatUnitsEnum;
+    Unit civilianUnit;
+
 
     public String createUnit(String unitName) {
-        //TODO complete noncombat Enum and create noncombatUnit in city
+
         if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) == null)
             return "no selected city";
-        else if ((militaryUnitEnum = UnitController.getInstance().isExistMilitaryUnits(unitName)) == null)
-            return "unit name is invalid";
-        else if ((gold = selectedCity.getGold()) < militaryUnitEnum.getCost())
-            return "gold is not enough";
-        else if (selectedCity.getMilitaryUnit() != null)
-            return "a military unit exit in city";
-        else if (!(civilization = selectedCity.getCivilization()).getTechnologies().contains
-                ((militaryUnit = new MilitaryUnit(militaryUnitEnum)).getNeededTechnology()))
-            return "do not have needed technology";
-        else if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
-            return "do not have needed resources";
-        else
-            addMilitaryUnitToCity();
+        else if ((militaryUnitEnum = UnitController.getInstance().isExistMilitaryUnits(unitName)) != null) {
+            if ((gold = selectedCity.getGold()) < militaryUnitEnum.getCost())
+                return "gold is not enough";
+            else if (selectedCity.getMilitaryUnit() != null)
+                return "a military unit exit in city";
+            else if (!(civilization = selectedCity.getCivilization()).getTechnologies().contains
+                    ((militaryUnit = new MilitaryUnit(militaryUnitEnum)).getNeededTechnology()))
+                return "do not have needed technology";
+            else if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
+                return "do not have needed resources";
+            else
+                addMilitaryUnitToCity();
             return "unit created successfully in city";
+        } else if ((nonCombatUnitsEnum = UnitController.getInstance().isExistNonCombatUnits(unitName)) != null) {
+            if ((gold = selectedCity.getGold()) < nonCombatUnitsEnum.getCost())
+                return "gold is not enough";
+            else if (selectedCity.getCivilian() != null)
+                return "a civilian unit exit in city";
+            else
+                addCivilianToCity();
+            return "unit created successfully in city";
+        } else
+            return "unit name is invalid";
+    }
+
+    private void addCivilianToCity() {
+        for (Tile tile : selectedCity.getCityTiles()) {
+            tile.setCivilian(civilianUnit = new Unit(nonCombatUnitsEnum));
+        }
+        selectedCity.setGold(selectedCity.getGold() - gold);
+        civilization.addCivilianToCity(civilianUnit);
     }
 
     private void addMilitaryUnitToCity() {

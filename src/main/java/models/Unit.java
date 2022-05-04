@@ -1,6 +1,14 @@
 package models;
 
+import enums.modelsEnum.nonCombatUnitsEnum;
+
 public class Unit {
+    private final String name;
+    private final int combatStrength;
+    private final int rangedCombatStrength;
+    private final int range;
+    private final Technology neededTechnology;
+    private final Resource neededResource;
     private int x, y;
     private int cost;
     private String type;
@@ -8,9 +16,16 @@ public class Unit {
     private String combatType;
     private int xEnd, yEnd;
     private String state = "";
-    public Unit(String type) {
-        this.type = type;
-    }
+    public Unit(nonCombatUnitsEnum type) {
+        this.cost = type.getCost();
+        this.name = type.getName();
+        this.movement = type.getMovement();
+        this.combatType = type.getCombatType();
+        this.combatStrength = type.getCombatStrength();;
+        this.rangedCombatStrength = type.getRangedCombatStrength();
+        this.range = type.getRange();
+        this.neededTechnology = type.getNeededTechnology();
+        this.neededResource = type.getNeededResource();    }
 
     public int getX() {
         return x;
