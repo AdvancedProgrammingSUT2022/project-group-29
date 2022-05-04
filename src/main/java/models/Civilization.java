@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Civilization {
     private User Leader;
+    private String name;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<MilitaryUnit> militaryUnits = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
@@ -62,5 +63,9 @@ public class Civilization {
 
     public void addCivilianToCity(Unit civilianUnit) {
         units.add(civilianUnit);
+    }
+
+    public String getName() {
+        return name;
     }
 }

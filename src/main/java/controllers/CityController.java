@@ -20,7 +20,7 @@ public class CityController {
     MilitaryUnit militaryUnit;
     nonCombatUnitsEnum nonCombatUnitsEnum;
     Unit civilianUnit;
-
+    StringBuilder sb = new StringBuilder();
 
     public String createUnit(String unitName) {
 
@@ -73,5 +73,42 @@ public class CityController {
                 return true;
         }
         return false;
+    }
+
+    public String cityShowTilePosition() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            sb = new StringBuilder();
+            for (Tile tile : selectedCity.getCityTiles()) {
+                sb.append("x :" + tile.getX() + "y:" + tile.getY() + "\n");
+            }
+            return sb.toString();
+        }
+        return "first select a city!";
+    }
+
+    public String cityShowCivilization() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            return selectedCity.getCivilization().getName();
+        }
+        return "first select a city!";
+    }
+
+    public String cityShowResources() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            sb = new StringBuilder();
+            for (Tile tile : selectedCity.getCityTiles()) {
+                sb.append(tile.getResource() + "\n");
+            }
+            return sb.toString();
+        } else
+            return "first select a city!";
+    }
+
+
+    public String cityShowUnit() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            return "militaryUnit: " + selectedCity.getMilitaryUnit() + "civilianUnit: " + selectedCity.getCivilian();
+        }
+        return "first select a city!";
     }
 }

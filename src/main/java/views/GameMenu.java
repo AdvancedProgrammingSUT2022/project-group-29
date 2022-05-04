@@ -42,6 +42,8 @@ public class GameMenu {
                 map(command);
             else if (command.startsWith("city"))
                 city(command);
+            else if (command.trim().equals("end"))
+                break;
             else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_TURN)) != null)
                 GameController.getInstance().cheatTurn(Integer.parseInt(matcher.group("amount")));
             else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_GOLD)) != null)
@@ -335,10 +337,36 @@ public class GameMenu {
 
     private void city(String command) {
         Matcher matcher;
-        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CREATE_UNIT)) != null)
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_CREATE_UNIT)) != null)
             createUnit(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_TILE)) != null)
+            cityShowTile();
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_CIVILIZATION)) != null)
+            cityShowCivilization();
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_RESOURCES)) != null)
+            cityShowResources();
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_UNIT)) != null)
+            cityShowUnit();
         else
             err();
+    }
+
+    private void cityShowUnit() {
+        System.out.println(CityController.getInstance().cityShowUnit());
+
+    }
+
+    private void cityShowResources() {
+        System.out.println(CityController.getInstance().cityShowResources());
+
+    }
+
+    private void cityShowCivilization() {
+        System.out.println(CityController.getInstance().cityShowCivilization());
+    }
+
+    private void cityShowTile() {
+        System.out.println(CityController.getInstance().cityShowTilePosition());
     }
 
     private void createUnit(Matcher matcher) {
