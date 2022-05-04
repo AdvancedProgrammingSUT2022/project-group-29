@@ -16,16 +16,19 @@ public class Unit {
     private String combatType;
     private int xEnd, yEnd;
     private String state = "";
+
     public Unit(nonCombatUnitsEnum type) {
         this.cost = type.getCost();
         this.name = type.getName();
         this.movement = type.getMovement();
         this.combatType = type.getCombatType();
-        this.combatStrength = type.getCombatStrength();;
+        this.combatStrength = type.getCombatStrength();
+        ;
         this.rangedCombatStrength = type.getRangedCombatStrength();
         this.range = type.getRange();
         this.neededTechnology = type.getNeededTechnology();
-        this.neededResource = type.getNeededResource();    }
+        this.neededResource = type.getNeededResource();
+    }
 
     public int getX() {
         return x;

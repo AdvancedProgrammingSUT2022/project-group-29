@@ -111,4 +111,33 @@ public class CityController {
         }
         return "first select a city!";
     }
+
+    public String cityShowInformation() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            return "name: " + selectedCity.getName() + "\n" +
+                    "happiness: " + selectedCity.getHappiness() + "\n" +
+                    "food: " + selectedCity.getFood() + "\n" +
+                    "production: " + selectedCity.getProduction() + "\n" +
+                    "isCapital: " + selectedCity.isCapital() + "\n" +
+                    "combatStrength: " + selectedCity.getCombatStrength() + "\n" +
+                    "population: " + selectedCity.getPopulation() + "\n" +
+                    "hitPoint: " + selectedCity.getHitPoint();
+        }
+        return "first select a city!";
+    }
+//Todo complete attack
+    public String cityAttack(int x, int y) {
+        Game game = GameController.getInstance().getGame();
+        if(game.getCurrentCivilization() != selectedCity.getCivilization()){
+            return"choose city in your civilization";
+        }
+        else if(x> 45 || x <0){
+            return"x is out of map";
+        }
+        else if(y> 30 || y <0){
+            return"y is out of map";
+        }
+        else
+            return"attack successful";
+    }
 }

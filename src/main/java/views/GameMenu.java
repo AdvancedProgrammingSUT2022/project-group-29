@@ -22,7 +22,6 @@ public class GameMenu {
         return instance;
     }
 
-
     public void run(Scanner scanner, ArrayList<User> users) {
         GameController.getInstance().startGame(users);
         printGameStarted(users);
@@ -53,7 +52,6 @@ public class GameMenu {
         }
 
     }
-
 
     private void printGameStarted(ArrayList<User> users) {
         StringBuilder stringBuilder = new StringBuilder("A new game started between ");
@@ -339,7 +337,7 @@ public class GameMenu {
         Matcher matcher;
         if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_CREATE_UNIT)) != null)
             createUnit(matcher);
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_TILE)) != null)
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_TILE)) != null)
             cityShowTile();
         else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_CIVILIZATION)) != null)
             cityShowCivilization();
@@ -347,8 +345,22 @@ public class GameMenu {
             cityShowResources();
         else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_UNIT)) != null)
             cityShowUnit();
+        else if((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_INFORMATION)) != null)
+            cityShowInformation();
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_ATTACK)) != null)
+            cityAttack(matcher);
         else
             err();
+    }
+
+    private void cityAttack(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().cityAttack(x, y));
+    }
+
+    private void cityShowInformation() {
+        System.out.println(CityController.getInstance().cityShowInformation());
     }
 
     private void cityShowUnit() {

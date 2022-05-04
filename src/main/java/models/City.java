@@ -86,4 +86,31 @@ public class City {
         this.militaryUnit = militaryUnit;
     }
 
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public int getProduction() {
+        return production;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public boolean isCapital() {
+        return isCapital;
+    }
+
+    public double getCombatStrength() {
+        return combatStrength;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public int getHitPoint() {
+        return hitPoint;
+    }
 }
