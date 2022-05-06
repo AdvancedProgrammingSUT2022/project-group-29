@@ -59,4 +59,8 @@ public class Unit {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getName() {
+        return null;
+    }
 }

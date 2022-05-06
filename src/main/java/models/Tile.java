@@ -72,5 +72,7 @@ public class Tile {
         return movementCost;
     }
 
-
+    public Unit getCivilian() {
+        return civilian;
+    }
 }

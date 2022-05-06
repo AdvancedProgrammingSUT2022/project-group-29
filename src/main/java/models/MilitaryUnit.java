@@ -76,6 +76,10 @@ public class MilitaryUnit{
         return state;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setState(String state) {
         this.state = state;
     }

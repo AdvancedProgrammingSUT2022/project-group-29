@@ -64,14 +64,16 @@ public class GameMenu {
 
     private void showMap(int xBegin, int yBegin, int xEnd, int yEnd) {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
-
-        int x = GameController.getInstance().getWIDTH();
-        int y = GameController.getInstance().getLENGTH();
-        for (int i = 0; i < x * 6 + 2; i++) {
-            for (int j = 0; j < 10 * y + 1; j++) {
+        if (xBegin % 2 == 0) xBegin++;
+        if (yBegin % 2 == 0) yBegin++;
+        for (int i = (xBegin + 1) * 6; i < (xEnd + 1) * 6 + 1; i++) {
+            for (int j = (yBegin + 1) * 10; j < 10 * (yEnd + 1) + 2; j++) {
 
                 if (i % 6 == 0) {
 
+                    if (j % 20 == 10) {
+                        j = printUnits(xEnd, yEnd, i, j);
+                    }
                     if (j % 20 >= 2 && j % 20 < 10)
                         System.out.print("-");
                     else
@@ -80,66 +82,93 @@ public class GameMenu {
                 } else if (i % 6 == 1) {
 
                     if (j % 20 == 1) {
-                        String color;
-                        if (i / 6 < x && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
-                            color = (i / 6 < x && j / 10 < y ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
-                        else
-                            color = (i / 6 < x && j / 10 < y ? "\033[48;5;0m" : "");
-                        System.out.print("/" + color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
-                        j += 7;
-                    } else if (j % 20 == 10)
-                        System.out.print("\033[000m\\");
+                        j = printTerrain(xEnd, yEnd, tiles, i, j);
+                    } else if (j % 20 == 10) {
+                        String color = "", f = " ";
+
+                        if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? "\033[48;5;0m" : "";
+                        else {
+                            TerrainAndFeature feature;
+                            if ((feature = GameController.getInstance().getGame().getMap()[i /6][j / 10].getFeature()) != null)
+                                f = feature.getColor();
+                        }
+                        System.out.print("\u001B[0m\\" + color + "    " + f + "     \033[000m");
+                        j += 10;
+                    }
                     else
                         System.out.print(" ");
 
                 } else if (i % 6 == 2) {
 
                     if (j % 20 == 0) {
-                        String s = " ";
-                        if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
-                            s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
-                                    GameController.getInstance().getCivilization(i / 6, j / 10).LeaderName() +
-                                    "\033[000m";
+                        String s = " ", color = "";
+                        if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? "\033[48;5;0m" : "";
+                        else {
+                            if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
+                                s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
+                                        GameController.getInstance().getCivilization(i / 6, j / 10).LeaderName() +
+                                        "\033[000m";
 
+                            }
                         }
-                        System.out.print("/    " + (i / 6 < x && j / 10 < y ? s : " "));
+                        System.out.print("/" + color + "    " + (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? s : " "));
                         j += 5;
 
-
                     } else if (j % 20 == 11)
-
-                        System.out.print("\\");
+                        System.out.print("\033[000m\\");
                     else
                         System.out.print(" ");
 
                 } else if (i % 6 == 3) {
 
+                    if (j % 20 == 0) {
+                        j = printUnits(xEnd, yEnd, i, j);
+                    }
                     if (j % 20 >= 12)
                         System.out.print("-");
                     else
                         System.out.print(" ");
 
                 } else if (i % 6 == 4) {
-                    if (j % 20 == 0)
-                        System.out.print("\u001B[0m\\");
-                    else if (j % 20 == 11) {
-                        String color;
-                        if (i / 6 < x && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
-                            color = (i / 6 < x && j / 10 < y ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
-                        else
-                            color = (i / 6 < x && j / 10 < y ? "\033[48;5;0m" : "");
-                        System.out.print("/" + color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
-                        j += 7;
+                    if (j % 20 == 0) {
+                        String color = "", f = " ";
+
+                        if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? "\033[48;5;0m" : "";
+                        else {
+                            TerrainAndFeature feature;
+                            if ((feature = GameController.getInstance().getGame().getMap()[i /6][j / 10].getFeature()) != null)
+                                f = feature.getColor();
+                        }
+                        if (j / 10 < (yEnd + 1))
+                            System.out.print("\u001B[0m\\" + color + "    " + f + "     \033[000m");
+                        j += 10;
+                    } else if (j % 20 == 11) {
+                        j = printTerrain(xEnd, yEnd, tiles, i, j);
                     } else
                         System.out.print(" ");
 
                 } else if (i % 6 == 5) {
 
                     if (j % 20 == 1)
-                        System.out.print("\\");
-                    else if (j % 20 == 10)
-                        System.out.print("/");
-                    else
+                        System.out.print("\033[000m\\");
+                    else if (j % 20 == 10) {
+                        String s = " ", color = "";
+                        if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? "\033[48;5;0m" : "";
+                        else {
+                            if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
+                                s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
+                                        GameController.getInstance().getCivilization(i / 6, j / 10).LeaderName() +
+                                        "\033[000m";
+
+                            }
+                        }
+                        System.out.print("/" + color + "    " + (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? s : " "));
+                        j += 5;
+                    } else
                         System.out.print(" ");
                 }
             }
@@ -148,12 +177,56 @@ public class GameMenu {
         }
     }
 
-    private void cheatTurn(int turn) {
-        GameController.getInstance().cheatTurn(turn);
+    private int printTerrain(int xEnd, int yEnd, Tile[][] tiles, int i, int j) {
+        String color;
+        if (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) && MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
+        else
+            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? "\033[48;5;0m" : "");
+        if (j / 10 < (yEnd + 1))
+            System.out.print("/" + color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
+        j += 7;
+        return j;
     }
 
-    private void cheatGold(int turn) {
-        GameController.getInstance().cheatGold(turn);
+    private int printUnits(int xEnd, int yEnd, int i, int j) {
+        String m = "  ", color = "", u = "  ";
+        if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? "\033[48;5;0m" : "";
+        else {
+            String mColor = "";
+            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null)
+                for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+                    for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                        if (militaryUnit.getX() == i / 6 && militaryUnit.getY() == j / 10) {
+                            mColor = civilization.getColor();
+                            break;
+                        }
+                    }
+                }
+            m = mColor +
+                    GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit().
+                            getName().substring(0, 2) + "\033[000m";
+
+
+            String uColor = "";
+            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null)
+                for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+                    for (Unit unit : civilization.getUnits()) {
+                        if (unit.getX() == i / 6 && unit.getY() == j / 10) {
+                            uColor = civilization.getColor();
+                            break;
+                        }
+                    }
+                }
+            u = uColor +
+                    GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian().
+                            getName().substring(0, 2) + "\033[000m";
+        }
+        if (j / 10 < (yEnd + 1))
+            System.out.print(color + " " + m + "     " + u + "  " + "\033[000m");
+        j += 12;
+        return j;
     }
 
     private void showInfo(String command) {
@@ -311,6 +384,8 @@ public class GameMenu {
             showMapByCityName(matcher);
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.MOVE_MAP)) != null)
             moveMap(matcher);
+        else
+            err();
     }
 
     private void moveMap(Matcher matcher) {
@@ -322,6 +397,8 @@ public class GameMenu {
             xMap += Integer.parseInt(matcher.group("c"));
         else if (matcher.group("direction").equals("up"))
             xMap -= Integer.parseInt(matcher.group("c"));
+        else
+            err();
     }
 
     private void showMapByCityName(Matcher matcher) {
@@ -330,7 +407,7 @@ public class GameMenu {
     private void showMapByPosition(Matcher matcher) {
         xMap = Integer.parseInt(matcher.group("x"));
         yMap = Integer.parseInt(matcher.group("y"));
-        showMap(xMap -  5, yMap - 5, xMap + 5, yMap + 5);
+        showMap(xMap - 5, yMap - 5, xMap + 5, yMap + 5);
     }
 
     private void err() {
