@@ -29,7 +29,6 @@ public class GameController {
         game = new Game(civilizations, -4000, map);
     }
 
-
     private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
         for (User user : users) {
             Civilization civilization = new Civilization(user);

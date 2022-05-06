@@ -61,4 +61,56 @@ public class City {
     public int getY() {
         return y;
     }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public Unit getCivilian() {
+        return civilian;
+    }
+
+    public void setCivilian(Unit civilian) {
+        this.civilian = civilian;
+    }
+
+    public MilitaryUnit getMilitaryUnit() {
+        return militaryUnit;
+    }
+
+    public void setMilitaryUnit(MilitaryUnit militaryUnit) {
+        this.militaryUnit = militaryUnit;
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public int getProduction() {
+        return production;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public boolean isCapital() {
+        return isCapital;
+    }
+
+    public double getCombatStrength() {
+        return combatStrength;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public int getHitPoint() {
+        return hitPoint;
+    }
 }

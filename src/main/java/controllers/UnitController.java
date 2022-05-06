@@ -1,5 +1,7 @@
 package controllers;
 
+import enums.modelsEnum.MilitaryUnitsEnum;
+import enums.modelsEnum.nonCombatUnitsEnum;
 import models.Civilization;
 import models.MilitaryUnit;
 import models.Unit;
@@ -284,6 +286,22 @@ public class UnitController {
     }
 
     public String buildQuarry() {
+        return null;
+    }
+
+    public  MilitaryUnitsEnum isExistMilitaryUnits(String unitName) {
+        for (MilitaryUnitsEnum mu : MilitaryUnitsEnum.values()) {
+            if (mu.getName().equalsIgnoreCase(unitName))
+                return mu;
+        }
+        return null;
+    }
+
+    public nonCombatUnitsEnum isExistNonCombatUnits(String unitName) {
+        for (nonCombatUnitsEnum u : nonCombatUnitsEnum.values()) {
+            if (u.getName().equalsIgnoreCase(unitName))
+                return u;
+        }
         return null;
     }
 }

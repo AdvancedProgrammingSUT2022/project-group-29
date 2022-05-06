@@ -83,4 +83,22 @@ public class MilitaryUnit{
     public void setState(String state) {
         this.state = state;
     }
+
+    public Technology getNeededTechnology() {
+        return neededTechnology;
+    }
+
+    public void setNeededTechnology(Technology neededTechnology) {
+        this.neededTechnology = neededTechnology;
+    }
+
+    public Resource getNeededResource() {
+        return neededResource;
+    }
+
+    public void setNeededResource(Resource neededResource) {
+        this.neededResource = neededResource;
+    }
+
+
 }

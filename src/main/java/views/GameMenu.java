@@ -1,9 +1,6 @@
 package views;
 
-import controllers.GameController;
-import controllers.GameMenuController;
-import controllers.MapController;
-import controllers.UnitController;
+import controllers.*;
 import enums.GameMenuCommands;
 import enums.modelsEnum.TechnologyEnum;
 import models.*;
@@ -25,7 +22,6 @@ public class GameMenu {
         return instance;
     }
 
-
     public void run(Scanner scanner, ArrayList<User> users) {
         GameController.getInstance().startGame(users);
         printGameStarted(users);
@@ -43,6 +39,10 @@ public class GameMenu {
                 unit(command);
             else if (command.startsWith("map"))
                 map(command);
+            else if (command.startsWith("city"))
+                city(command);
+            else if (command.trim().equals("end"))
+                break;
             else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_TURN)) != null)
                 GameController.getInstance().cheatTurn(Integer.parseInt(matcher.group("amount")));
             else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_GOLD)) != null)
@@ -408,6 +408,59 @@ public class GameMenu {
         xMap = Integer.parseInt(matcher.group("x"));
         yMap = Integer.parseInt(matcher.group("y"));
         showMap(xMap - 5, yMap - 5, xMap + 5, yMap + 5);
+    }
+
+    private void city(String command) {
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_CREATE_UNIT)) != null)
+            createUnit(matcher);
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_TILE)) != null)
+            cityShowTile();
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_CIVILIZATION)) != null)
+            cityShowCivilization();
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_RESOURCES)) != null)
+            cityShowResources();
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_UNIT)) != null)
+            cityShowUnit();
+        else if((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_INFORMATION)) != null)
+            cityShowInformation();
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_ATTACK)) != null)
+            cityAttack(matcher);
+        else
+            err();
+    }
+
+    private void cityAttack(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().cityAttack(x, y));
+    }
+
+    private void cityShowInformation() {
+        System.out.println(CityController.getInstance().cityShowInformation());
+    }
+
+    private void cityShowUnit() {
+        System.out.println(CityController.getInstance().cityShowUnit());
+
+    }
+
+    private void cityShowResources() {
+        System.out.println(CityController.getInstance().cityShowResources());
+
+    }
+
+    private void cityShowCivilization() {
+        System.out.println(CityController.getInstance().cityShowCivilization());
+    }
+
+    private void cityShowTile() {
+        System.out.println(CityController.getInstance().cityShowTilePosition());
+    }
+
+    private void createUnit(Matcher matcher) {
+        String unitName = matcher.group("unitName");
+        System.out.println(CityController.getInstance().createUnit(unitName));
     }
 
     private void err() {
