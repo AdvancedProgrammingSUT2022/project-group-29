@@ -3,7 +3,6 @@ package controllers;
 import models.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -23,7 +22,7 @@ public class GameController {
 
     public void startGame(ArrayList<User> users) {
         Tile[][] map = new Tile[WIDTH][LENGTH];
-        MapController.getInstance().createMap(map,WIDTH,LENGTH);
+        MapController.getInstance().createMap(map, WIDTH, LENGTH);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations, users);
         game = new Game(civilizations, -4000, map);
@@ -37,10 +36,13 @@ public class GameController {
         }
     }
 
-    public void cheatTurn(int turn) {
+    public String cheatTurn(int turn) {
+
+        return null;
     }
 
-    public void cheatGold(int turn) {
+    public String cheatGold(int turn) {
+        return null;
     }
 
     public void setGold(int gold) {
@@ -77,8 +79,8 @@ public class GameController {
         return null;
     }
 
-    public String foundCity() {
-        return null;
+    public String foundCity(Matcher matcher) {
+        return CityController.getInstance().createCity(matcher);
     }
 
     public String cancelMission() {

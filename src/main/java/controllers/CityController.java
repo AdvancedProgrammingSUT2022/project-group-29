@@ -4,6 +4,8 @@ import enums.modelsEnum.MilitaryUnitsEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
+import java.util.regex.Matcher;
+
 public class CityController {
     private static CityController instance = null;
 
@@ -31,10 +33,13 @@ public class CityController {
                 return "gold is not enough";
             else if (selectedCity.getMilitaryUnit() != null)
                 return "a military unit exit in city";
-            else if (!(civilization = selectedCity.getCivilization()).getTechnologies().contains
-                    ((militaryUnit = new MilitaryUnit(militaryUnitEnum)).getNeededTechnology()))
-                return "do not have needed technology";
-            else if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
+            civilization = selectedCity.getCivilization();
+            militaryUnit = new MilitaryUnit(militaryUnitEnum);
+            for (Technology technology : civilization.getTechnologies()) {
+                if (!technology.getName().equals(militaryUnit.getNeededTechnology().getName()))
+                    return "do not have needed technology";
+            }
+            if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
                 return "do not have needed resources";
             else
                 addMilitaryUnitToCity();
@@ -69,7 +74,7 @@ public class CityController {
 
     private boolean doesCityHaveNeededResources(City selectedCity, MilitaryUnit militaryUnit) {
         for (Tile tile : selectedCity.getCityTiles()) {
-            if (tile.getResource().equals(militaryUnit.getNeededResource()))
+            if (tile.getResource().getName().equals(militaryUnit.getNeededResource().getName()))
                 return true;
         }
         return false;
@@ -118,26 +123,46 @@ public class CityController {
                     "happiness: " + selectedCity.getHappiness() + "\n" +
                     "food: " + selectedCity.getFood() + "\n" +
                     "production: " + selectedCity.getProduction() + "\n" +
-                    "isCapital: " + selectedCity.isCapital() + "\n" +
                     "combatStrength: " + selectedCity.getCombatStrength() + "\n" +
                     "population: " + selectedCity.getPopulation() + "\n" +
                     "hitPoint: " + selectedCity.getHitPoint();
         }
         return "first select a city!";
     }
-//Todo complete attack
+
+    //Todo complete attack
     public String cityAttack(int x, int y) {
         Game game = GameController.getInstance().getGame();
-        if(game.getCurrentCivilization() != selectedCity.getCivilization()){
-            return"choose city in your civilization";
+        if (game.getCurrentCivilization() != selectedCity.getCivilization()) {
+            return "choose city in your civilization";
+        } else if (x > 45 || x < 0) {
+            return "x is out of map";
+        } else if (y > 30 || y < 0) {
+            return "y is out of map";
+        } else
+            return "attack successful";
+    }
+
+    public String createCity(Matcher matcher) {
+        if (GameController.getInstance().getGame().getSelectedNonCombatUnit() == null)
+            return "no selected unit";
+
+        String name = matcher.group("name");
+        int x = GameController.getInstance().getGame().getSelectedNonCombatUnit().getX();
+        int y = GameController.getInstance().getGame().getSelectedNonCombatUnit().getY();
+
+        for (Civilization civilizations : GameController.getInstance().getGame().getCivilizations()) {
+            for (City civilizationsCity : civilizations.getCities()) {
+                for (Tile civilizationsCityCityTile : civilizationsCity.getCityTiles()) {
+                    if (civilizationsCityCityTile.getX() == x && civilizationsCityCityTile.getY() == y)
+                        return "there is already a city";
+                }
+            }
         }
-        else if(x> 45 || x <0){
-            return"x is out of map";
-        }
-        else if(y> 30 || y <0){
-            return"y is out of map";
-        }
-        else
-            return"attack successful";
+
+
+        City city = new City(name, GameController.getInstance().getGame().getCurrentCivilization(), false, x, y);
+        GameController.getInstance().getGame().getCurrentCivilization().addCity(city);
+        return "city created successfully";
     }
 }

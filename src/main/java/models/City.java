@@ -1,5 +1,7 @@
 package models;
 
+import controllers.GameController;
+
 import java.util.ArrayList;
 
 public class City {
@@ -19,11 +21,12 @@ public class City {
     private ArrayList<Tile> cityTiles = new ArrayList<>();
 
 
-    public City(String name, Civilization civilization, boolean isCapital, ArrayList<Tile> cityTiles) {
+    public City(String name, Civilization civilization, boolean isCapital, int x, int y) {
         this.name = name;
         this.civilization = civilization;
         this.isCapital = isCapital;
-        this.cityTiles = cityTiles;
+        this.x = x;
+        this.y = y;
         this.happiness = 0;
         this.food = 0;
         this.gold = 0;
@@ -31,6 +34,11 @@ public class City {
         this.production = 0;
         this.hitPoint = 20;
         this.population = 1;
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                this.cityTiles.add(GameController.getInstance().getGame().getMap()[i][j]);
+            }
+        }
     }
 
     public void setName(String name) {

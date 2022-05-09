@@ -12,6 +12,7 @@ public enum GameMenuCommands {
     ATTACK("unit attack (?<x>\\d{1,2}) (?<y>\\d{1,2})"),
     SHOW_MAP1("map show (?<x>\\d{1,2}) (?<y>\\d{1,2})"),
     SHOW_MAP2("map show (?<name>)\\S+"),
+    SHOW_MAP3("map show"),
     MOVE_MAP("map move (?<direction>right|left|up|down) (?<c>\\d+)"),
     INCREASE_TURN("increase -turn (?<amount>\\d+)"),
     INCREASE_GOLD("increase -gold (?<amount>\\d+)"),
@@ -21,7 +22,8 @@ public enum GameMenuCommands {
     CITY_SHOW_TILE("city show tile"),
     CITY_SHOW_CIVILIZATION("city show civilization"),
     CITY_SHOW_INFORMATION("city show information"),
-    CITY_ATTACK("city Attack (?<xPoint>\\d+) (?<yPoint>\\d+)");
+    CITY_ATTACK("city Attack (?<xPoint>\\d+) (?<yPoint>\\d+)"),
+    CITY_CREATE("create city (?<name>\\S+)");
 
 
     private String regex;
