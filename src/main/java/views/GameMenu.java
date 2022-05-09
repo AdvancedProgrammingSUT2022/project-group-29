@@ -28,6 +28,8 @@ public class GameMenu {
         int a = 0;
         String command;
         Matcher matcher;
+        this.showMap(0,0,30,20);
+
 
         while (true) {
             command = scanner.nextLine();

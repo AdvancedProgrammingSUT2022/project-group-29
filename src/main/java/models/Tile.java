@@ -11,6 +11,7 @@ public class Tile {
     private Unit civilian;
     private MilitaryUnit militaryUnit;
     private boolean isThereCitizen;
+    private  boolean[] rivers;
     private Improvement improvement;
     private int movementCost;
     private int value = 0;
@@ -21,6 +22,10 @@ public class Tile {
         this.terrain = null;
         this.feature = null;
         this.resource = null;
+        this.rivers = new boolean[6];
+        for (int i = 0; i < 6; i++) {
+            rivers[i] = false;
+        }
     }
 
     public void setTerrain(TerrainAndFeature terrain) {
@@ -55,6 +60,14 @@ public class Tile {
         return resource;
     }
 
+    public boolean[] getRivers() {
+        return rivers;
+    }
+
+    public void addRiver(int x) {
+        this.rivers[x] = true;
+    }
+
     public int getX() {
         return x;
     }
@@ -82,7 +95,6 @@ public class Tile {
     public void setThereCitizen(boolean thereCitizen) {
         isThereCitizen = thereCitizen;
     }
-
     public int getValue() {
         return value;
     }
