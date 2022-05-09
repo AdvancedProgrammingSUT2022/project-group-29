@@ -21,7 +21,8 @@ public enum GameMenuCommands {
     CITY_SHOW_TILE("city show tile"),
     CITY_SHOW_CIVILIZATION("city show civilization"),
     CITY_SHOW_INFORMATION("city show information"),
-    CITY_ATTACK("city Attack (?<xPoint>\\d+) (?<yPoint>\\d+)");
+    CITY_ATTACK("city Attack (?<xPoint>\\d+) (?<yPoint>\\d+)"),
+    CITY_CREATE("city create (?<cityName>[A-Za-z]+) (?<xPoint>\\d+) (?<yPoint>\\d+)");
 
 
     private String regex;

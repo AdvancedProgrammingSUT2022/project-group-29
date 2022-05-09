@@ -4,6 +4,8 @@ import enums.modelsEnum.MilitaryUnitsEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
+import java.util.ArrayList;
+
 public class CityController {
     private static CityController instance = null;
 
@@ -12,6 +14,7 @@ public class CityController {
             instance = new CityController();
         return instance;
     }
+    Game game;
 
     City selectedCity;
     Civilization civilization;
@@ -21,6 +24,94 @@ public class CityController {
     nonCombatUnitsEnum nonCombatUnitsEnum;
     Unit civilianUnit;
     StringBuilder sb = new StringBuilder();
+
+    public String createCity(String cityName, int x, int y) {
+        game = GameController.getInstance().getGame();
+        if (isXTileValid(x))
+            return "x is out of map";
+        if (isYTileValid(y))
+            return "y is out of map";
+        else if (game.getSelectedNonCombatUnit() == null ||
+                !game.getSelectedNonCombatUnit().getName().equals("settler"))
+            return "nonSettler can not create City";
+        else if (!isTileEmpty(game, x, y))
+            return "There is a city in this Tile";
+        else {
+            ArrayList<Tile>tileNewCity = new ArrayList<Tile>();
+            tileNewCity.add(new Tile(x, y));
+            City city = new City(cityName, game.getCurrentCivilization(),tileNewCity);
+            game.getCurrentCivilization().addCityToCivilization(city);
+            game.setSelectedNonCombatUnit(null);
+            return "City created successfully";
+        }
+    }
+
+    private static boolean isCityNameExist(Game game, String cityName) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                if (city.getName().equals(cityName))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isTileEmpty(Game game, int x, int y) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                for (Tile tile : city.getCityTiles()) {
+                    if (tile.getX() == x && tile.getY() == y)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static String lockingCitizenToTile(String name) {
+
+        return "";
+    }
+
+    private static String removingCitizenFromWork(String name) {
+        return "";
+    }
+
+    private static String unemployedCitizenSection(String name) {
+        return "";
+    }
+
+    private static String buyingTile(String name) {
+        return "";
+    }
+
+    private static String construction(String name) {
+        return "";
+    }
+
+    private static String changeConstruction(String name) {
+        return "";
+    }
+
+    private static String destroyingCities(String name) {
+        return "";
+    }
+
+    private static String appendCity(String name) {
+        return "";
+    }
+
+    private static String warCityAndUnit(String name) {
+        return "";
+    }
+
+    private static String hpWarCityAndUnit(String name) {
+        return "";
+    }
+
+    private static String defenceCity(String name) {
+        return "";
+    }
 
     public String createUnit(String unitName) {
 
@@ -118,26 +209,31 @@ public class CityController {
                     "happiness: " + selectedCity.getHappiness() + "\n" +
                     "food: " + selectedCity.getFood() + "\n" +
                     "production: " + selectedCity.getProduction() + "\n" +
-                    "isCapital: " + selectedCity.isCapital() + "\n" +
                     "combatStrength: " + selectedCity.getCombatStrength() + "\n" +
                     "population: " + selectedCity.getPopulation() + "\n" +
                     "hitPoint: " + selectedCity.getHitPoint();
         }
         return "first select a city!";
     }
-//Todo complete attack
+
+    //Todo complete attack
     public String cityAttack(int x, int y) {
         Game game = GameController.getInstance().getGame();
-        if(game.getCurrentCivilization() != selectedCity.getCivilization()){
-            return"choose city in your civilization";
-        }
-        else if(x> 45 || x <0){
-            return"x is out of map";
-        }
-        else if(y> 30 || y <0){
-            return"y is out of map";
-        }
-        else
-            return"attack successful";
+        if (game.getCurrentCivilization() != selectedCity.getCivilization()) {
+            return "choose city in your civilization";
+        } else if (isXTileValid(x)) {
+            return "x is out of map";
+        } else if (isYTileValid(y)) {
+            return "y is out of map";
+        } else
+            return "attack successful";
+    }
+
+    public static boolean isXTileValid(int x) {
+        return x <= 45 && x >= 0;
+    }
+
+    public static boolean isYTileValid(int y) {
+        return y <= 30 && y >= 0;
     }
 }

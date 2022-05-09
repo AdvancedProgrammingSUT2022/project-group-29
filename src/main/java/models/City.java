@@ -9,7 +9,6 @@ public class City {
     private int gold;
     private int production;
     private int food;
-    private boolean isCapital = false;
     private double combatStrength;
     private int population;
     private int x, y;
@@ -19,10 +18,9 @@ public class City {
     private ArrayList<Tile> cityTiles = new ArrayList<>();
 
 
-    public City(String name, Civilization civilization, boolean isCapital, ArrayList<Tile> cityTiles) {
+    public City(String name, Civilization civilization, ArrayList<Tile> cityTiles) {
         this.name = name;
         this.civilization = civilization;
-        this.isCapital = isCapital;
         this.cityTiles = cityTiles;
         this.happiness = 0;
         this.food = 0;
@@ -96,10 +94,6 @@ public class City {
 
     public int getFood() {
         return food;
-    }
-
-    public boolean isCapital() {
-        return isCapital;
     }
 
     public double getCombatStrength() {

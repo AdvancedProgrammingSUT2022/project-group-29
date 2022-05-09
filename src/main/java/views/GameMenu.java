@@ -426,8 +426,18 @@ public class GameMenu {
             cityShowInformation();
         else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_ATTACK)) != null)
             cityAttack(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_CREATE)) != null)
+            cityCreate(matcher);
         else
             err();
+    }
+
+    private void cityCreate(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        String cityName = matcher.group("cityName");
+        System.out.println(CityController.getInstance().createCity(cityName , x, y));
+
     }
 
     private void cityAttack(Matcher matcher) {

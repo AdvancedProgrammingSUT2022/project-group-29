@@ -68,4 +68,9 @@ public class Civilization {
     public String getName() {
         return name;
     }
+    public void addCityToCivilization(City city) {
+        cities.add(city);
+    }
+
+
 }
