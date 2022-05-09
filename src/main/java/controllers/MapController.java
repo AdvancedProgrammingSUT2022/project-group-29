@@ -158,8 +158,16 @@ public class MapController {
                 else
                     second.addRiver(side - 3);
 
-                if (first.getNeighbourTiles().get((side - 1) % 6).getTerrain().getKind().equals("ocean") ||
-                        first.getNeighbourTiles().get((side + 1) % 6).getTerrain().getKind().equals("ocean"))
+                int x1 = side - 1;
+                if (x1 < 0)
+                    x1 += 6 ;
+
+                int x2 = side + 1;
+                if (x2 > 5)
+                    x2 -= 6 ;
+
+                if (first.getNeighbourTiles().get(x1).getTerrain().getKind().equals("ocean") ||
+                        first.getNeighbourTiles().get(x2).getTerrain().getKind().equals("ocean"))
                     break;
             }
         }
@@ -293,7 +301,7 @@ public class MapController {
                 if (map[i][j].getTerrain().getKind().equals("desert")) {
                     boolean[] river = map[i][j].getRivers();
                     for (int k = 0; k < 6; k++) {
-                        if (river[i]) {
+                        if (river[k]) {
                             tilesToMakeFloodPlains.add(map[i][j]);
                             break;
                         }
