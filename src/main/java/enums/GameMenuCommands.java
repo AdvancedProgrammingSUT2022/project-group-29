@@ -24,7 +24,11 @@ public enum GameMenuCommands {
     CITY_ATTACK("city Attack (?<xPoint>\\d+) (?<yPoint>\\d+)"),
     CITY_CREATE("city create (?<cityName>[A-Za-z]+) (?<xPoint>\\d+) (?<yPoint>\\d+)"),
     LOCK_CITIZEN_TO_TILE("city lock citizen to tile (?<xPoint>\\d+) (?<yPoint>\\d+)"),
-    REMOVE_CITIZEN_FROM_TILE("city remove citizen from tile (?<xPoint>\\d+) (?<yPoint>\\d+)");
+    REMOVE_CITIZEN_FROM_TILE("city remove citizen from tile (?<xPoint>\\d+) (?<yPoint>\\d+)"),
+    CITY_RESOURCES_OUTPUT("city resources output"),
+    CITY_SCREEN_MENU("city screen menu"),
+    CITY_UNEMPLOYED_CITIZEN_SECTION("city Unemployed Citizen Section"),
+    CITY_BUY_TILE("city buy tile (?<xPoint>\\d+) (?<yPoint>\\d+)");
 
 
     private String regex;

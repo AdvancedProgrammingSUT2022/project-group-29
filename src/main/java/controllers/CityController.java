@@ -5,6 +5,7 @@ import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CityController {
     private static CityController instance = null;
@@ -14,6 +15,7 @@ public class CityController {
             instance = new CityController();
         return instance;
     }
+
     Game game;
     City selectedCity;
     Civilization civilization;
@@ -36,9 +38,9 @@ public class CityController {
         else if (!isTileEmpty(game, x, y))
             return "There is a city in this Tile";
         else {
-            ArrayList<Tile>tileNewCity = new ArrayList<Tile>();
+            ArrayList<Tile> tileNewCity = new ArrayList<Tile>();
             tileNewCity.add(new Tile(x, y));
-            City city = new City(cityName, game.getCurrentCivilization(),tileNewCity);
+            City city = new City(cityName, game.getCurrentCivilization(), tileNewCity);
             game.getCurrentCivilization().addCityToCivilization(city);
             game.setSelectedNonCombatUnit(null);
             return "City created successfully";
@@ -69,18 +71,18 @@ public class CityController {
 
     public String lockingCitizenToTile(int x, int y) {
         game = GameController.getInstance().getGame();
-        City city ;
-        if((city = game.getSelectedCity())==null)
+        City city;
+        if ((city = game.getSelectedCity()) == null)
             return "select city";
         if (isXTileValid(x))
             return "x is out of map";
         if (isYTileValid(y))
             return "y is out of map";
-        else if(ownerTile(x,y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x,y).getName()))
+        else if (ownerTile(x, y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x, y).getName()))
             return "This tile is not for this civilization";
-        else if(hasTileCitizen(x,y))
+        else if (hasTileCitizen(x, y))
             return "This tile has citizen";
-        else{
+        else {
             Tile tile = game.getMap()[x][y];
             tile.setThereCitizen(true);
             city.decreaseCitizen(1);
@@ -89,6 +91,7 @@ public class CityController {
         }
 
     }
+
     //TODO COMPLETE UPDATE
     private void updateCity() {
     }
@@ -112,18 +115,18 @@ public class CityController {
 
     public String removingCitizenFromWork(int x, int y) {
         game = GameController.getInstance().getGame();
-        City city ;
-        if((city = game.getSelectedCity())==null)
+        City city;
+        if ((city = game.getSelectedCity()) == null)
             return "select city";
         if (isXTileValid(x))
             return "x is out of map";
         if (isYTileValid(y))
             return "y is out of map";
-        else if(ownerTile(x,y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x,y).getName()))
+        else if (ownerTile(x, y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x, y).getName()))
             return "This tile is not for this civilization";
-        else if(!hasTileCitizen(x,y))
+        else if (!hasTileCitizen(x, y))
             return "This tile has not citizen";
-        else{
+        else {
             Tile tile = game.getMap()[x][y];
             tile.setThereCitizen(false);
             city.increaseCitizen(1);
@@ -133,12 +136,32 @@ public class CityController {
 
     }
 
-    private static String unemployedCitizenSection(int x, int y) {
-        return "";
+    public String unemployedCitizenSection() {
+        game = GameController.getInstance().getGame();
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null)
+            return "unemployedCitizenSection: " + game.getSelectedCity().getCitizen();
+        return "first select a city!";
     }
 
-    private static String buyingTile(String name) {
-        return "";
+    public String cityBuyTile(int x, int y) {
+        game = GameController.getInstance().getGame();
+        City city;
+        Tile tile;
+        if ((city = game.getSelectedCity()) == null)
+            return "select city";
+        if (isXTileValid(x))
+            return "x is out of map";
+        if (isYTileValid(y))
+            return "y is out of map";
+        else if (ownerTile(x, y) != null)
+            return "This tile has owner";
+        else if ((tile= game.getMap()[x][y]).getValue() > city.getGold())
+            return "gold is not enough";
+        else {
+            city.addTileToCity(tile);
+            city.setGold(city.getGold() - tile.getValue());
+            return "Successful buy";
+        }
     }
 
     private static String construction(String name) {
@@ -251,6 +274,18 @@ public class CityController {
             return "first select a city!";
     }
 
+    public String cityShowStrategicResources() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            sb = new StringBuilder();
+            for (Tile tile : selectedCity.getCityTiles()) {
+                if (tile.getResource().getType().equals("Strategic"))
+                    sb.append(tile.getResource() + "\n");
+            }
+            return sb.toString();
+        } else
+            return "first select a city!";
+    }
+
 
     public String cityShowUnit() {
         if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
@@ -291,5 +326,29 @@ public class CityController {
 
     public static boolean isYTileValid(int y) {
         return y <= 30 && y >= 0;
+    }
+
+    //TODO SHOULD COMPLETE relative to turn
+    public String cityScreenMenu() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            return "name: " + selectedCity.getName() + "\n" +
+                    "science: " + selectedCity.getScience() + "\n" +
+                    "gold: " + selectedCity.getGold() + "\n" +
+                    "happiness: " + selectedCity.getHappiness() + "\n" +
+                    "strategicResources: " + cityShowStrategicResources();
+        }
+        return "first select a city!";
+    }
+
+
+    public String cityResourcesOutput() {
+        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+            return "name: " + selectedCity.getName() + "\n" +
+                    "happiness: " + selectedCity.getHappiness() + "\n" +
+                    "food: " + selectedCity.getFood() + "\n" +
+                    "production: " + selectedCity.getProduction() + "\n" +
+                    "science: " + selectedCity.getScience();
+        }
+        return "first select a city!";
     }
 }

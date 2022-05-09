@@ -11,6 +11,7 @@ public class City {
     private int food;
     private double combatStrength;
     private int population;
+    private int science;
     private int x, y;
     private Unit civilian = null;
     private MilitaryUnit militaryUnit = null;
@@ -30,6 +31,7 @@ public class City {
         this.hitPoint = 20;
         this.population = 1;
         this.citizen = 0;
+        this.science = 0;
     }
 
     public void setName(String name) {
@@ -119,4 +121,13 @@ public class City {
     public void decreaseCitizen(int amount) {
         this.citizen -= amount;
     }
+
+    public int getScience() {
+        return science;
+    }
+    public void addTileToCity(Tile tile) {
+        this.cityTiles.add(tile);
+    }
+
+
 }

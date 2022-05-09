@@ -13,6 +13,7 @@ public class Tile {
     private boolean isThereCitizen;
     private Improvement improvement;
     private int movementCost;
+    private int value = 0;
 
     public Tile(int x, int y) {
         this.x = x;
@@ -80,5 +81,13 @@ public class Tile {
 
     public void setThereCitizen(boolean thereCitizen) {
         isThereCitizen = thereCitizen;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
