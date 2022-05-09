@@ -16,6 +16,7 @@ public class MapController {
 
     private int LENGTH;
     private int WIDTH;
+
     private MapController() {
     }
 
@@ -42,7 +43,7 @@ public class MapController {
         for (MilitaryUnit militaryUnit : game.getCurrentCivilization().getMilitaryUnits()) {
             if (x == militaryUnit.getX() &&
                     (y == militaryUnit.getY() || y == militaryUnit.getY() + 1 || y == militaryUnit.getY() - 1
-                    || y == militaryUnit.getY() + 2 || y == militaryUnit.getY() - 2))
+                            || y == militaryUnit.getY() + 2 || y == militaryUnit.getY() - 2))
                 return true;
             if (y == militaryUnit.getY() &&
                     (x == militaryUnit.getX() || x == militaryUnit.getX() + 1 || x == militaryUnit.getX() - 1
@@ -64,8 +65,8 @@ public class MapController {
         return false;
     }
 
-    public void createMap (Tile[][] map,int WIDTH ,int LENGTH) {
-        this.LENGTH =LENGTH;
+    public void createMap(Tile[][] map, int WIDTH, int LENGTH) {
+        this.LENGTH = LENGTH;
         this.WIDTH = WIDTH;
         Random random = new Random();
         for (int i = 0; i < WIDTH; i++) {
@@ -73,6 +74,28 @@ public class MapController {
                 map[i][j] = new Tile(i, j);
                 if (i < 1 || i > WIDTH - 2 || j < 1 || j > LENGTH - 3)
                     map[i][j].setTerrain(new TerrainAndFeature(TerrainsAndFeaturesEnum.OCEAN));
+            }
+        }
+
+        for (int i = 1; i < WIDTH - 1; i++) {
+            for (int j = 1; j < LENGTH - 2; j++) {
+                ArrayList<Tile> tiles = new ArrayList<>();
+                if (j % 2 == 1) {
+                    tiles.add(map[i - 1][j]);
+                    tiles.add(map[i][j + 1]);
+                    tiles.add(map[i + 1][j + 1]);
+                    tiles.add(map[i + 1][j]);
+                    tiles.add(map[i + 1][j - 1]);
+                    tiles.add(map[i][j - 1]);
+                } else {
+                    tiles.add(map[i - 1][j]);
+                    tiles.add(map[i - 1][j + 1]);
+                    tiles.add(map[i][j + 1]);
+                    tiles.add(map[i + 1][j]);
+                    tiles.add(map[i][j - 1]);
+                    tiles.add(map[i - 1][j - 1]);
+                }
+                map[i][j].setNeighbourTiles(tiles);
             }
         }
 
@@ -90,8 +113,58 @@ public class MapController {
             }
         }
         increaseTerrainsVariety(random, map);
+        setRivers(random, map);
         setFeatures(map, random);
         setResources(map, random);
+    }
+
+    private void setRivers(Random random, Tile[][] map) {
+        ArrayList<Tile> mountains = getAllOfSimilarTerrains(map, "mountain");
+        Tile first, second;
+        for (int k = 0; k < 5; k++) {
+            int rand = random.nextInt(mountains.size());
+            int side = random.nextInt(6);
+
+            first = mountains.get(rand);
+            first.addRiver(side);
+            second = first.getNeighbourTiles().get(side);
+            if (second.getTerrain().getKind().equals("ocean"))
+                continue;
+            if (side < 3)
+                second.addRiver(side + 3);
+            else
+                second.addRiver(side - 3);
+
+            for (int i = 0; i < 70; i++) {
+                if (random.nextBoolean()) {
+                    side--;
+                    if (side < 0)
+                        side += 6;
+                } else {
+                    if (side < 3)
+                        side += 3;
+                    else
+                        side -= 3;
+                    side++;
+                    if (side > 5)
+                        side -= 6;
+                    first = second;
+
+                }
+                first.addRiver(side);
+                second = first.getNeighbourTiles().get(side);
+                if (side < 3)
+                    second.addRiver(side + 3);
+                else
+                    second.addRiver(side - 3);
+
+                if (first.getNeighbourTiles().get((side - 1) % 6).getTerrain().getKind().equals("ocean") ||
+                        first.getNeighbourTiles().get((side + 1) % 6).getTerrain().getKind().equals("ocean"))
+                    break;
+            }
+        }
+
+
     }
 
     private void setResources(Tile[][] map, Random random) {
@@ -163,8 +236,9 @@ public class MapController {
         ArrayList<Tile> marsh = getAllOfSimilarTerrainsWithFeatures(map, "0", "marsh");
         setAmountOfResource(random, marsh, 5, ResourceEnum.SUGAR);
 
-
-        //TODO FloodPlains Resources
+        ArrayList<Tile> floodPlains = getAllOfSimilarTerrainsWithFeatures(map, "0", "floodPlains");
+        setAmountOfResource(random, floodPlains, floodPlains.size() / 3, ResourceEnum.SUGAR);
+        setAmountOfResource(random, floodPlains, floodPlains.size() / 3, ResourceEnum.WHEAT);
     }
 
     private void setAmountOfResource(Random random, ArrayList<Tile> tiles, int size, ResourceEnum resourceEnum) {
@@ -208,8 +282,26 @@ public class MapController {
 
         ArrayList<Tile> oceans = getAllOfSimilarTerrains(map, "ocean");
         setAmountOfFeatures(random, oceans, 100, TerrainsAndFeaturesEnum.ICE);
+        setFloodPlains(random, map);
 
-        //TODO : FLOODPLAINS AND RIVERS
+    }
+
+    private void setFloodPlains(Random random, Tile[][] map) {
+        ArrayList<Tile> tilesToMakeFloodPlains = new ArrayList<>();
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < LENGTH; j++) {
+                if (map[i][j].getTerrain().getKind().equals("desert")) {
+                    boolean[] river = map[i][j].getRivers();
+                    for (int k = 0; k < 6; k++) {
+                        if (river[i]) {
+                            tilesToMakeFloodPlains.add(map[i][j]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        setAmountOfFeatures(random, tilesToMakeFloodPlains, tilesToMakeFloodPlains.size() / 4, TerrainsAndFeaturesEnum.FLOODPLAINS);
     }
 
     private void setAmountOfFeatures(Random random, ArrayList<Tile> tiles, int size, TerrainsAndFeaturesEnum featureEnum) {
