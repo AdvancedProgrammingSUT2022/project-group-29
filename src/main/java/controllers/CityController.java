@@ -15,7 +15,6 @@ public class CityController {
         return instance;
     }
     Game game;
-
     City selectedCity;
     Civilization civilization;
     int gold;
@@ -68,16 +67,73 @@ public class CityController {
         return true;
     }
 
-    private static String lockingCitizenToTile(String name) {
+    public String lockingCitizenToTile(int x, int y) {
+        game = GameController.getInstance().getGame();
+        City city ;
+        if((city = game.getSelectedCity())==null)
+            return "select city";
+        if (isXTileValid(x))
+            return "x is out of map";
+        if (isYTileValid(y))
+            return "y is out of map";
+        else if(ownerTile(x,y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x,y).getName()))
+            return "This tile is not for this civilization";
+        else if(hasTileCitizen(x,y))
+            return "This tile has citizen";
+        else{
+            Tile tile = game.getMap()[x][y];
+            tile.setThereCitizen(true);
+            city.decreaseCitizen(1);
+            updateCity();
+            return "Citizen locked to tile";
+        }
 
-        return "";
+    }
+    //TODO COMPLETE UPDATE
+    private void updateCity() {
     }
 
-    private static String removingCitizenFromWork(String name) {
-        return "";
+    private boolean hasTileCitizen(int x, int y) {
+        Tile tile = game.getMap()[x][y];
+        return tile.isThereCitizen();
     }
 
-    private static String unemployedCitizenSection(String name) {
+    private Civilization ownerTile(int x, int y) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                for (Tile tile : city.getCityTiles()) {
+                    if (tile.getX() == x && tile.getY() == y)
+                        return civilization;
+                }
+            }
+        }
+        return null;
+    }
+
+    public String removingCitizenFromWork(int x, int y) {
+        game = GameController.getInstance().getGame();
+        City city ;
+        if((city = game.getSelectedCity())==null)
+            return "select city";
+        if (isXTileValid(x))
+            return "x is out of map";
+        if (isYTileValid(y))
+            return "y is out of map";
+        else if(ownerTile(x,y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x,y).getName()))
+            return "This tile is not for this civilization";
+        else if(!hasTileCitizen(x,y))
+            return "This tile has not citizen";
+        else{
+            Tile tile = game.getMap()[x][y];
+            tile.setThereCitizen(false);
+            city.increaseCitizen(1);
+            updateCity();
+            return "Citizen removed from work";
+        }
+
+    }
+
+    private static String unemployedCitizenSection(int x, int y) {
         return "";
     }
 
@@ -160,7 +216,7 @@ public class CityController {
 
     private boolean doesCityHaveNeededResources(City selectedCity, MilitaryUnit militaryUnit) {
         for (Tile tile : selectedCity.getCityTiles()) {
-            if (tile.getResource().equals(militaryUnit.getNeededResource()))
+            if (tile.getResource().getName().equals(militaryUnit.getNeededResource().getName()))
                 return true;
         }
         return false;

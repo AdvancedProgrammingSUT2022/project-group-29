@@ -16,7 +16,7 @@ public class City {
     private MilitaryUnit militaryUnit = null;
     private int hitPoint;
     private ArrayList<Tile> cityTiles = new ArrayList<>();
-
+    private int citizen;
 
     public City(String name, Civilization civilization, ArrayList<Tile> cityTiles) {
         this.name = name;
@@ -29,6 +29,7 @@ public class City {
         this.production = 0;
         this.hitPoint = 20;
         this.population = 1;
+        this.citizen = 0;
     }
 
     public void setName(String name) {
@@ -106,5 +107,16 @@ public class City {
 
     public int getHitPoint() {
         return hitPoint;
+    }
+
+    public int getCitizen() {
+        return citizen;
+    }
+
+    public void increaseCitizen(int amount) {
+        this.citizen += amount;
+    }
+    public void decreaseCitizen(int amount) {
+        this.citizen -= amount;
     }
 }

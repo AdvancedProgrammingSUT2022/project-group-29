@@ -428,8 +428,26 @@ public class GameMenu {
             cityAttack(matcher);
         else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_CREATE)) != null)
             cityCreate(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.LOCK_CITIZEN_TO_TILE)) != null)
+            cityLockingCitizenToTile(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.REMOVE_CITIZEN_FROM_TILE)) != null)
+            cityRemoveCitizenFromTile(matcher);
         else
             err();
+    }
+
+    private void cityRemoveCitizenFromTile(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().removingCitizenFromWork(x, y));
+
+    }
+
+    private void cityLockingCitizenToTile(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().lockingCitizenToTile(x, y));
+
     }
 
     private void cityCreate(Matcher matcher) {

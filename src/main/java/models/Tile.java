@@ -10,7 +10,7 @@ public class Tile {
     private Resource resource;
     private Unit civilian;
     private MilitaryUnit militaryUnit;
-
+    private boolean isThereCitizen;
     private Improvement improvement;
     private int movementCost;
 
@@ -72,5 +72,13 @@ public class Tile {
 
     public Unit getCivilian() {
         return civilian;
+    }
+
+    public boolean isThereCitizen() {
+        return isThereCitizen;
+    }
+
+    public void setThereCitizen(boolean thereCitizen) {
+        isThereCitizen = thereCitizen;
     }
 }
