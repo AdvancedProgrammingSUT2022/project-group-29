@@ -14,6 +14,7 @@ public class Civilization {
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
     private String color;
+    private Technology currentTechnology = null;
 
     public Civilization(User leader) {
         Leader = leader;
@@ -68,9 +69,18 @@ public class Civilization {
     public String getName() {
         return name;
     }
-    public void addCityToCivilization(City city) {
-        cities.add(city);
+
+
+    public Technology getCurrentTechnology() {
+        return currentTechnology;
     }
 
+    public void setCurrentTechnology(Technology currentTechnology) {
+        this.currentTechnology = currentTechnology;
+    }
+
+    public void addCity(City city) {
+        cities.add(city);
+    }
 
 }

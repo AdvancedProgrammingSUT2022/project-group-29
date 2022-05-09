@@ -1,5 +1,7 @@
 package models;
 
+import controllers.GameController;
+
 import java.util.ArrayList;
 
 public class City {
@@ -19,10 +21,11 @@ public class City {
     private ArrayList<Tile> cityTiles = new ArrayList<>();
     private int citizen;
 
-    public City(String name, Civilization civilization, ArrayList<Tile> cityTiles) {
+    public City(String name, Civilization civilization, int x, int y) {
         this.name = name;
         this.civilization = civilization;
-        this.cityTiles = cityTiles;
+        this.x = x;
+        this.y = y;
         this.happiness = 0;
         this.food = 0;
         this.gold = 0;
@@ -30,6 +33,12 @@ public class City {
         this.production = 0;
         this.hitPoint = 20;
         this.population = 1;
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                this.cityTiles.add(GameController.getInstance().getGame().getMap()[i][j]);
+            }
+        }
         this.citizen = 0;
         this.science = 0;
     }
@@ -41,11 +50,6 @@ public class City {
     public Civilization getCivilization() {
         return civilization;
     }
-
-    public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
-    }
-
 
     public String getName() {
         return name;
@@ -76,6 +80,7 @@ public class City {
     }
 
     public void setCivilian(Unit civilian) {
+        GameController.getInstance().getGame().getMap()[x][y].setCivilian(civilian);
         this.civilian = civilian;
     }
 
@@ -84,6 +89,7 @@ public class City {
     }
 
     public void setMilitaryUnit(MilitaryUnit militaryUnit) {
+        GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(militaryUnit);
         this.militaryUnit = militaryUnit;
     }
 
@@ -128,6 +134,4 @@ public class City {
     public void addTileToCity(Tile tile) {
         this.cityTiles.add(tile);
     }
-
-
 }

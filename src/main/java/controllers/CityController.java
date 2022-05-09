@@ -4,8 +4,8 @@ import enums.modelsEnum.MilitaryUnitsEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.regex.Matcher;
+
 
 public class CityController {
     private static CityController instance = null;
@@ -25,27 +25,6 @@ public class CityController {
     nonCombatUnitsEnum nonCombatUnitsEnum;
     Unit civilianUnit;
     StringBuilder sb = new StringBuilder();
-
-    public String createCity(String cityName, int x, int y) {
-        game = GameController.getInstance().getGame();
-        if (isXTileValid(x))
-            return "x is out of map";
-        if (isYTileValid(y))
-            return "y is out of map";
-        else if (game.getSelectedNonCombatUnit() == null ||
-                !game.getSelectedNonCombatUnit().getName().equals("settler"))
-            return "nonSettler can not create City";
-        else if (!isTileEmpty(game, x, y))
-            return "There is a city in this Tile";
-        else {
-            ArrayList<Tile> tileNewCity = new ArrayList<Tile>();
-            tileNewCity.add(new Tile(x, y));
-            City city = new City(cityName, game.getCurrentCivilization(), tileNewCity);
-            game.getCurrentCivilization().addCityToCivilization(city);
-            game.setSelectedNonCombatUnit(null);
-            return "City created successfully";
-        }
-    }
 
     private static boolean isCityNameExist(Game game, String cityName) {
         for (Civilization civilization : game.getCivilizations()) {
@@ -155,7 +134,7 @@ public class CityController {
             return "y is out of map";
         else if (ownerTile(x, y) != null)
             return "This tile has owner";
-        else if ((tile= game.getMap()[x][y]).getValue() > city.getGold())
+        else if ((tile = game.getMap()[x][y]).getValue() > city.getGold())
             return "gold is not enough";
         else {
             city.addTileToCity(tile);
@@ -201,10 +180,13 @@ public class CityController {
                 return "gold is not enough";
             else if (selectedCity.getMilitaryUnit() != null)
                 return "a military unit exit in city";
-            else if (!(civilization = selectedCity.getCivilization()).getTechnologies().contains
-                    ((militaryUnit = new MilitaryUnit(militaryUnitEnum)).getNeededTechnology()))
-                return "do not have needed technology";
-            else if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
+            civilization = selectedCity.getCivilization();
+            militaryUnit = new MilitaryUnit(militaryUnitEnum);
+            for (Technology technology : civilization.getTechnologies()) {
+                if (!technology.getName().equals(militaryUnit.getNeededTechnology().getName()))
+                    return "do not have needed technology";
+            }
+            if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
                 return "do not have needed resources";
             else
                 addMilitaryUnitToCity();
@@ -222,17 +204,13 @@ public class CityController {
     }
 
     private void addCivilianToCity() {
-        for (Tile tile : selectedCity.getCityTiles()) {
-            tile.setCivilian(civilianUnit = new Unit(nonCombatUnitsEnum));
-        }
+        selectedCity.setCivilian(civilianUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
         civilization.addCivilianToCity(civilianUnit);
     }
 
     private void addMilitaryUnitToCity() {
-        for (Tile tile : selectedCity.getCityTiles()) {
-            tile.setMilitaryUnit(militaryUnit);
-        }
+        selectedCity.setMilitaryUnit(militaryUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
         civilization.addMilitaryUnit(militaryUnit);
     }
@@ -312,12 +290,38 @@ public class CityController {
         Game game = GameController.getInstance().getGame();
         if (game.getCurrentCivilization() != selectedCity.getCivilization()) {
             return "choose city in your civilization";
+
         } else if (isXTileValid(x)) {
             return "x is out of map";
         } else if (isYTileValid(y)) {
+
             return "y is out of map";
         } else
             return "attack successful";
+    }
+
+    public String createCity(Matcher matcher) {
+        if (GameController.getInstance().getGame().getSelectedNonCombatUnit() == null ||
+                !GameController.getInstance().getGame().getSelectedNonCombatUnit().getName().equals("settler"))
+            return "no selected settler unit";
+
+        String name = matcher.group("name");
+        int x = GameController.getInstance().getGame().getSelectedNonCombatUnit().getX();
+        int y = GameController.getInstance().getGame().getSelectedNonCombatUnit().getY();
+
+        for (Civilization civilizations : GameController.getInstance().getGame().getCivilizations()) {
+            for (City civilizationsCity : civilizations.getCities()) {
+                for (Tile civilizationsCityCityTile : civilizationsCity.getCityTiles()) {
+                    if (civilizationsCityCityTile.getX() == x && civilizationsCityCityTile.getY() == y)
+                        return "there is already a city";
+                }
+            }
+        }
+
+
+        City city = new City(name, GameController.getInstance().getGame().getCurrentCivilization(), x, y);
+        GameController.getInstance().getGame().getCurrentCivilization().addCity(city);
+        return "city created successfully";
     }
 
     public static boolean isXTileValid(int x) {
@@ -350,5 +354,6 @@ public class CityController {
                     "science: " + selectedCity.getScience();
         }
         return "first select a city!";
+
     }
 }
