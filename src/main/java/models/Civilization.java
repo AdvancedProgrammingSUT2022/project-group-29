@@ -70,6 +70,7 @@ public class Civilization {
         return name;
     }
 
+
     public Technology getCurrentTechnology() {
         return currentTechnology;
     }
@@ -81,4 +82,5 @@ public class Civilization {
     public void addCity(City city) {
         cities.add(city);
     }
+
 }

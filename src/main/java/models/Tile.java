@@ -10,9 +10,10 @@ public class Tile {
     private Resource resource;
     private Unit civilian;
     private MilitaryUnit militaryUnit;
-
+    private boolean isThereCitizen;
     private Improvement improvement;
     private int movementCost;
+    private int value = 0;
 
     public Tile(int x, int y) {
         this.x = x;
@@ -72,5 +73,21 @@ public class Tile {
 
     public Unit getCivilian() {
         return civilian;
+    }
+
+    public boolean isThereCitizen() {
+        return isThereCitizen;
+    }
+
+    public void setThereCitizen(boolean thereCitizen) {
+        isThereCitizen = thereCitizen;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

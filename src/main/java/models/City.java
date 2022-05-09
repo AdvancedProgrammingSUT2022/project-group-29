@@ -11,20 +11,19 @@ public class City {
     private int gold;
     private int production;
     private int food;
-    private boolean isCapital = false;
     private double combatStrength;
     private int population;
+    private int science;
     private int x, y;
     private Unit civilian = null;
     private MilitaryUnit militaryUnit = null;
     private int hitPoint;
     private ArrayList<Tile> cityTiles = new ArrayList<>();
+    private int citizen;
 
-
-    public City(String name, Civilization civilization, boolean isCapital, int x, int y) {
+    public City(String name, Civilization civilization, int x, int y) {
         this.name = name;
         this.civilization = civilization;
-        this.isCapital = isCapital;
         this.x = x;
         this.y = y;
         this.happiness = 0;
@@ -34,11 +33,14 @@ public class City {
         this.production = 0;
         this.hitPoint = 20;
         this.population = 1;
+
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 this.cityTiles.add(GameController.getInstance().getGame().getMap()[i][j]);
             }
         }
+        this.citizen = 0;
+        this.science = 0;
     }
 
     public void setName(String name) {
@@ -48,11 +50,6 @@ public class City {
     public Civilization getCivilization() {
         return civilization;
     }
-
-    public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
-    }
-
 
     public String getName() {
         return name;
@@ -83,6 +80,7 @@ public class City {
     }
 
     public void setCivilian(Unit civilian) {
+        GameController.getInstance().getGame().getMap()[x][y].setCivilian(civilian);
         this.civilian = civilian;
     }
 
@@ -91,6 +89,7 @@ public class City {
     }
 
     public void setMilitaryUnit(MilitaryUnit militaryUnit) {
+        GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(militaryUnit);
         this.militaryUnit = militaryUnit;
     }
 
@@ -106,10 +105,6 @@ public class City {
         return food;
     }
 
-    public boolean isCapital() {
-        return isCapital;
-    }
-
     public double getCombatStrength() {
         return combatStrength;
     }
@@ -120,5 +115,23 @@ public class City {
 
     public int getHitPoint() {
         return hitPoint;
+    }
+
+    public int getCitizen() {
+        return citizen;
+    }
+
+    public void increaseCitizen(int amount) {
+        this.citizen += amount;
+    }
+    public void decreaseCitizen(int amount) {
+        this.citizen -= amount;
+    }
+
+    public int getScience() {
+        return science;
+    }
+    public void addTileToCity(Tile tile) {
+        this.cityTiles.add(tile);
     }
 }

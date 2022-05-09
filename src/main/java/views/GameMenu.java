@@ -431,8 +431,53 @@ public class GameMenu {
             cityShowInformation();
         else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_ATTACK)) != null)
             cityAttack(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.LOCK_CITIZEN_TO_TILE)) != null)
+            cityLockingCitizenToTile(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.REMOVE_CITIZEN_FROM_TILE)) != null)
+            cityRemoveCitizenFromTile(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SCREEN_MENU)) != null)
+            cityScreenMenu(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_RESOURCES_OUTPUT)) != null)
+            cityResourcesOutput(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_UNEMPLOYED_CITIZEN_SECTION)) != null)
+            unemployedCitizenSection(matcher);
+        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_BUY_TILE)) != null)
+            cityBuyTile(matcher);
         else
             err();
+    }
+
+    private void cityBuyTile(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().cityBuyTile(x, y));
+
+    }
+
+    private void unemployedCitizenSection(Matcher matcher) {
+        System.out.println(CityController.getInstance().unemployedCitizenSection());
+    }
+
+    private void cityResourcesOutput(Matcher matcher) {
+        System.out.println(CityController.getInstance().cityResourcesOutput());
+    }
+
+    private void cityScreenMenu(Matcher matcher) {
+        System.out.println(CityController.getInstance().cityScreenMenu());
+    }
+
+    private void cityRemoveCitizenFromTile(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().removingCitizenFromWork(x, y));
+
+    }
+
+    private void cityLockingCitizenToTile(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("xPoint"));
+        int y = Integer.parseInt(matcher.group("yPoint"));
+        System.out.println(CityController.getInstance().lockingCitizenToTile(x, y));
+
     }
 
     private void cityAttack(Matcher matcher) {
