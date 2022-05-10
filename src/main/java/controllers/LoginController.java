@@ -1,12 +1,14 @@
 package controllers;
 
 
+
 import models.User;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -58,8 +60,6 @@ public class LoginController {
             return "";
         return "menu navigation is not possible";
     }
-
-
 
     /*public void writeUserInfo() {
         try {

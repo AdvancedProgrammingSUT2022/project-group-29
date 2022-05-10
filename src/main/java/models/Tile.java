@@ -11,6 +11,9 @@ public class Tile {
     private Unit civilian;
     private MilitaryUnit militaryUnit;
     private boolean isThereCitizen;
+
+    private ArrayList<Tile> neighbourTiles ;
+    private  boolean[] rivers;
     private Improvement improvement;
     private int movementCost;
     private int value = 0;
@@ -21,6 +24,11 @@ public class Tile {
         this.terrain = null;
         this.feature = null;
         this.resource = null;
+        this.neighbourTiles = null;
+        this.rivers = new boolean[6];
+        for (int i = 0; i < 6; i++) {
+            rivers[i] = false;
+        }
     }
 
     public void setTerrain(TerrainAndFeature terrain) {
@@ -43,6 +51,10 @@ public class Tile {
         this.militaryUnit = militaryUnit;
     }
 
+    public void setNeighbourTiles(ArrayList<Tile> neighbourTiles) {
+        this.neighbourTiles = neighbourTiles;
+    }
+
     public TerrainAndFeature getTerrain() {
         return terrain;
     }
@@ -53,6 +65,18 @@ public class Tile {
 
     public Resource getResource() {
         return resource;
+    }
+
+    public ArrayList<Tile> getNeighbourTiles() {
+        return neighbourTiles;
+    }
+
+    public boolean[] getRivers() {
+        return rivers;
+    }
+
+    public void addRiver(int x) {
+        this.rivers[x] = true;
     }
 
     public int getX() {
@@ -82,7 +106,6 @@ public class Tile {
     public void setThereCitizen(boolean thereCitizen) {
         isThereCitizen = thereCitizen;
     }
-
     public int getValue() {
         return value;
     }
