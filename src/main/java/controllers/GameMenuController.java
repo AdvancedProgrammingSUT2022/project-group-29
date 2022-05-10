@@ -48,7 +48,7 @@ public class GameMenuController {
         if (y < 0 ||
                 y >= GameController.getInstance().getLENGTH())
             return "invalid y";
-        if (GameController.getInstance().getGame().getMap()[x][y].getMilitaryUnit() == null)
+        if (GameController.getInstance().getGame().getMap()[x][y].getCivilian() == null)
             return "there is no unit";
         for (Unit unit : GameController.getInstance().getGame().getCurrentCivilization().getUnits()) {
             if (unit.getX() == x && unit.getY() == y) {

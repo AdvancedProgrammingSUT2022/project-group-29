@@ -22,22 +22,27 @@ public class GameController {
 
     public void startGame(ArrayList<User> users) {
         Tile[][] map = new Tile[WIDTH][LENGTH];
+        game = new Game(null, map);
         MapController.getInstance().createMap(map, WIDTH, LENGTH);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations, users);
-        game = new Game(civilizations, -4000, map);
+        game.setCivilizations(civilizations);
     }
 
     private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
+        int x = 5,y = 5;
         for (User user : users) {
-            Civilization civilization = new Civilization(user);
+            Civilization civilization = new Civilization(user, x, y);
             civilizations.add(civilization);
             user.setCivilization(civilization);
+            x += 5;
+            y += 5;
         }
     }
 
     public String cheatTurn(int turn) {
-
+        for (int i = 0; i < turn; i++)
+            this.game.nextTurn();
         return null;
     }
 

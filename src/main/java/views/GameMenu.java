@@ -69,13 +69,16 @@ public class GameMenu {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
         if (xBegin % 2 == 0) xBegin++;
         if (yBegin % 2 == 0) yBegin++;
+        System.out.println();
+        System.out.println(xBegin);
+        System.out.println();
         for (int i = (xBegin + 1) * 6; i < (xEnd + 1) * 6 + 1; i++) {
             for (int j = (yBegin + 1) * 10; j < 10 * (yEnd + 1) + 2; j++) {
 
                 if (i % 6 == 0) {
 
                     if (j % 20 == 10) {
-                        j = printUnits(xEnd, yEnd, i, j, whiteColor);
+                        j = printUnits(xEnd, yEnd, i - 6, j, whiteColor);
                     }
                     if (j % 20 >= 2 && j % 20 < 10)
                         System.out.print("-");
@@ -89,17 +92,16 @@ public class GameMenu {
                     } else if (j % 20 == 10) {
                         String color = "", f = " ";
 
-                        if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
-                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
+                        if (!MapController.getInstance().isTerrainVisible(i / 6 - 1, j / 10))
+                            color = (i / 6 - 1< (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
                         else {
                             TerrainAndFeature feature;
-                            if ((feature = GameController.getInstance().getGame().getMap()[i /6][j / 10].getFeature()) != null)
+                            if ((feature = GameController.getInstance().getGame().getMap()[i / 6 - 1][j / 10].getFeature()) != null)
                                 f = feature.getColor();
                         }
                         System.out.print("\u001B[0m\\" + color + "    " + f + "     \033[000m");
                         j += 10;
-                    }
-                    else
+                    } else
                         System.out.print(" ");
 
                 } else if (i % 6 == 2) {
@@ -142,7 +144,7 @@ public class GameMenu {
                             color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
                         else {
                             TerrainAndFeature feature;
-                            if ((feature = GameController.getInstance().getGame().getMap()[i /6][j / 10].getFeature()) != null)
+                            if ((feature = GameController.getInstance().getGame().getMap()[i / 6][j / 10].getFeature()) != null)
                                 f = feature.getColor();
                         }
                         System.out.print("\033[00m\\");
@@ -161,7 +163,7 @@ public class GameMenu {
                     else if (j % 20 == 10) {
                         String s = " ", color = "";
                         if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
-                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor: "";
+                            color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
                         else {
                             if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
                                 s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
@@ -179,6 +181,60 @@ public class GameMenu {
 
             System.out.println();
         }
+    }
+
+    private int printStuff(int xEnd, int yEnd, Tile[][] tiles, int i, int j, String whiteColor) {
+        StringBuilder color = new StringBuilder("");
+        if (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) && !MapController.getInstance().isTerrainVisible(i / 6, j / 10))
+            System.out.print("          ");
+        else {
+            String terrainColor = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
+            String m = "  ", u = "  ", s = " ", f = " ";
+            String mColor = "";
+            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null) {
+                for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+                    for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                        if (militaryUnit.getX() == i / 6 && militaryUnit.getY() == j / 10) {
+                            mColor = civilization.getColor();
+                            break;
+                        }
+                    }
+                }
+                m = mColor +
+                        GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit().
+                                getName().substring(0, 2) + "\033[000m";
+            }
+
+            String uColor = "";
+            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian() != null) {
+                for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+                    for (Unit unit : civilization.getUnits()) {
+                        if (unit.getX() == i / 6 && unit.getY() == j / 10) {
+                            uColor = civilization.getColor();
+                            break;
+                        }
+                    }
+                }
+                u = uColor + GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian().
+                        getName().substring(0, 2) + "\033[000m";
+            }
+
+            if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
+                s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
+                        GameController.getInstance().getCivilization(i / 6, j / 10).LeaderName() +
+                        "\033[000m";
+
+            }
+
+            TerrainAndFeature feature;
+            if ((feature = GameController.getInstance().getGame().getMap()[i / 6][j / 10].getFeature()) != null)
+                f = feature.getColor();
+            color.append(m).append(terrainColor).append(" \033[000m").append(u).append(terrainColor).
+                    append(" \033[000m").append(s).append(terrainColor).append(" ").append(f).append(" \033[000m");
+
+            System.out.print(color);
+        }
+        return j + 10;
     }
 
     private int printTerrain(int xEnd, int yEnd, Tile[][] tiles, int i, int j, String whiteColor) {
@@ -199,7 +255,7 @@ public class GameMenu {
             color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
         else {
             String mColor = "";
-            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null)
+            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null) {
                 for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
                     for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
                         if (militaryUnit.getX() == i / 6 && militaryUnit.getY() == j / 10) {
@@ -208,13 +264,13 @@ public class GameMenu {
                         }
                     }
                 }
-            m = mColor +
-                    GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit().
-                            getName().substring(0, 2) + "\033[000m";
-
+                m = mColor +
+                        GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit().
+                                getName().substring(0, 2) + "\033[000m";
+            }
 
             String uColor = "";
-            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null)
+            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian() != null) {
                 for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
                     for (Unit unit : civilization.getUnits()) {
                         if (unit.getX() == i / 6 && unit.getY() == j / 10) {
@@ -223,9 +279,9 @@ public class GameMenu {
                         }
                     }
                 }
-            u = uColor +
-                    GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian().
-                            getName().substring(0, 2) + "\033[000m";
+                u = uColor + GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian().
+                        getName().substring(0, 2) + "\033[000m";
+            }
         }
         if (j / 10 < (yEnd + 1))
             System.out.print(color + " " + m + "     " + u + "  " + "\033[000m");
@@ -249,6 +305,8 @@ public class GameMenu {
             showMilitary();
         else if (newCommand.equals("economic"))
             showEconomic();
+        else
+            err();
     }
 
     private void showEconomic() {
@@ -266,7 +324,7 @@ public class GameMenu {
 
     private void showCities() {
         Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
-        System.out.println("capital: " + civilization.getCapital().getName());
+        System.out.println("capital: " + (civilization.getCapital() != null ? civilization.getCapital().getName() : " no capital"));
         for (City city : civilization.getCities()) {
             System.out.println(city.getName());
         }
@@ -278,11 +336,14 @@ public class GameMenu {
         for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
             System.out.println(militaryUnit.toString());
         }
+        for (Unit unit : civilization.getUnits()) {
+            System.out.println(unit.toString());
+        }
     }
 
     private void showResearch() {
         Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
-        System.out.println("discovered technologies: ");
+        System.out.println("discovered technologies: " + (civilization.getTechnologies().size() == 0 ? "nothing" : ""));
         for (Technology technology : civilization.getTechnologies()) {
             System.out.println(technology.getName());
         }
@@ -331,7 +392,7 @@ public class GameMenu {
             System.out.println(UnitController.getInstance().unitSetupRanged());
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.ATTACK)) != null)
             System.out.println(GameController.getInstance().combat(matcher));
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_CREATE)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_FOUND_CITY)) != null)
             System.out.println(GameController.getInstance().foundCity(matcher));
         else if (command.equals("unit cancel mission"))
             System.out.println(GameController.getInstance().cancelMission());
@@ -345,6 +406,8 @@ public class GameMenu {
             System.out.println(UnitController.getInstance().removeRoute());
         else if (command.equals("unit repair"))
             System.out.println(UnitController.getInstance().repair());
+        else if (command.equals("unit delete"))
+            System.out.println(UnitController.getInstance().deleteUnit());
         else
             err();
     }
@@ -427,21 +490,21 @@ public class GameMenu {
             cityShowResources();
         else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_UNIT)) != null)
             cityShowUnit();
-        else if((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_INFORMATION)) != null)
+        else if ((GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SHOW_INFORMATION)) != null)
             cityShowInformation();
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_ATTACK)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_ATTACK)) != null)
             cityAttack(matcher);
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.LOCK_CITIZEN_TO_TILE)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.LOCK_CITIZEN_TO_TILE)) != null)
             cityLockingCitizenToTile(matcher);
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.REMOVE_CITIZEN_FROM_TILE)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.REMOVE_CITIZEN_FROM_TILE)) != null)
             cityRemoveCitizenFromTile(matcher);
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SCREEN_MENU)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SCREEN_MENU)) != null)
             cityScreenMenu(matcher);
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_RESOURCES_OUTPUT)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_RESOURCES_OUTPUT)) != null)
             cityResourcesOutput(matcher);
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_UNEMPLOYED_CITIZEN_SECTION)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_UNEMPLOYED_CITIZEN_SECTION)) != null)
             unemployedCitizenSection(matcher);
-        else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_BUY_TILE)) != null)
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_BUY_TILE)) != null)
             cityBuyTile(matcher);
         else
             err();
