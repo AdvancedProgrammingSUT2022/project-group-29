@@ -52,6 +52,7 @@ public class GameMenu {
                 System.out.println(GameController.getInstance().cheatGold(Integer.parseInt(matcher.group("amount"))));
             else
                 err();
+            showMap(xMap - 5, yMap - 5, xMap + 5, yMap + 5);
         }
 
         MainMenu.getInstance().run(scanner);
