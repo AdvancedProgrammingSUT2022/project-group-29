@@ -148,6 +148,15 @@ public class UnitController {
     public void changePlaceAfterTurnAllUnits() {
         for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
             for (int i = 0; i < civilization.getUnits().size(); i++) {
+                civilization.getUnits().get(i).setMovement(civilization.getUnits().get(i).getMaxMovement());
+            }
+            for (int i = 0; i < civilization.getMilitaryUnits().size(); i++) {
+                civilization.getMilitaryUnits().get(i).setMovement(civilization.getMilitaryUnits().get(i).getMaxMovement());
+            }
+        }
+
+        for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+            for (int i = 0; i < civilization.getUnits().size(); i++) {
                 changePlaceAfterTurn(civilization.getUnits().get(i));
             }
             for (int i = 0; i < civilization.getMilitaryUnits().size(); i++) {

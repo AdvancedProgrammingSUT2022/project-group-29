@@ -12,7 +12,7 @@ public enum GameMenuCommands {
     UNIT_FOUND_CITY("unit found city (?<name>\\S+)"),
     ATTACK("unit attack (?<x>\\d{1,2}) (?<y>\\d{1,2})"),
     SHOW_MAP1("map show (?<x>\\d{1,2}) (?<y>\\d{1,2})"),
-    SHOW_MAP2("map show (?<name>)\\S+"),
+    SHOW_MAP2("map show (?<name>.+)"),
     SHOW_MAP3("map show"),
     MOVE_MAP("map move (?<direction>right|left|up|down) (?<c>\\d+)"),
     INCREASE_TURN("increase -turn (?<amount>\\d+)"),

@@ -323,9 +323,25 @@ public class CityController {
 
         City city = new City(name, GameController.getInstance().getGame().getCurrentCivilization(), x, y);
         GameController.getInstance().getGame().getCurrentCivilization().addCity(city);
+        destroySettler();
         if (GameController.getInstance().getGame().getCurrentCivilization().getCapital() == null)
             GameController.getInstance().getGame().getCurrentCivilization().setCapital(city);
         return "city created successfully";
+    }
+
+    private void destroySettler() {
+        int x = GameController.getInstance().getGame().getSelectedNonCombatUnit().getX();
+        int y = GameController.getInstance().getGame().getSelectedNonCombatUnit().getY();
+        for (int i = 0; i < GameController.getInstance().getGame().getCurrentCivilization().getUnits().size(); i++) {
+            if (GameController.getInstance().getGame().getCurrentCivilization().getUnits().get(i).getY() == y
+            && GameController.getInstance().getGame().getCurrentCivilization().getUnits().get(i).getX() == x) {
+                GameController.getInstance().getGame().getCurrentCivilization().getUnits().remove(i);
+                GameController.getInstance().getGame().getMap()[x][y].setCivilian(null);
+                GameController.getInstance().getGame().setSelectedNonCombatUnit(null);
+                return;
+            }
+
+        }
     }
 
     public static boolean isXTileValid(int x) {

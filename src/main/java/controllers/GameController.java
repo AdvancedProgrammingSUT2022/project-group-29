@@ -43,7 +43,7 @@ public class GameController {
     public String cheatTurn(int turn) {
         for (int i = 0; i < turn; i++)
             this.game.nextTurn();
-        return null;
+        return "successful";
     }
 
     public String cheatGold(int turn) {
@@ -76,9 +76,11 @@ public class GameController {
 
     public Civilization getCivilization(int x, int y) {
         for (Civilization civilization : game.getCivilizations()) {
-            for (Tile tile : civilization.getTiles()) {
-                if (tile.getX() == x && tile.getY() == y)
-                    return civilization;
+            for (City city : civilization.getCities()) {
+                for (Tile cityTile : city.getCityTiles()) {
+                    if (x == cityTile.getX() && y == cityTile.getY())
+                        return civilization;
+                }
             }
         }
         return null;

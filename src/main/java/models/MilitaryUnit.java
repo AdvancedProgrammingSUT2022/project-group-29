@@ -9,6 +9,7 @@ public class MilitaryUnit {
     private int fullHp;
     private String name;
     private int movement;
+    private final int maxMovement;
     private String combatType;
     private int combatStrength;
     private int rangedCombatStrength, range;
@@ -21,6 +22,7 @@ public class MilitaryUnit {
         this.cost = type.getCost();
         this.name = type.getName();
         this.movement = type.getMovement();
+        this.maxMovement = type.getMovement();
         this.combatType = type.getCombatType();
         this.combatStrength = type.getCombatStrength();
         this.x = x;
@@ -116,5 +118,9 @@ public class MilitaryUnit {
 
     public int getFullHp() {
         return fullHp;
+    }
+
+    public int getMaxMovement() {
+        return maxMovement;
     }
 }

@@ -13,6 +13,7 @@ public class Unit {
     private int cost;
     private String type;
     private int movement;
+    private final int maxMovement;
     private String combatType;
     private int xEnd, yEnd;
     private String state = "";
@@ -21,6 +22,7 @@ public class Unit {
         this.cost = type.getCost();
         this.name = type.getName();
         this.movement = type.getMovement();
+        this.maxMovement = type.getMovement();
         this.combatType = type.getCombatType();
         this.combatStrength = type.getCombatStrength();
         this.rangedCombatStrength = type.getRangedCombatStrength();
@@ -81,6 +83,10 @@ public class Unit {
 
     public String getName() {
         return name;
+    }
+
+    public int getMaxMovement() {
+        return maxMovement;
     }
 
     @Override

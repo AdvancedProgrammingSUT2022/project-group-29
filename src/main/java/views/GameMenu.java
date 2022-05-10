@@ -52,7 +52,7 @@ public class GameMenu {
                 System.out.println(GameController.getInstance().cheatGold(Integer.parseInt(matcher.group("amount"))));
             else
                 err();
-            showMap(xMap - 5, yMap - 5, xMap + 5, yMap + 5);
+            //showMapWithoutPosition();
         }
 
         MainMenu.getInstance().run(scanner);
@@ -72,9 +72,6 @@ public class GameMenu {
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
         if (xBegin % 2 == 0) xBegin++;
         if (yBegin % 2 == 0) yBegin++;
-        System.out.println();
-        System.out.println(xBegin);
-        System.out.println();
         for (int i = (xBegin + 1) * 6; i < (xEnd + 1) * 6 + 1; i++) {
             for (int j = (yBegin + 1) * 10; j < 10 * (yEnd + 1) + 2; j++) {
 
@@ -473,6 +470,15 @@ public class GameMenu {
     }
 
     private void showMapByCityName(Matcher matcher) {
+        City city;
+        System.out.println();
+        if ((city = MapController.getInstance().getCity(matcher)) == null)
+            System.out.println("no city with this name");
+        else {
+            xMap = city.getX();
+            yMap = city.getY();
+            showMapWithoutPosition();
+        }
     }
 
     private void showMapByPosition(Matcher matcher) {

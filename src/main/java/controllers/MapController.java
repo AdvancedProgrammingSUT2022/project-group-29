@@ -10,6 +10,7 @@ import models.Tile;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class MapController {
     private static MapController instance = null;
@@ -561,5 +562,14 @@ public class MapController {
 
     private Boolean isValidTile(int i, int j) {
         return i >= 0 && i < WIDTH && j >= 0 && j < LENGTH;
+    }
+
+    public City getCity(Matcher matcher) {
+        for (City city : GameController.getInstance().getGame().getCurrentCivilization().getCities()) {
+            if (city.getName().equals(matcher.group("name"))) {
+                return city;
+            }
+        }
+        return null;
     }
 }
