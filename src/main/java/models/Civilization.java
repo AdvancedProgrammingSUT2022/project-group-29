@@ -83,4 +83,10 @@ public class Civilization {
         cities.add(city);
     }
 
+    public void increaseHappiness(int amount) {
+        this.happiness += amount;
+    }
+    public void decreaseHappiness(int amount) {
+        this.happiness += amount;
+    }
 }

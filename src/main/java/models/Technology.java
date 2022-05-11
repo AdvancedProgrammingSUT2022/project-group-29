@@ -14,12 +14,13 @@ public class Technology {
     private String name;
     private int cost;
     private ArrayList<Technology> neededTechnologies;
+    private ArrayList<Technology> leadsToTechnologies;
     public Technology(TechnologyEnum type) {
         this.type = type.getType();
         this.name = type.getName();
         this.cost = type.getCost();
         this.neededTechnologies = type.getNeededTechnologies();
-
+        this.leadsToTechnologies = type.getLeadsToTechnologies();
     }
 
     public String getType() {
