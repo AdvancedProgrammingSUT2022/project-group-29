@@ -13,21 +13,24 @@ public class Unit {
     private int cost;
     private String type;
     private int movement;
+    private final int maxMovement;
     private String combatType;
     private int xEnd, yEnd;
     private String state = "";
 
-    public Unit(nonCombatUnitsEnum type) {
+    public Unit(nonCombatUnitsEnum type, int x, int y) {
         this.cost = type.getCost();
         this.name = type.getName();
         this.movement = type.getMovement();
+        this.maxMovement = type.getMovement();
         this.combatType = type.getCombatType();
         this.combatStrength = type.getCombatStrength();
-        ;
         this.rangedCombatStrength = type.getRangedCombatStrength();
         this.range = type.getRange();
         this.neededTechnology = type.getNeededTechnology();
         this.neededResource = type.getNeededResource();
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
@@ -79,6 +82,15 @@ public class Unit {
     }
 
     public String getName() {
-        return null;
+        return name;
+    }
+
+    public int getMaxMovement() {
+        return maxMovement;
+    }
+
+    @Override
+    public String toString() {
+        return "name: " + name + "  -  x , y: " + x + " , " + y;
     }
 }

@@ -1,36 +1,31 @@
 package models;
 
+import controllers.UnitController;
+
 import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Civilization> civilizations;
     private Civilization currentCivilization;
-    private int time;
     private Tile[][] map;
     private int turn;
     private MilitaryUnit selectedCombatUnit = null;
     private Unit selectedNonCombatUnit = null;
     private City selectedCity = null;
 
-    public Game(ArrayList<Civilization> civilizations, int time, Tile[][] map) {
+    public Game(ArrayList<Civilization> civilizations, Tile[][] map) {
         this.civilizations = civilizations;
-        this.currentCivilization = civilizations.get(0);
-        this.time = time;
         this.map = map;
         this.turn = 0;
-        giveColor();
     }
 
     public void nextTurn() {
+        UnitController.getInstance().changePlaceAfterTurnAllUnits();
         currentCivilization = civilizations.get(++turn % civilizations.size());
     }
 
     public int getTurn() {
         return turn;
-    }
-
-    public int getTime() {
-        return time;
     }
 
     public ArrayList<Civilization> getCivilizations() {
@@ -46,7 +41,6 @@ public class Game {
     }
 
     private void giveColor() {
-        String color = "\033[48;5;0m";
         for (int i = 0; i < civilizations.size(); i++) {
             civilizations.get(i).setColor("\033[48;5;" + (10*i) +  "m");
         }
@@ -74,5 +68,11 @@ public class Game {
 
     public City getSelectedCity() {
         return selectedCity;
+    }
+
+    public void setCivilizations(ArrayList<Civilization> civilizations) {
+        this.civilizations = civilizations;
+        this.currentCivilization = civilizations.get(0);
+        giveColor();
     }
 }

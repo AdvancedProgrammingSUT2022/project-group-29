@@ -2,29 +2,37 @@ package models;
 
 import enums.modelsEnum.MilitaryUnitsEnum;
 
-public class MilitaryUnit{
+public class MilitaryUnit {
     private int x, y;
     private int cost;
+    private int hp;
+    private int fullHp;
     private String name;
     private int movement;
+    private final int maxMovement;
     private String combatType;
     private int combatStrength;
     private int rangedCombatStrength, range;
     private Technology neededTechnology;
     private Resource neededResource;
     private int xEnd, yEnd;
-    private String state= "";
+    private String state = "";
 
-    public MilitaryUnit(MilitaryUnitsEnum type) {
+    public MilitaryUnit(MilitaryUnitsEnum type, int x, int y) {
         this.cost = type.getCost();
         this.name = type.getName();
         this.movement = type.getMovement();
+        this.maxMovement = type.getMovement();
         this.combatType = type.getCombatType();
-        this.combatStrength = type.getCombatStrength();;
+        this.combatStrength = type.getCombatStrength();
+        this.x = x;
+        this.y = y;
         this.rangedCombatStrength = type.getRangedCombatStrength();
         this.range = type.getRange();
+        this.hp = type.getHp();
         this.neededTechnology = type.getNeededTechnology();
         this.neededResource = type.getNeededResource();
+        this.fullHp = type.getHp();
     }
 
     public int getX() {
@@ -67,9 +75,17 @@ public class MilitaryUnit{
         this.yEnd = yEnd;
     }
 
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     @Override
     public String toString() {
-        return "name: " + name + "x , y: " + x + " , " + y;
+        return "name: " + name + "  -  x , y: " + x + " , " + y;
     }
 
     public String getState() {
@@ -100,5 +116,11 @@ public class MilitaryUnit{
         this.neededResource = neededResource;
     }
 
+    public int getFullHp() {
+        return fullHp;
+    }
 
+    public int getMaxMovement() {
+        return maxMovement;
+    }
 }

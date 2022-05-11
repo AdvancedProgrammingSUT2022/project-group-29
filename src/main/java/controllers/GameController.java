@@ -22,23 +22,28 @@ public class GameController {
 
     public void startGame(ArrayList<User> users) {
         Tile[][] map = new Tile[WIDTH][LENGTH];
+        game = new Game(null, map);
         MapController.getInstance().createMap(map, WIDTH, LENGTH);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations, users);
-        game = new Game(civilizations, -4000, map);
+        game.setCivilizations(civilizations);
     }
 
     private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
+        int x = 5,y = 5;
         for (User user : users) {
-            Civilization civilization = new Civilization(user);
+            Civilization civilization = new Civilization(user, x, y);
             civilizations.add(civilization);
             user.setCivilization(civilization);
+            x += 5;
+            y += 5;
         }
     }
 
     public String cheatTurn(int turn) {
-
-        return null;
+        for (int i = 0; i < turn; i++)
+            this.game.nextTurn();
+        return "successful";
     }
 
     public String cheatGold(int turn) {
@@ -71,9 +76,11 @@ public class GameController {
 
     public Civilization getCivilization(int x, int y) {
         for (Civilization civilization : game.getCivilizations()) {
-            for (Tile tile : civilization.getTiles()) {
-                if (tile.getX() == x && tile.getY() == y)
-                    return civilization;
+            for (City city : civilization.getCities()) {
+                for (Tile cityTile : city.getCityTiles()) {
+                    if (x == cityTile.getX() && y == cityTile.getY())
+                        return civilization;
+                }
             }
         }
         return null;

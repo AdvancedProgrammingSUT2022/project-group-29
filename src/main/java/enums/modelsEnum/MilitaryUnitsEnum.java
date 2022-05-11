@@ -6,33 +6,33 @@ import models.Resource;
 import models.Technology;
 
 public enum MilitaryUnitsEnum {
-    ARCHER("Ancient", "Archer", 70, "Archery", 4, 6, 2, 2, null, new Technology(TechnologyEnum.ARCHERY)),
-    CHARIOT_ARCHER("Ancient", "ChariotArcher", 60, "Mounted", 3, 6, 2, 4, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.THE_WHEEL)),
-    SCOUT("Ancient", "Scout", 25, "Recon", 4, 0, 0, 2, null, null),
-    SPEARMAN("Ancient", "Spearman", 50, "Melee", 7, 0, 0, 2, null, new Technology(TechnologyEnum.BRONZE_WORKING)),
-    WARRIOR("Ancient", "Warrior", 40, "Melee", 6, 0, 0, 2, null, null),
+    ARCHER("Ancient", "Archer", 70, "Archery", 4, 6, 2, 2, 10, null, new Technology(TechnologyEnum.ARCHERY)),
+    CHARIOT_ARCHER("Ancient", "ChariotArcher", 60, "Mounted", 3, 6, 2, 4, 15, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.THE_WHEEL)),
+    SCOUT("Ancient", "Scout", 25, "Recon", 4, 0, 0, 2, 10, null, null),
+    SPEARMAN("Ancient", "Spearman", 50, "Melee", 7, 0, 0, 2, 15, null, new Technology(TechnologyEnum.BRONZE_WORKING)),
+    WARRIOR("Ancient", "Warrior", 40, "Melee", 6, 0, 0, 2, 17, null, null),
 
-    CATAPULT("Classical", "Catapult", 100, "Siege", 4, 14, 2, 2, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.MATHEMATICS)),
-    HORSEMAN("Classical", "HorseMan", 80, "Mounted", 12, 0, 0, 4, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.HORSEBACK_RIDING)),
-    SWORDSMAN("Classical", "Swordsman", 80, "Melee", 11, 0, 0, 2, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.IRON_WORKING)),
+    CATAPULT("Classical", "Catapult", 100, "Siege", 4, 14, 2, 2, 20, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.MATHEMATICS)),
+    HORSEMAN("Classical", "HorseMan", 80, "Mounted", 12, 0, 0, 4, 25, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.HORSEBACK_RIDING)),
+    SWORDSMAN("Classical", "Swordsman", 80, "Melee", 11, 0, 0, 2, 27, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.IRON_WORKING)),
 
-    CROSSBOWMAN("Medieval", "Crossbowman", 120, "Archery", 6, 12, 2, 2, null, new Technology(TechnologyEnum.MACHINERY)),
-    KNIGHT("Medieval", "knight", 150, "Mounted", 18, 0, 0, 3, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.CHIVALRY)),
-    LONGSWORDSMAN("Medieval", "Longswordsman", 150, "Melee", 18, 0, 0, 3, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.STEEL)),
-    PIKEMAN("Medieval", "Pikeman", 100, "Melee", 10, 0, 0, 2, null, new Technology(TechnologyEnum.CIVIL_SERVICE)),
-    TREBUCHET("Medieval", "Trebuchet", 170, "Siege", 6, 20, 2, 2, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.PHYSICS)),
+    CROSSBOWMAN("Medieval", "Crossbowman", 120, "Archery", 6, 12, 2, 2, 15, null, new Technology(TechnologyEnum.MACHINERY)),
+    KNIGHT("Medieval", "knight", 150, "Mounted", 18, 0, 0, 3, 30, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.CHIVALRY)),
+    LONGSWORDSMAN("Medieval", "Longswordsman", 150, "Melee", 18, 0, 0, 3, 30, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.STEEL)),
+    PIKEMAN("Medieval", "Pikeman", 100, "Melee", 10, 0, 0, 2, 30, null, new Technology(TechnologyEnum.CIVIL_SERVICE)),
+    TREBUCHET("Medieval", "Trebuchet", 170, "Siege", 6, 20, 2, 2, 35, new Resource(ResourceEnum.IRON), new Technology(TechnologyEnum.PHYSICS)),
 
-    CANON("Renaissance", "Canon", 250, "Siege", 10, 26, 2, 2, null, new Technology(TechnologyEnum.CHEMISTRY)),
-    CAVALRY("Renaissance", "Cavalry", 260, "Mounted", 25, 0, 0, 3, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.MILITARY_SCIENCE)),
-    LANCER("Renaissance", "Lancer", 220, "Mounted", 22, 0, 0, 4, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.METALLURGY)),
-    MUSKETMAN("Renaissance", "Musketman", 120, "Gunpowder", 16, 0, 0, 2, null, new Technology(TechnologyEnum.GUNPOWDER)),
-    RIFLEMAN("Renaissance", "Rifleman", 200, "Gunpowder", 25, 0, 0, 2, null, new Technology(TechnologyEnum.RIFLING)),
+    CANON("Renaissance", "Canon", 250, "Siege", 10, 26, 2, 2, 40, null, new Technology(TechnologyEnum.CHEMISTRY)),
+    CAVALRY("Renaissance", "Cavalry", 260, "Mounted", 25, 0, 0, 3, 35, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.MILITARY_SCIENCE)),
+    LANCER("Renaissance", "Lancer", 220, "Mounted", 22, 0, 0, 4, 35, new Resource(ResourceEnum.HORSES), new Technology(TechnologyEnum.METALLURGY)),
+    MUSKETMAN("Renaissance", "Musketman", 120, "Gunpowder", 16, 0, 0, 2, 30, null, new Technology(TechnologyEnum.GUNPOWDER)),
+    RIFLEMAN("Renaissance", "Rifleman", 200, "Gunpowder", 25, 0, 0, 2, 30, null, new Technology(TechnologyEnum.RIFLING)),
 
-    ANTI_TANK_GUN("Industrial", "Anti-TankGun", 300, "Gunpowder", 32, 0, 0, 2, null, new Technology(TechnologyEnum.REPLACEABLE_PARTS)),
-    ARTILLERY("Industrial", "Artillery", 420, "Siege", 16, 32, 3, 2, null, new Technology(TechnologyEnum.DYNAMITE)),
-    INFANTRY("Industrial", "Infantry", 300, "Gunpowder", 36, 0, 0, 2, null, new Technology(TechnologyEnum.REPLACEABLE_PARTS)),
-    PANZER("Industrial", "Panzer", 450, "Armored", 60, 0, 0, 5, null, new Technology(TechnologyEnum.COMBUSTION)),
-    TANK("Industrial", "Tank", 450, "Armored", 50, 0, 0, 4, null, new Technology(TechnologyEnum.COMBUSTION));
+    ANTI_TANK_GUN("Industrial", "Anti-TankGun", 300, "Gunpowder", 32, 0, 0, 2, 30, null, new Technology(TechnologyEnum.REPLACEABLE_PARTS)),
+    ARTILLERY("Industrial", "Artillery", 420, "Siege", 16, 32, 3, 2, 40, null, new Technology(TechnologyEnum.DYNAMITE)),
+    INFANTRY("Industrial", "Infantry", 300, "Gunpowder", 36, 0, 0, 2, 35, null, new Technology(TechnologyEnum.REPLACEABLE_PARTS)),
+    PANZER("Industrial", "Panzer", 450, "Armored", 60, 0, 0, 5, 50, null, new Technology(TechnologyEnum.COMBUSTION)),
+    TANK("Industrial", "Tank", 450, "Armored", 50, 0, 0, 4, 60, null, new Technology(TechnologyEnum.COMBUSTION));
 
     private String era;
     private String name;
@@ -42,10 +42,13 @@ public enum MilitaryUnitsEnum {
     private int rangedCombatStrength;
     private int range;
     private int movement;
+    private int hp;
     private Resource neededResource;
     private Technology neededTechnology;
 
-    MilitaryUnitsEnum(String era, String name, int cost, String combatType, int combatStrength, int rangedCombatStrength, int range, int movement, Resource neededResource, Technology neededTechnology) {
+    MilitaryUnitsEnum(String era, String name, int cost, String combatType, int combatStrength,
+                      int rangedCombatStrength, int range, int movement, int hp, Resource neededResource,
+                      Technology neededTechnology) {
         this.era = era;
         this.name = name;
         this.cost = cost;
@@ -54,6 +57,7 @@ public enum MilitaryUnitsEnum {
         this.rangedCombatStrength = rangedCombatStrength;
         this.range = range;
         this.movement = movement;
+        this.hp = hp;
         this.neededResource = neededResource;
         this.neededTechnology = neededTechnology;
     }
@@ -96,5 +100,9 @@ public enum MilitaryUnitsEnum {
 
     public Technology getNeededTechnology() {
         return neededTechnology;
+    }
+
+    public int getHp() {
+        return hp;
     }
 }
