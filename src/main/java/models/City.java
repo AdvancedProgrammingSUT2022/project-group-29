@@ -131,6 +131,7 @@ public class City {
     public int getScience() {
         return science;
     }
+
     public void addTileToCity(Tile tile) {
         this.cityTiles.add(tile);
     }

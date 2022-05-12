@@ -1,9 +1,5 @@
 package models;
 
-import controllers.GameController;
-import enums.modelsEnum.MilitaryUnitsEnum;
-import enums.modelsEnum.nonCombatUnitsEnum;
-
 import java.util.ArrayList;
 
 public class Civilization {
@@ -20,15 +16,10 @@ public class Civilization {
     private String color;
     private Technology currentTechnology = null;
 
-    public Civilization(User leader, int x, int y) {
+    public Civilization(User leader) {
         Leader = leader;
-        MilitaryUnit militaryUnit = new MilitaryUnit(MilitaryUnitsEnum.WARRIOR, x, y);
-        militaryUnits.add(militaryUnit);
-        GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(militaryUnit);
-
-        Unit unit = new Unit(nonCombatUnitsEnum.SETTLER, x + 1, y + 1);
-        units.add(unit);
-        GameController.getInstance().getGame().getMap()[x + 1][y + 1].setCivilian(unit);
+        //MilitaryUnit unit = new MilitaryUnit(MilitaryUnitsEnum.ARCHER);
+        //militaryUnits.add(unit);
     }
 
     public ArrayList<Tile> getTiles() {
@@ -43,7 +34,7 @@ public class Civilization {
         return militaryUnits;
     }
 
-    public void addMilitaryUnit(MilitaryUnit militaryUnit) {
+    public void addMilitaryUnit (MilitaryUnit militaryUnit){
         this.militaryUnits.add(militaryUnit);
     }
 
@@ -92,25 +83,10 @@ public class Civilization {
         cities.add(city);
     }
 
-    public void deleteMilitaryUint(int x, int y) {
-        for (int i = 0; i < militaryUnits.size(); i++) {
-            if (militaryUnits.get(i).getY() == y && militaryUnits.get(i).getX() == x) {
-                militaryUnits.remove(i);
-                return;
-            }
-        }
+    public void increaseHappiness(int amount) {
+        this.happiness += amount;
     }
-
-    public void deleteNonMilitaryUint(int x, int y) {
-        for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).getX() == x && units.get(i).getY() == y) {
-                units.remove(i);
-                return;
-            }
-        }
-    }
-
-    public void setCapital(City capital) {
-        this.capital = capital;
+    public void decreaseHappiness(int amount) {
+        this.happiness += amount;
     }
 }
