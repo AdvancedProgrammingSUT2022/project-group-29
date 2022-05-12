@@ -27,7 +27,7 @@ public class GameMenu {
         printGameStarted(users);
         String command;
         Matcher matcher;
-        this.showMap(0,0,30,20);
+        this.showMap(0, 0, 29, 20);
 
 
         while (true) {
@@ -69,6 +69,7 @@ public class GameMenu {
 
     private void showMap(int xBegin, int yBegin, int xEnd, int yEnd) {
         String whiteColor = "\033[48;5;250m";
+        String blueColor = "\033[48;5;20m";
         Tile[][] tiles = GameController.getInstance().getGame().getMap();
         if (xBegin % 2 == 0) xBegin++;
         if (yBegin % 2 == 0) yBegin++;
@@ -76,30 +77,47 @@ public class GameMenu {
             for (int j = (yBegin + 1) * 10; j < 10 * (yEnd + 1) + 2; j++) {
 
                 if (i % 6 == 0) {
-
-                    if (j % 20 == 10) {
+                    if (j % 20 == 10)
                         j = printUnits(xEnd, yEnd, i - 6, j, whiteColor);
-                    }
-                    if (j % 20 >= 2 && j % 20 < 10)
-                        System.out.print("-");
-                    else
+
+                    if (j % 20 == 2) {
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[0])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print(hasRiver + "--------\033[000m");
+                        j += 7;
+                    } else
                         System.out.print(" ");
 
                 } else if (i % 6 == 1) {
 
                     if (j % 20 == 1) {
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[5])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print(hasRiver + "/\033[000m");
+
                         j = printTerrain(xEnd, yEnd, tiles, i, j, whiteColor);
+
                     } else if (j % 20 == 10) {
+                        // river
+
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[1])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print("\033[000m" + hasRiver + "\\" + "\033[000m");
+                        // feature
+
                         String color = "", f = " ";
 
                         if (!MapController.getInstance().isTerrainVisible(i / 6 - 1, j / 10))
-                            color = (i / 6 - 1< (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
+                            color = (i / 6 - 1 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
                         else {
                             TerrainAndFeature feature;
                             if ((feature = GameController.getInstance().getGame().getMap()[i / 6 - 1][j / 10].getFeature()) != null)
                                 f = feature.getColor();
                         }
-                        System.out.print("\u001B[0m\\" + color + "    " + f + "     \033[000m");
+                        System.out.print(color + "    " + f + "     \033[000m");
                         j += 10;
                     } else
                         System.out.print(" ");
@@ -107,6 +125,15 @@ public class GameMenu {
                 } else if (i % 6 == 2) {
 
                     if (j % 20 == 0) {
+                        // river
+
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[5])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print(hasRiver + "/" + "\033[000m");
+
+                        // name
+
                         String s = " ", color = "";
                         if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
                             color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
@@ -118,11 +145,15 @@ public class GameMenu {
 
                             }
                         }
-                        System.out.print("/" + color + "    " + (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? s : " "));
+                        System.out.print(color + "    " + (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? s : " "));
                         j += 5;
 
-                    } else if (j % 20 == 11)
-                        System.out.print("\033[000m\\");
+                    } else if (j % 20 == 11) {
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10 - 1].getRivers()[1])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 - 1 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print("\033[000m" + hasRiver + "\\" + "\033[000m");
+                    }
                     else
                         System.out.print(" ");
 
@@ -131,13 +162,27 @@ public class GameMenu {
                     if (j % 20 == 0) {
                         j = printUnits(xEnd, yEnd, i, j, whiteColor);
                     }
-                    if (j % 20 >= 12)
-                        System.out.print("-");
+                    if (j % 20 == 12) {
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[0])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+
+                        System.out.print(hasRiver + "--------" + "\033[000m");
+                        j += 7;
+                    }
                     else
                         System.out.print(" ");
 
                 } else if (i % 6 == 4) {
                     if (j % 20 == 0) {
+                        //river
+
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[4])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print("\033[000m" + hasRiver + "\\" + "\033[000m");
+
+                        // feature
                         String color = "", f = " ";
 
                         if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
@@ -147,20 +192,37 @@ public class GameMenu {
                             if ((feature = GameController.getInstance().getGame().getMap()[i / 6][j / 10].getFeature()) != null)
                                 f = feature.getColor();
                         }
-                        System.out.print("\033[00m\\");
                         if (j / 10 < (yEnd + 1))
                             System.out.print(color + "    " + f + "     \033[000m");
                         j += 10;
                     } else if (j % 20 == 11) {
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10 - 1].getRivers()[2])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 - 1 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print("\033[000m" + hasRiver + "/" + "\033[000m");
+
+
                         j = printTerrain(xEnd, yEnd, tiles, i, j, whiteColor);
                     } else
                         System.out.print(" ");
 
                 } else if (i % 6 == 5) {
 
-                    if (j % 20 == 1)
-                        System.out.print("\033[000m\\");
+                    if (j % 20 == 1) {
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[4])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print("\033[000m" + hasRiver + "\\" + "\033[000m");
+                    }
                     else if (j % 20 == 10) {
+                        // river
+
+                        String hasRiver = "";
+                        if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[2])
+                            hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
+                        System.out.print("\033[000m" + hasRiver + "/" + "\033[000m");
+
+                        // name
                         String s = " ", color = "";
                         if (!MapController.getInstance().isTerrainVisible(i / 6, j / 10))
                             color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? whiteColor : "";
@@ -172,7 +234,7 @@ public class GameMenu {
 
                             }
                         }
-                        System.out.print("/" + color + "    " + (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? s : " "));
+                        System.out.print(color + "    " + (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? s : " "));
                         j += 5;
                     } else
                         System.out.print(" ");
@@ -244,7 +306,7 @@ public class GameMenu {
         else
             color = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? whiteColor : "");
         if (j / 10 < (yEnd + 1))
-            System.out.print("/" + color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
+            System.out.print(color + "  " + (i / 6 > 9 ? i / 6 : "0" + i / 6) + "," + (j / 10 > 9 ? j / 10 : "0" + j / 10));
         j += 7;
         return j;
     }
@@ -471,7 +533,6 @@ public class GameMenu {
 
     private void showMapByCityName(Matcher matcher) {
         City city;
-        System.out.println();
         if ((city = MapController.getInstance().getCity(matcher)) == null)
             System.out.println("no city with this name");
         else {
@@ -484,7 +545,7 @@ public class GameMenu {
     private void showMapByPosition(Matcher matcher) {
         xMap = Integer.parseInt(matcher.group("x"));
         yMap = Integer.parseInt(matcher.group("y"));
-        showMap(xMap - 5, yMap - 5, xMap + 5, yMap + 5);
+        showMapWithoutPosition();
     }
 
     private void city(String command) {
