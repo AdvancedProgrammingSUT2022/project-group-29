@@ -8,12 +8,14 @@ public class Improvement {
     private String name;
     private Technology neededTechnology;
     private ArrayList<TerrainAndFeature> TerrainFeaturesThatCanBeBuilt;
+    private ArrayList<Resource> ImproveResources;
     private int FoodChange;
     private int ProductionChange;
     private int GoldChange;
 
     public Improvement(ImprovementsEnum type) {
         this.name = type.getName();
+        ImproveResources = type.getImproveResources();
         this.neededTechnology = type.getNeededTechnology();
         TerrainFeaturesThatCanBeBuilt = type.getTerrainFeaturesThatCanBeBuilt();
         this.FoodChange = type.getFoodChange();
@@ -43,5 +45,9 @@ public class Improvement {
 
     public int getGoldChange() {
         return GoldChange;
+    }
+
+    public ArrayList<Resource> getImproveResources() {
+        return ImproveResources;
     }
 }
