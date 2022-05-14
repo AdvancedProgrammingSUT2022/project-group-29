@@ -173,6 +173,8 @@ public class UnitController {
         if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
             if (GameController.getInstance().getGame().getSelectedCombatUnit().getState().equals("sleep"))
                 return "unit is slept";
+            if (GameController.getInstance().getGame().getSelectedCombatUnit().isHasDone())
+                return "unit has done its work";
             if (GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
@@ -180,15 +182,19 @@ public class UnitController {
                     GameController.getInstance().getGame().getCurrentCivilization().LeaderName()))
                 return "can not move to enemies tile";
 
+            GameController.getInstance().getGame().getSelectedCombatUnit().setHasDone(true);
             GameController.getInstance().getGame().getSelectedCombatUnit().setxEnd(x);
             GameController.getInstance().getGame().getSelectedCombatUnit().setyEnd(y);
         } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
             if (GameController.getInstance().getGame().getSelectedNonCombatUnit().getState().equals("sleep"))
                 return "unit is slept";
+            if (GameController.getInstance().getGame().getSelectedNonCombatUnit().isHasDone())
+                return "unit has done its work";
             if (GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
 
+            GameController.getInstance().getGame().getSelectedNonCombatUnit().setHasDone(true);
             GameController.getInstance().getGame().getSelectedNonCombatUnit().setxEnd(x);
             GameController.getInstance().getGame().getSelectedNonCombatUnit().setyEnd(y);
         } else
@@ -219,6 +225,8 @@ public class UnitController {
 
     public String unitHeal() {
         if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+            if (GameController.getInstance().getGame().getSelectedCombatUnit().isHasDone())
+                return "unit has done its work";
             GameController.getInstance().getGame().getSelectedCombatUnit().setHp((GameController.getInstance().getGame()
                     .getSelectedCombatUnit().getFullHp() - GameController.getInstance().getGame()
                     .getSelectedCombatUnit().getHp()) / 2);
@@ -227,14 +235,17 @@ public class UnitController {
         return null;
     }
 
+    // TODO .. complete
     public String unitFortify() {
         if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
-
+            if (GameController.getInstance().getGame().getSelectedCombatUnit().isHasDone())
+                return "unit has done its work";
         } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
-            GameController.getInstance().getGame().getSelectedNonCombatUnit().setState("sleep");
+            if (GameController.getInstance().getGame().getSelectedNonCombatUnit().isHasDone())
+                return "unit has done its work";
         } else
             return "no selected unit";
-        return "unit slept successfully";
+        return "";
     }
 
     public String deleteUnit() {
@@ -328,6 +339,10 @@ public class UnitController {
             if (u.getName().equalsIgnoreCase(unitName))
                 return u;
         }
+        return null;
+    }
+
+    public String combat(MilitaryUnit militaryUnit, MilitaryUnit selectedCombatUnit) {
         return null;
     }
 }

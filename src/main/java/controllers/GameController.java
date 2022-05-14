@@ -50,20 +50,32 @@ public class GameController {
         return null;
     }
 
-    public void setGold(int gold) {
-
-    }
-
     public Game getGame() {
         return game;
     }
 
     public String combat(Matcher matcher) {
-        return null;
-    }
-
-    public void combat(MilitaryUnit militaryUnit, City city) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        City city;
+        MilitaryUnit enemyMilitaryUnit;
+        if (game.getSelectedCombatUnit() == null)
+            return "no selected combat unit";
+        if (game.getSelectedCombatUnit().getState().equals("sleep"))
+            return "combat unit is sleeping";
+        if (!CityController.getInstance().isXTileValid(x))
+            return "x position is not valid";
+        if (!CityController.getInstance().isYTileValid(y))
+            return "y position is not valid";
+        if ((city = CityController.getInstance().getCity(x, y)) != null) {
+            game.getSelectedCombatUnit().setHasDone(true);
+            return CityController.getInstance().combat(city, game.getSelectedCombatUnit(), x, y);
+        }
+        if ((enemyMilitaryUnit = game.getMap()[x][y].getMilitaryUnit()) != null) {
+            game.getSelectedCombatUnit().setHasDone(true);
+            return UnitController.getInstance().combat(enemyMilitaryUnit, game.getSelectedCombatUnit());
+        }
+        return "combat is not possible";
     }
 
     public int getLENGTH() {

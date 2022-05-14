@@ -436,7 +436,9 @@ public class GameMenu {
             err();
     }
 
+    // TODO.. add has done to successful attempts
     private void unit(String command) {
+
         Matcher matcher;
         if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_MOVE)) != null)
             System.out.println(UnitController.getInstance().moveUnit(matcher));
@@ -452,6 +454,7 @@ public class GameMenu {
             System.out.println(UnitController.getInstance().unitGarrison());
         else if (command.equals("unit setup ranged"))
             System.out.println(UnitController.getInstance().unitSetupRanged());
+        // TODO ...
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.ATTACK)) != null)
             System.out.println(GameController.getInstance().combat(matcher));
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_FOUND_CITY)) != null)

@@ -122,4 +122,12 @@ public class Civilization {
     public void decreaseHappiness(int amount) {
         this.happiness += amount;
     }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public int getGold() {
+        return gold;
+    }
 }

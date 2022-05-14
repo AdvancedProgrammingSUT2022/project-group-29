@@ -4,6 +4,8 @@ import enums.modelsEnum.MilitaryUnitsEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 
 
@@ -285,7 +287,6 @@ public class CityController {
         return "first select a city!";
     }
 
-    //Todo complete attack
     public String cityAttack(int x, int y) {
         City selectedCity = GameController.getInstance().getGame().getSelectedCity();
         if (selectedCity == null)
@@ -314,9 +315,8 @@ public class CityController {
     private void cityAttack(int x, int y, City selectedCity) {
         selectedCity.getMilitaryUnit().setHasDone(true);
         MilitaryUnit militaryUnit = game.getMap()[x][y].getMilitaryUnit();
-        if (1 == (selectedCity.getY() - y) * (selectedCity.getY() - y)
-                + (selectedCity.getX() - x) * (selectedCity.getX() - x)) {
-            if (militaryUnit.getHp() < selectedCity.getMilitaryUnit().getCombatStrength())
+        if (1 == getLeastDistance(selectedCity, x, y)) {
+            if (militaryUnit.getHp() <= selectedCity.getMilitaryUnit().getCombatStrength())
                 destroyCombatUnit(x, y);
             else
                 militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getCombatStrength());
@@ -326,6 +326,14 @@ public class CityController {
             else
                 militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getRangedCombatStrength());
         }
+    }
+
+    private int getLeastDistance(City city, int x, int y) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (Tile cityTile : city.getCityTiles()) {
+            arrayList.add((cityTile.getX() - x) * (cityTile.getX() - x) + (cityTile.getY() - y) * (cityTile.getY() - y));
+        }
+        return Collections.min(arrayList);
     }
 
     private void destroyCombatUnit(int x, int y) {
@@ -383,11 +391,11 @@ public class CityController {
         }
     }
 
-    public static boolean isXTileValid(int x) {
+    public boolean isXTileValid(int x) {
         return x <= 45 && x >= 0;
     }
 
-    public static boolean isYTileValid(int y) {
+    public boolean isYTileValid(int y) {
         return y <= 30 && y >= 0;
     }
 
@@ -416,6 +424,55 @@ public class CityController {
         }
         return "first select a city!";
 
+    }
+
+    public City getCity(int x, int y) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                if (city.getX() == x && city.getY() == y)
+                    return city;
+            }
+        }
+        return null;
+    }
+
+    public String combat(City city, MilitaryUnit combatUnit, int x, int y) {
+        if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
+                (x - combatUnit.getX()) * (x - combatUnit.getX()) >
+                combatUnit.getRange() * combatUnit.getRange())
+            return "position is not in range";
+
+        unitAttackCity(city, combatUnit, x, y);
+        return "attacked successfully";
+    }
+
+    private void unitAttackCity(City city, MilitaryUnit combatUnit, int x, int y) {
+        combatUnit.setHasDone(true);
+
+        if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
+                + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
+            if (combatUnit.getCombatStrength() >= city.getHitPoint())
+                destroyCity(city);
+            else
+                city.setHitPoint(city.getHitPoint() - combatUnit.getCombatStrength());
+        } else {
+            if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                destroyCity(city);
+            else
+                city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+        }
+    }
+
+    private void destroyCity(City city) {
+        game.getCurrentCivilization().setGold(game.getCurrentCivilization().getGold() + city.getGold());
+        for (Civilization civilization : game.getCivilizations()) {
+            for (int i = 0; i < civilization.getCities().size(); i++) {
+                if (civilization.getCities().get(i).getName().equals(city.getName())) {
+                    civilization.getCities().remove(i);
+                    return;
+                }
+            }
+        }
     }
 
     //TODO add buy unit to queue

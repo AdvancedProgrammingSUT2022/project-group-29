@@ -17,6 +17,7 @@ public class Unit {
     private String combatType;
     private int xEnd, yEnd;
     private String state = "";
+    private boolean hasDone = false;
 
     public Unit(nonCombatUnitsEnum type, int x, int y) {
         this.cost = type.getCost();
@@ -87,6 +88,14 @@ public class Unit {
 
     public int getMaxMovement() {
         return maxMovement;
+    }
+
+    public boolean isHasDone() {
+        return hasDone;
+    }
+
+    public void setHasDone(boolean hasDone) {
+        this.hasDone = hasDone;
     }
 
     @Override
