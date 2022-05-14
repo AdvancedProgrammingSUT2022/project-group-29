@@ -1,5 +1,9 @@
 package models;
 
+import controllers.GameController;
+import enums.modelsEnum.MilitaryUnitsEnum;
+import enums.modelsEnum.nonCombatUnitsEnum;
+
 import java.util.ArrayList;
 
 public class Civilization {
@@ -16,10 +20,16 @@ public class Civilization {
     private String color;
     private Technology currentTechnology = null;
 
-    public Civilization(User leader) {
+    public Civilization(User leader, int x, int y) {
         Leader = leader;
-        //MilitaryUnit unit = new MilitaryUnit(MilitaryUnitsEnum.ARCHER);
-        //militaryUnits.add(unit);
+
+        MilitaryUnit militaryUnit = new MilitaryUnit(MilitaryUnitsEnum.WARRIOR, x, y);
+        militaryUnits.add(militaryUnit);
+        GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(militaryUnit);
+
+        Unit unit = new Unit(nonCombatUnitsEnum.SETTLER, x + 1, y + 1);
+        units.add(unit);
+        GameController.getInstance().getGame().getMap()[x + 1][y + 1].setCivilian(unit);
     }
 
     public ArrayList<Tile> getTiles() {
@@ -81,6 +91,29 @@ public class Civilization {
 
     public void addCity(City city) {
         cities.add(city);
+    }
+
+    public void deleteMilitaryUnit(int x, int y) {
+        GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(null);
+        for (int i = 0; i < militaryUnits.size(); i++) {
+            if (militaryUnits.get(i).getY() == y && militaryUnits.get(i).getX() == x) {
+                militaryUnits.remove(i);
+                return;
+            }
+        }
+    }
+    public void deleteNonMilitaryUnit(int x, int y) {
+        GameController.getInstance().getGame().getMap()[x][y].setCivilian(null);
+        for (int i = 0; i < units.size(); i++) {
+            if (units.get(i).getX() == x && units.get(i).getY() == y) {
+                units.remove(i);
+                return;
+            }
+        }
+    }
+
+    public void setCapital(City capital) {
+        this.capital = capital;
     }
 
     public void increaseHappiness(int amount) {

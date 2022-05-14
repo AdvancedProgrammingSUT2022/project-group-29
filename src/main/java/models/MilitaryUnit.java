@@ -17,6 +17,7 @@ public class MilitaryUnit {
     private Resource neededResource;
     private int xEnd, yEnd;
     private String state = "";
+    private boolean hasDone = false;
 
     public MilitaryUnit(MilitaryUnitsEnum type, int x, int y) {
         this.cost = type.getCost();
@@ -104,16 +105,8 @@ public class MilitaryUnit {
         return neededTechnology;
     }
 
-    public void setNeededTechnology(Technology neededTechnology) {
-        this.neededTechnology = neededTechnology;
-    }
-
     public Resource getNeededResource() {
         return neededResource;
-    }
-
-    public void setNeededResource(Resource neededResource) {
-        this.neededResource = neededResource;
     }
 
     public int getFullHp() {
@@ -122,5 +115,25 @@ public class MilitaryUnit {
 
     public int getMaxMovement() {
         return maxMovement;
+    }
+
+    public int getCombatStrength() {
+        return combatStrength;
+    }
+
+    public int getRangedCombatStrength() {
+        return rangedCombatStrength;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public boolean isHasDone() {
+        return hasDone;
+    }
+
+    public void setHasDone(boolean hasDone) {
+        this.hasDone = hasDone;
     }
 }

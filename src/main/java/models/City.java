@@ -16,7 +16,6 @@ public class City {
     private int science;
     private int x, y;
     private Unit civilian = null;
-    private MilitaryUnit militaryUnit = null;
     private int hitPoint;
     private ArrayList<Tile> cityTiles = new ArrayList<>();
     private int citizen;
@@ -85,12 +84,15 @@ public class City {
     }
 
     public MilitaryUnit getMilitaryUnit() {
-        return militaryUnit;
+        for (Tile cityTile : this.cityTiles) {
+            if (cityTile.getMilitaryUnit() != null)
+                return cityTile.getMilitaryUnit();
+        }
+        return null;
     }
 
     public void setMilitaryUnit(MilitaryUnit militaryUnit) {
         GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(militaryUnit);
-        this.militaryUnit = militaryUnit;
     }
 
     public int getHappiness() {
@@ -134,5 +136,9 @@ public class City {
 
     public void addTileToCity(Tile tile) {
         this.cityTiles.add(tile);
+    }
+
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
     }
 }

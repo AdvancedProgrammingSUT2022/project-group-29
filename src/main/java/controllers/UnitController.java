@@ -130,7 +130,9 @@ public class UnitController {
         if (GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                 GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                 GameController.getInstance().getGame().getMap()[x][y].getMilitaryUnit() != null ||
-                unit.getMovement() < GameController.getInstance().getGame().getMap()[x][y].getMovementCost())
+                unit.getMovement() < GameController.getInstance().getGame().getMap()[x][y].getMovementCost() ||
+                !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                        GameController.getInstance().getGame().getCurrentCivilization().LeaderName()))
             return false;
         return true;
     }
@@ -174,6 +176,9 @@ public class UnitController {
             if (GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     GameController.getInstance().getGame().getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
+            if (!GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                    GameController.getInstance().getGame().getCurrentCivilization().LeaderName()))
+                return "can not move to enemies tile";
 
             GameController.getInstance().getGame().getSelectedCombatUnit().setxEnd(x);
             GameController.getInstance().getGame().getSelectedCombatUnit().setyEnd(y);
@@ -236,11 +241,11 @@ public class UnitController {
         if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
             int x = GameController.getInstance().getGame().getSelectedCombatUnit().getX();
             int y = GameController.getInstance().getGame().getSelectedCombatUnit().getY();
-            GameController.getInstance().getGame().getCurrentCivilization().deleteMilitaryUint(x, y);
+            GameController.getInstance().getGame().getCurrentCivilization().deleteMilitaryUnit(x, y);
         } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
             int x = GameController.getInstance().getGame().getSelectedNonCombatUnit().getX();
             int y = GameController.getInstance().getGame().getSelectedNonCombatUnit().getY();
-            GameController.getInstance().getGame().getCurrentCivilization().deleteNonMilitaryUint(x, y);
+            GameController.getInstance().getGame().getCurrentCivilization().deleteNonMilitaryUnit(x, y);
         } else
             return "no selected unit";
         return "unit deleted successfully";

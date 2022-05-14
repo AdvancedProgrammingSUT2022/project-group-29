@@ -5,331 +5,223 @@ import models.Technology;
 import java.util.ArrayList;
 
 public enum TechnologyEnum {
-    AGRICULTURE("Ancient", "Agriculture", 20, new ArrayList<Technology>(), new ArrayList<Technology>() {{
-        add(new Technology(POTTERY));
-        add(new Technology(ANIMAL_HUSBANDRY));
-        add(new Technology(ARCHERY));
-        add(new Technology(MINING));
+    AGRICULTURE("Ancient", "Agriculture", 20, new ArrayList<>()),
+
+    ANIMAL_HUSBANDRY("Ancient", "Animal_Husbandry", 35, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.AGRICULTURE);
     }}),
 
-    ANIMAL_HUSBANDRY("Ancient", "Animal_Husbandry", 35, new ArrayList<Technology>() {{
-        add(new Technology(AGRICULTURE));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(TRAPPING));
-        add(new Technology(THE_WHEEL));
+    ARCHERY("Ancient", "Archery", 35, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.AGRICULTURE);
     }}),
 
-    ARCHERY("Ancient", "Archery", 35, new ArrayList<Technology>() {{
-        add(new Technology(AGRICULTURE));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(MATHEMATICS));
+    MINING("Ancient", "Mining", 35, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.AGRICULTURE);
     }}),
 
-    BRONZE_WORKING("Ancient", "Bronze_Working", 55, new ArrayList<Technology>() {{
-        add(new Technology(MINING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(IRON_WORKING));
+    BRONZE_WORKING("Ancient", "Bronze_Working", 55, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.MINING);
     }}),
 
-    CALENDAR("Ancient", "Calendar", 70, new ArrayList<Technology>() {{
-        add(new Technology(POTTERY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(THEOLOGY));
+    POTTERY("Ancient", "Pottery", 35, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.AGRICULTURE);
     }}),
 
-    MASONRY("Ancient", "Masonry", 55, new ArrayList<Technology>() {{
-        add(new Technology(MINING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CONSTRUCTION));
-    }}),
-
-    MINING("Ancient", "Mining", 35, new ArrayList<Technology>() {{
-        add(new Technology(AGRICULTURE));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(MASONRY));
-        add(new Technology(BRONZE_WORKING));
-
-    }}),
-    POTTERY("Ancient", "Pottery", 35, new ArrayList<Technology>() {{
-        add(new Technology(AGRICULTURE));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CALENDAR));
-        add(new Technology(WRITING));
-    }}),
-
-    THE_WHEEL("Ancient", "The_Wheel", 55, new ArrayList<Technology>() {{
-        add(new Technology(ANIMAL_HUSBANDRY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(HORSEBACK_RIDING));
-        add(new Technology(MATHEMATICS));
-    }}),
-
-    TRAPPING("Ancient", "Trapping", 55, new ArrayList<Technology>() {{
-        add(new Technology(ANIMAL_HUSBANDRY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CIVIL_SERVICE));
-    }}),
-
-    WRITING("Ancient", "Writing", 55, new ArrayList<Technology>() {{
-        add(new Technology(POTTERY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(PHILOSOPHY));
-    }}),
-
-    CONSTRUCTION("Classical", "Construction", 100, new ArrayList<Technology>() {{
-        add(new Technology(MASONRY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(ENGINEERING));
-    }}),
-
-    HORSEBACK_RIDING("Classical", "Horseback_Riding", 100, new ArrayList<Technology>() {{
-        add(new Technology(THE_WHEEL));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CHIVALRY));
-    }}),
-
-    IRON_WORKING("Classical", "Iron_Working", 150, new ArrayList<Technology>() {{
-        add(new Technology(BRONZE_WORKING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(METAL_CASTING));
-    }}),
-
-    MATHEMATICS("Classical", "Mathematics", 100, new ArrayList<Technology>() {{
-        add(new Technology(THE_WHEEL));
-        add(new Technology(ARCHERY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CURRENCY));
-        add(new Technology(ENGINEERING));
-    }}),
-
-    PHILOSOPHY("Classical", "Philosophy", 100, new ArrayList<Technology>() {{
-        add(new Technology(WRITING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(THEOLOGY));
-        add(new Technology(CIVIL_SERVICE));
+    CALENDAR("Ancient", "Calendar", 70, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.POTTERY);
     }}),
 
 
-    CHIVALRY("Medieval", "Chivalry", 440, new ArrayList<Technology>() {{
-        add(new Technology(CIVIL_SERVICE));
-        add(new Technology(HORSEBACK_RIDING));
-        add(new Technology(CURRENCY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(BANKING));
+    TRAPPING("Ancient", "Trapping", 55, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ANIMAL_HUSBANDRY);
     }}),
 
-    CIVIL_SERVICE("Medieval", "Civil_Service", 400, new ArrayList<Technology>() {{
-        add(new Technology(PHILOSOPHY));
-        add(new Technology(TRAPPING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CHIVALRY));
+    WRITING("Ancient", "Writing", 55, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.POTTERY);
     }}),
 
-    CURRENCY("Medieval", "Currency", 250, new ArrayList<Technology>() {{
-        add(new Technology(MATHEMATICS));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CHIVALRY));
+    MASONRY("Ancient", "Masonry", 55, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.MINING);
     }}),
 
-    EDUCATION("Medieval", "Education", 440, new ArrayList<Technology>() {{
-        add(new Technology(THEOLOGY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(ACOUSTICS));
-        add(new Technology(BANKING));
+    CONSTRUCTION("Classical", "Construction", 100, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.MASONRY);
     }}),
 
-    ENGINEERING("Medieval", "Engineering", 250, new ArrayList<Technology>() {{
-        add(new Technology(MATHEMATICS));
-        add(new Technology(CONSTRUCTION));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(MACHINERY));
-        add(new Technology(PHYSICS));
+    THE_WHEEL("Ancient", "The_Wheel", 55, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ANIMAL_HUSBANDRY);
     }}),
 
-    MACHINERY("Medieval", "Machinery", 440, new ArrayList<Technology>() {{
-        add(new Technology(ENGINEERING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(PRINTING_PRESS));
+    HORSEBACK_RIDING("Classical", "Horseback_Riding", 100, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.THE_WHEEL);
     }}),
 
-    METAL_CASTING("Medieval", "Metal_Casting", 240, new ArrayList<Technology>() {{
-        add(new Technology(IRON_WORKING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(PHYSICS));
-        add(new Technology(STEEL));
+    IRON_WORKING("Classical", "Iron_Working", 150, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.BRONZE_WORKING);
     }}),
 
-    PHYSICS("Medieval", "Physics", 440, new ArrayList<Technology>() {{
-        add(new Technology(ENGINEERING));
-        add(new Technology(METAL_CASTING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(PRINTING_PRESS));
-        add(new Technology(GUNPOWDER));
+    MATHEMATICS("Classical", "Mathematics", 100, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.THE_WHEEL);
+        add(TechnologyEnum.ARCHERY);
     }}),
 
-    STEEL("Medieval", "Steel", 440, new ArrayList<Technology>() {{
-        add(new Technology(METAL_CASTING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(GUNPOWDER));
-    }}),
-
-    THEOLOGY("Medieval", "Theology", 250, new ArrayList<Technology>() {{
-        add(new Technology(CALENDAR));
-        add(new Technology(PHILOSOPHY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(EDUCATION));
+    PHILOSOPHY("Classical", "Philosophy", 100, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.WRITING);
     }}),
 
 
-    ACOUSTICS("Renaissance", "Acoustics", 650, new ArrayList<Technology>() {{
-        add(new Technology(EDUCATION));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(SCIENTIFIC_THEORY));
+    CIVIL_SERVICE("Medieval", "Civil_Service", 400, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.PHILOSOPHY);
+        add(TechnologyEnum.TRAPPING);
     }}),
 
-    ARCHAEOLOGY("Renaissance", "Archaeology", 1300, new ArrayList<Technology>()
-            , new ArrayList<Technology>() {{
-        add(new Technology(BIOLOGY));
+    CURRENCY("Medieval", "Currency", 250, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.MATHEMATICS);
     }}),
 
-    BANKING("Renaissance", "Banking", 650, new ArrayList<Technology>() {{
-        add(new Technology(EDUCATION));
-        add(new Technology(CHIVALRY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(ECONOMICS));
+    CHIVALRY("Medieval", "Chivalry", 440, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.CIVIL_SERVICE);
+        add(TechnologyEnum.HORSEBACK_RIDING);
+        add(TechnologyEnum.CURRENCY);
     }}),
 
-    CHEMISTRY("Renaissance", "Chemistry", 900, new ArrayList<Technology>() {{
-        add(new Technology(GUNPOWDER));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(MILITARY_SCIENCE));
-        add(new Technology(FERTILIZER));
+    THEOLOGY("Medieval", "Theology", 250, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.CALENDAR);
+        add(TechnologyEnum.PHILOSOPHY);
     }}),
 
-    ECONOMICS("Renaissance", "Economics", 900, new ArrayList<Technology>() {{
-        add(new Technology(BANKING));
-        add(new Technology(PRINTING_PRESS));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(MILITARY_SCIENCE));
+    EDUCATION("Medieval", "Education", 440, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.THEOLOGY);
     }}),
 
-    FERTILIZER("Renaissance", "Fertilizer", 1300, new ArrayList<Technology>() {{
-        add(new Technology(CHEMISTRY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(DYNAMITE));
+    ENGINEERING("Medieval", "Engineering", 250, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.MATHEMATICS);
+        add(TechnologyEnum.CONSTRUCTION);
     }}),
 
-    GUNPOWDER("Renaissance", "Gunpowder", 680, new ArrayList<Technology>() {{
-        add(new Technology(PHYSICS));
-        add(new Technology(STEEL));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(CHEMISTRY));
-        add(new Technology(METALLURGY));
+    MACHINERY("Medieval", "Machinery", 440, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ENGINEERING);
     }}),
 
-    METALLURGY("Renaissance", "Metallurgy", 900, new ArrayList<Technology>() {{
-        add(new Technology(GUNPOWDER));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(RIFLING));
+    METAL_CASTING("Medieval", "Metal_Casting", 240, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.IRON_WORKING);
     }}),
 
-    MILITARY_SCIENCE("Renaissance", "Military_Science", 1300, new ArrayList<Technology>() {{
-        add(new Technology(ECONOMICS));
-        add(new Technology(CHEMISTRY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(STEAM_POWER));
+    PHYSICS("Medieval", "Physics", 440, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ENGINEERING);
+        add(TechnologyEnum.METAL_CASTING);
     }}),
 
-    PRINTING_PRESS("Renaissance", "Printing_Press", 650, new ArrayList<Technology>() {{
-        add(new Technology(MACHINERY));
-        add(new Technology(PHYSICS));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(ECONOMICS));
+    STEEL("Medieval", "Steel", 440, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.METAL_CASTING);
     }}),
 
-    RIFLING("Renaissance", "Rifling", 1425, new ArrayList<Technology>() {{
-        add(new Technology(METALLURGY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(DYNAMITE));
+    ACOUSTICS("Renaissance", "Acoustics", 650, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.EDUCATION);
     }}),
 
-    SCIENTIFIC_THEORY("Renaissance", "Scientific_Theory", 1300, new ArrayList<Technology>() {{
-        add(new Technology(ACOUSTICS));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(BIOLOGY));
-        add(new Technology(STEAM_POWER));
+    ARCHAEOLOGY("Renaissance", "Archaeology", 1300, new ArrayList<>()),
+
+    BANKING("Renaissance", "Banking", 650, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.EDUCATION);
+        add(TechnologyEnum.CHIVALRY);
+    }}),
+
+    GUNPOWDER("Renaissance", "Gunpowder", 680, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.PHYSICS);
+        add(TechnologyEnum.STEEL);
+    }}),
+
+    CHEMISTRY("Renaissance", "Chemistry", 900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.GUNPOWDER);
+    }}),
+
+    PRINTING_PRESS("Renaissance", "Printing_Press", 650, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.MACHINERY);
+        add(TechnologyEnum.PHYSICS);
+    }}),
+
+    ECONOMICS("Renaissance", "Economics", 900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.BANKING);
+        add(TechnologyEnum.PRINTING_PRESS);
+    }}),
+
+    FERTILIZER("Renaissance", "Fertilizer", 1300, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.CHEMISTRY);
+    }}),
+
+    METALLURGY("Renaissance", "Metallurgy", 900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.GUNPOWDER);
+    }}),
+
+    MILITARY_SCIENCE("Renaissance", "Military_Science", 1300, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ECONOMICS);
+        add(TechnologyEnum.CHEMISTRY);
     }}),
 
 
-    BIOLOGY("Industrial", "Biology", 1680, new ArrayList<Technology>() {{
-        add(new Technology(ARCHAEOLOGY));
-        add(new Technology(SCIENTIFIC_THEORY));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(ELECTRICITY));
+    RIFLING("Renaissance", "Rifling", 1425, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.METALLURGY);
     }}),
 
-    COMBUSTION("Industrial", "Combustion", 2200, new ArrayList<Technology>() {{
-        add(new Technology(REPLACEABLE_PARTS));
-        add(new Technology(RAILROAD));
-        add(new Technology(DYNAMITE));
-    }}, new ArrayList<>()),
-
-    DYNAMITE("Industrial", "Dynamite", 1900, new ArrayList<Technology>() {{
-        add(new Technology(FERTILIZER));
-        add(new Technology(RIFLING));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(COMBUSTION));
+    SCIENTIFIC_THEORY("Renaissance", "Scientific_Theory", 1300, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ACOUSTICS);
     }}),
 
-    ELECTRICITY("Industrial", "Electricity", 1900, new ArrayList<Technology>() {{
-        add(new Technology(BIOLOGY));
-        add(new Technology(STEAM_POWER));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(TELEGRAPH));
-        add(new Technology(RADIO));
+
+    BIOLOGY("Industrial", "Biology", 1680, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ARCHAEOLOGY);
+        add(TechnologyEnum.SCIENTIFIC_THEORY);
     }}),
 
-    RADIO("Industrial", "Radio", 2200, new ArrayList<Technology>() {{
-        add(new Technology(ELECTRICITY));
-    }}, new ArrayList<>()),
-
-    RAILROAD("Industrial", "Railroad", 1900, new ArrayList<Technology>() {{
-        add(new Technology(STEAM_POWER));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(COMBUSTION));
+    STEAM_POWER("Industrial", "Steam Power", 1680, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.SCIENTIFIC_THEORY);
+        add(TechnologyEnum.MILITARY_SCIENCE);
     }}),
 
-    REPLACEABLE_PARTS("Industrial", "Replaceable ", 1900, new ArrayList<Technology>() {{
-        add(new Technology(STEAM_POWER));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(COMBUSTION));
+    REPLACEABLE_PARTS("Industrial", "Replaceable ", 1900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.STEAM_POWER);
     }}),
 
-    STEAM_POWER("Industrial", "Steam Power", 1680, new ArrayList<Technology>() {{
-        add(new Technology(SCIENTIFIC_THEORY));
-        add(new Technology(MILITARY_SCIENCE));
-    }}, new ArrayList<Technology>() {{
-        add(new Technology(ELECTRICITY));
-        add(new Technology(REPLACEABLE_PARTS));
-        add(new Technology(RAILROAD));
+    RAILROAD("Industrial", "Railroad", 1900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.STEAM_POWER);
     }}),
 
-    TELEGRAPH("Industrial", "Telegraph", 2200, new ArrayList<Technology>() {{
-        add(new Technology(ELECTRICITY));
-    }}, new ArrayList<>());
+    DYNAMITE("Industrial", "Dynamite", 1900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.FERTILIZER);
+        add(TechnologyEnum.RIFLING);
+    }}),
 
-    private String type;
-    private String name;
-    private int cost;
-    private ArrayList<Technology> neededTechnologies;
-    private ArrayList<Technology> leadsToTechnologies;
+    COMBUSTION("Industrial", "Combustion", 2200, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.REPLACEABLE_PARTS);
+        add(TechnologyEnum.RAILROAD);
+        add(TechnologyEnum.DYNAMITE);
+    }}),
 
-    TechnologyEnum(String type, String name, int cost, ArrayList<Technology> neededTechnologies, ArrayList<Technology> leadsToTechnologies) {
+    ELECTRICITY("Industrial", "Electricity", 1900, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.BIOLOGY);
+        add(TechnologyEnum.STEAM_POWER);
+    }}),
+
+    RADIO("Industrial", "Radio", 2200, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ELECTRICITY);
+    }}),
+
+    TELEGRAPH("Industrial", "Telegraph", 2200, new ArrayList<TechnologyEnum>() {{
+        add(TechnologyEnum.ELECTRICITY);
+    }});
+
+    private final String type;
+    private final String name;
+    private final int cost;
+    private final ArrayList<TechnologyEnum> neededTechnologiesEnum;
+
+
+    TechnologyEnum(String type, String name, int cost, ArrayList<TechnologyEnum> neededTechnologiesEnum) {
         this.type = type;
         this.name = name;
         this.cost = cost;
-        this.neededTechnologies = neededTechnologies;
-        this.leadsToTechnologies = leadsToTechnologies;
+        this.neededTechnologiesEnum = neededTechnologiesEnum;
     }
 
     public String getType() {
@@ -345,10 +237,10 @@ public enum TechnologyEnum {
     }
 
     public ArrayList<Technology> getNeededTechnologies() {
-        return neededTechnologies;
-    }
-
-    public ArrayList<Technology> getLeadsToTechnologies() {
-        return leadsToTechnologies;
+        ArrayList<Technology> technologies = new ArrayList<>();
+        for (TechnologyEnum technologyEnum : neededTechnologiesEnum) {
+            technologies.add(new Technology(technologyEnum));
+        }
+        return technologies;
     }
 }

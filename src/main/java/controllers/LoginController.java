@@ -2,6 +2,8 @@ package controllers;
 
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import models.User;
 
 import java.io.FileWriter;
@@ -21,7 +23,7 @@ public class LoginController {
     public static LoginController getInstance() {
         if (instance == null) {
             instance = new LoginController();
-            //readUserInfo();
+            readUserInfo();
         }
         return instance;
     }
@@ -61,7 +63,7 @@ public class LoginController {
         return "menu navigation is not possible";
     }
 
-    /*public void writeUserInfo() {
+    public void writeUserInfo() {
         try {
             FileWriter fileWriter = new FileWriter("user.txt");
             fileWriter.write(new Gson().toJson(User.getAllUsers()));
@@ -75,9 +77,11 @@ public class LoginController {
         try {
             String info = new String(Files.readAllBytes(Paths.get("user.txt")));
             User.setAllUsers(new Gson().fromJson(info, new TypeToken<List<User>>(){}.getType()));
+            if (User.getAllUsers() == null)
+                User.setAllUsers(new ArrayList<>());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-    }*/
+    }
 }
