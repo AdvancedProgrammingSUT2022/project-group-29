@@ -108,7 +108,7 @@ public class GameController {
     }
 
 
-    public String TechnologyStudy(String technologyName) {
+    public String technologyStudy(String technologyName) {
         Technology technology = null;
         for (TechnologyEnum technologyEnum : TechnologyEnum.values()) {
             if (technologyName.equals(technologyEnum.getName()))
@@ -122,5 +122,39 @@ public class GameController {
         game.getCurrentCivilization().addTechnology(technology);
         game.getCurrentCivilization().decreaseScience(technology.getCost());
         return "technology buy successfully";
+    }
+
+    public String technologyChange(String technologyName) {
+        Technology technology = null;
+        for (TechnologyEnum technologyEnum : TechnologyEnum.values()) {
+            if (technologyName.equals(technologyEnum.getName()))
+                technology = new Technology(technologyEnum);
+        }
+        if (technology == null)
+            return "technologyName is invalid";
+        if (!game.getCurrentCivilization().isExistTechnology(technologyName))
+            return "don not have access to this technology";
+        if (game.getCurrentCivilization().getCurrentTechnology() == null)
+            return "no need to change";
+        game.getCurrentCivilization().setCurrentTechnology(technology);
+        game.getCurrentCivilization().addTechnology(technology);
+        game.getCurrentCivilization().decreaseScience(technology.getCost());
+        return "technology change successfully";
+    }
+
+    public String technologyMenu() {
+        StringBuilder sb = new StringBuilder();
+        Civilization currentCivilization = game.getCurrentCivilization();
+        sb.append("studyTechnology: " + "\n");
+
+        for (int i = 0; i < currentCivilization.getTechnologies().size(); i++){
+            sb.append(currentCivilization.getTechnologies().get(i).getName() + "\n");
+        }
+
+        sb.append("availableTechnology: " + "\n");
+        for (int i = 0; i < currentCivilization.getAvailableTechnology().size(); i++){
+            sb.append(currentCivilization.getAvailableTechnology().get(i).getName() + "\n");
+        }
+        return sb.toString();
     }
 }

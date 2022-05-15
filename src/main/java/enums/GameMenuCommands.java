@@ -31,7 +31,8 @@ public enum GameMenuCommands {
     CITY_UNEMPLOYED_CITIZEN_SECTION("city Unemployed Citizen Section"),
     CITY_BUY_TILE("city buy tile (?<xPoint>\\d+) (?<yPoint>\\d+)"),
     TECHNOLOGY_STUDY("technology study (?<technologyName>.*)"),
-    TECHNOLOGY_CHANGE("technology change");
+    TECHNOLOGY_CHANGE("technology change (?<technologyName>.*)"),
+    TECHNOLOGY_MENU("technology menu (?<technologyName>.*)");
 
 
 

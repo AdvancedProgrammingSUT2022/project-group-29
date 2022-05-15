@@ -651,13 +651,24 @@ public class GameMenu {
     private void technology(String command) {
         Matcher matcher;
         if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TECHNOLOGY_STUDY)) != null)
-            TechnologyStudy(matcher);
+            technologyStudy(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TECHNOLOGY_CHANGE)) != null)
+            technologyChange(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TECHNOLOGY_MENU)) != null)
+            System.out.println(GameController.getInstance().technologyMenu());
+        else
+            err();
+    }
+
+    private void technologyChange(Matcher matcher) {
+        String technologyName = matcher.group("technologyName");
+        System.out.println(GameController.getInstance().technologyChange(technologyName));
     }
 
 
-    private void TechnologyStudy(Matcher matcher) {
+    private void technologyStudy(Matcher matcher) {
         String technologyName = matcher.group("technologyName");
-        System.out.println(GameController.getInstance().TechnologyStudy(technologyName));
+        System.out.println(GameController.getInstance().technologyStudy(technologyName));
     }
 
 
