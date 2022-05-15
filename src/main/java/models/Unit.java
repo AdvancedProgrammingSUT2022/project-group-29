@@ -16,7 +16,7 @@ public class Unit {
     private final int maxMovement;
     private String combatType;
     private int xEnd, yEnd;
-    private String state = "";
+    private String state = "ready";
     private boolean hasDone = false;
 
     public Unit(nonCombatUnitsEnum type, int x, int y) {

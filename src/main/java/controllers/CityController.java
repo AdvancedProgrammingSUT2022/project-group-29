@@ -87,7 +87,6 @@ public class CityController {
     }
 
     public String removingCitizenFromWork(int x, int y) {
-        game = GameController.getInstance().getGame();
         City city;
         if ((city = game.getSelectedCity()) == null)
             return "select city";
@@ -110,8 +109,7 @@ public class CityController {
     }
 
     public String unemployedCitizenSection() {
-        game = GameController.getInstance().getGame();
-        if (GameController.getInstance().getGame().getSelectedCity() != null)
+        if (game.getSelectedCity() != null)
             return "unemployedCitizenSection: " + game.getSelectedCity().getCitizen();
         return "first select a city!";
     }
@@ -168,7 +166,7 @@ public class CityController {
         City selectedCity;
         MilitaryUnitsEnum militaryUnitEnum;
         nonCombatUnitsEnum nonCombatUnitsEnum;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) == null)
+        if ((selectedCity = game.getSelectedCity()) == null)
             return "no selected city";
         else if ((militaryUnitEnum = UnitController.getInstance().isExistMilitaryUnits(unitName)) != null) {
             if (selectedCity.getGold() < militaryUnitEnum.getCost())
@@ -177,7 +175,7 @@ public class CityController {
                 return "a military unit exist in city";
 
             MilitaryUnit militaryUnit = new MilitaryUnit(militaryUnitEnum, selectedCity.getX(), selectedCity.getY());
-            for (Technology technology : GameController.getInstance().getGame().getCurrentCivilization().getTechnologies()) {
+            for (Technology technology : game.getCurrentCivilization().getTechnologies()) {
                 if (!technology.getName().equals(militaryUnit.getNeededTechnology().getName()))
                     return "do not have needed technology";
             }
@@ -202,13 +200,13 @@ public class CityController {
     private void addCivilianToCity(Unit civilianUnit, City selectedCity, int gold) {
         selectedCity.setCivilian(civilianUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
-        GameController.getInstance().getGame().getCurrentCivilization().addCivilianToCity(civilianUnit);
+        game.getCurrentCivilization().addCivilianToCity(civilianUnit);
     }
 
     private void addMilitaryUnitToCity(MilitaryUnit militaryUnit, City selectedCity, int gold) {
         selectedCity.setMilitaryUnit(militaryUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
-        GameController.getInstance().getGame().getCurrentCivilization().addMilitaryUnit(militaryUnit);
+        game.getCurrentCivilization().addMilitaryUnit(militaryUnit);
     }
 
     private boolean doesCityHaveNeededResources(City selectedCity, MilitaryUnit militaryUnit) {
@@ -221,7 +219,7 @@ public class CityController {
 
     public String cityShowTilePosition() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             sb = new StringBuilder();
             for (Tile tile : selectedCity.getCityTiles()) {
                 sb.append("x :" + tile.getX() + "y:" + tile.getY() + "\n");
@@ -233,7 +231,7 @@ public class CityController {
 
     public String cityShowCivilization() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             return selectedCity.getCivilization().getName();
         }
         return "first select a city!";
@@ -241,7 +239,7 @@ public class CityController {
 
     public String cityShowResources() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             sb = new StringBuilder();
             for (Tile tile : selectedCity.getCityTiles()) {
                 sb.append(tile.getResource() + "\n");
@@ -253,7 +251,7 @@ public class CityController {
 
     public String cityShowStrategicResources() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             sb = new StringBuilder();
             for (Tile tile : selectedCity.getCityTiles()) {
                 if (tile.getResource().getType().equals("Strategic"))
@@ -267,7 +265,7 @@ public class CityController {
 
     public String cityShowUnit() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             return "militaryUnit: " + selectedCity.getMilitaryUnit() + "civilianUnit: " + selectedCity.getCivilian();
         }
         return "first select a city!";
@@ -275,7 +273,7 @@ public class CityController {
 
     public String cityShowInformation() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             return "name: " + selectedCity.getName() + "\n" +
                     "happiness: " + selectedCity.getHappiness() + "\n" +
                     "food: " + selectedCity.getFood() + "\n" +
@@ -288,7 +286,7 @@ public class CityController {
     }
 
     public String cityAttack(int x, int y) {
-        City selectedCity = GameController.getInstance().getGame().getSelectedCity();
+        City selectedCity = game.getSelectedCity();
         if (selectedCity == null)
             return "no selected city";
         Game game = GameController.getInstance().getGame();
@@ -300,12 +298,12 @@ public class CityController {
             return "y is out of map";
         if (selectedCity.getMilitaryUnit() == null)
             return "no combat unit in city";
-        if (GameController.getInstance().getGame().getMap()[x][y].getMilitaryUnit() == null)
+        if (game.getMap()[x][y].getMilitaryUnit() == null)
             return "no combat unit there";
         if (!isInRange(x, y, selectedCity))
             return "position is not in city range";
-        if (selectedCity.getMilitaryUnit().getState().equals("sleep"))
-            return "combat unit is sleeping";
+        if (!selectedCity.getMilitaryUnit().getState().equals("ready"))
+            return "combat unit is not ready";
         if (selectedCity.getMilitaryUnit().isHasDone())
             return "city has attacked in this turn";
         cityAttack(x, y, selectedCity);
@@ -354,10 +352,10 @@ public class CityController {
             return "no selected settler unit";
 
         String name = matcher.group("name");
-        int x = GameController.getInstance().getGame().getSelectedNonCombatUnit().getX();
-        int y = GameController.getInstance().getGame().getSelectedNonCombatUnit().getY();
+        int x = game.getSelectedNonCombatUnit().getX();
+        int y = game.getSelectedNonCombatUnit().getY();
 
-        for (Civilization civilizations : GameController.getInstance().getGame().getCivilizations()) {
+        for (Civilization civilizations : game.getCivilizations()) {
             for (City civilizationsCity : civilizations.getCities()) {
                 for (Tile civilizationsCityCityTile : civilizationsCity.getCityTiles()) {
                     if (civilizationsCityCityTile.getX() == x && civilizationsCityCityTile.getY() == y)
@@ -367,24 +365,24 @@ public class CityController {
         }
 
 
-        City city = new City(name, GameController.getInstance().getGame().getCurrentCivilization(), x, y);
-        GameController.getInstance().getGame().getCurrentCivilization().addCity(city);
+        City city = new City(name, game.getCurrentCivilization(), x, y);
+        game.getCurrentCivilization().addCity(city);
         destroySettler();
-        if (GameController.getInstance().getGame().getCurrentCivilization().getCapital() == null)
-            GameController.getInstance().getGame().getCurrentCivilization().setCapital(city);
-        GameController.getInstance().getGame().getCurrentCivilization().decreaseHappiness(1);
+        if (game.getCurrentCivilization().getCapital() == null)
+            game.getCurrentCivilization().setCapital(city);
+        game.getCurrentCivilization().decreaseHappiness(1);
         return "city created successfully";
     }
 
     private void destroySettler() {
-        int x = GameController.getInstance().getGame().getSelectedNonCombatUnit().getX();
-        int y = GameController.getInstance().getGame().getSelectedNonCombatUnit().getY();
-        for (int i = 0; i < GameController.getInstance().getGame().getCurrentCivilization().getUnits().size(); i++) {
-            if (GameController.getInstance().getGame().getCurrentCivilization().getUnits().get(i).getY() == y
-                    && GameController.getInstance().getGame().getCurrentCivilization().getUnits().get(i).getX() == x) {
-                GameController.getInstance().getGame().getCurrentCivilization().getUnits().remove(i);
-                GameController.getInstance().getGame().getMap()[x][y].setCivilian(null);
-                GameController.getInstance().getGame().setSelectedNonCombatUnit(null);
+        int x = game.getSelectedNonCombatUnit().getX();
+        int y = game.getSelectedNonCombatUnit().getY();
+        for (int i = 0; i < game.getCurrentCivilization().getUnits().size(); i++) {
+            if (game.getCurrentCivilization().getUnits().get(i).getY() == y
+                    && game.getCurrentCivilization().getUnits().get(i).getX() == x) {
+                game.getCurrentCivilization().getUnits().remove(i);
+                game.getMap()[x][y].setCivilian(null);
+                game.setSelectedNonCombatUnit(null);
                 return;
             }
 
@@ -402,7 +400,7 @@ public class CityController {
     //TODO SHOULD COMPLETE relative to turn
     public String cityScreenMenu() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             return "name: " + selectedCity.getName() + "\n" +
                     "science: " + selectedCity.getScience() + "\n" +
                     "gold: " + selectedCity.getGold() + "\n" +
@@ -415,7 +413,7 @@ public class CityController {
 
     public String cityResourcesOutput() {
         City selectedCity;
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) != null) {
+        if ((selectedCity = game.getSelectedCity()) != null) {
             return "name: " + selectedCity.getName() + "\n" +
                     "happiness: " + selectedCity.getHappiness() + "\n" +
                     "food: " + selectedCity.getFood() + "\n" +
@@ -478,7 +476,7 @@ public class CityController {
     //TODO add buy unit to queue
     /*
     public String buyUnit(String unitName) {
-        if ((selectedCity = GameController.getInstance().getGame().getSelectedCity()) == null)
+        if ((selectedCity = game.getSelectedCity()) == null)
             return "no selected city";
         else if ((militaryUnitEnum = UnitController.getInstance().isExistMilitaryUnits(unitName)) != null) {
             if ((gold = selectedCity.getGold()) < militaryUnitEnum.getCost() / 5)

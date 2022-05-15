@@ -16,7 +16,7 @@ public class MilitaryUnit {
     private Technology neededTechnology;
     private Resource neededResource;
     private int xEnd, yEnd;
-    private String state = "";
+    private String state = "ready";
     private boolean hasDone = false;
 
     public MilitaryUnit(MilitaryUnitsEnum type, int x, int y) {

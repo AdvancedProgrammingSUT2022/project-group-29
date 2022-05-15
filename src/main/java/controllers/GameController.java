@@ -61,8 +61,8 @@ public class GameController {
         MilitaryUnit enemyMilitaryUnit;
         if (game.getSelectedCombatUnit() == null)
             return "no selected combat unit";
-        if (game.getSelectedCombatUnit().getState().equals("sleep"))
-            return "combat unit is sleeping";
+        if (!game.getSelectedCombatUnit().getState().equals("ready"))
+            return "combat unit is not ready";
         if (!CityController.getInstance().isXTileValid(x))
             return "x position is not valid";
         if (!CityController.getInstance().isYTileValid(y))
@@ -102,7 +102,13 @@ public class GameController {
         return CityController.getInstance().createCity(matcher);
     }
 
+    // TODO complete
     public String cancelMission() {
+        if (game.getSelectedCombatUnit() != null) {
+            if (!game.getSelectedCombatUnit().isHasDone())
+                return "unit has no works";
+
+        }
         return null;
     }
 }

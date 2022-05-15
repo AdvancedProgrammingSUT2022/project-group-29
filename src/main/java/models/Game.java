@@ -21,6 +21,7 @@ public class Game {
 
     public void nextTurn() {
         UnitController.getInstance().changePlaceAfterTurnAllUnits();
+        UnitController.getInstance().healAfterTurn();
         currentCivilization = civilizations.get(++turn % civilizations.size());
     }
 
