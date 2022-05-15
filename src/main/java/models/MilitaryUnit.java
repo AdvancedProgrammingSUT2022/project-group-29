@@ -86,7 +86,7 @@ public class MilitaryUnit {
 
     @Override
     public String toString() {
-        return "name: " + name + "  -  x , y: " + x + " , " + y;
+        return "name: " + name + "  -  x , y: " + x + " , " + y + "  state: " + state;
     }
 
     public String getState() {

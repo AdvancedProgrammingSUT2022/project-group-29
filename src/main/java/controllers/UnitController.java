@@ -286,10 +286,14 @@ public class UnitController {
         if (game.getSelectedCombatUnit() != null) {
             int x = game.getSelectedCombatUnit().getX();
             int y = game.getSelectedCombatUnit().getY();
+            game.getCurrentCivilization().addToNotifications("combat unit " +
+                    game.getSelectedCombatUnit().getName() + "destroyed");
             game.getCurrentCivilization().deleteMilitaryUnit(x, y);
         } else if (game.getSelectedNonCombatUnit() != null) {
             int x = game.getSelectedNonCombatUnit().getX();
             int y = game.getSelectedNonCombatUnit().getY();
+            game.getCurrentCivilization().addToNotifications("non combat unit " +
+                    game.getSelectedNonCombatUnit().getName() + " destroyed");
             game.getCurrentCivilization().deleteNonMilitaryUnit(x, y);
         } else
             return "no selected unit";

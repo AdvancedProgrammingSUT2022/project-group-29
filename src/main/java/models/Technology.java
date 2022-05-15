@@ -40,7 +40,7 @@ public class Technology {
     }
 
     public static List<TechnologyEnum> getAllTechnologies() {
-        return null;
+        return allTechnologies;
     }
 
     public boolean equals(Technology other) {

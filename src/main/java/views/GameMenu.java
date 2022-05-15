@@ -6,12 +6,15 @@ import enums.modelsEnum.TechnologyEnum;
 import models.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMenu {
     private static GameMenu instance = null;
     private int xMap = 10, yMap = 10;
+    private Scanner scanner;
 
     private GameMenu() {
     }
@@ -23,6 +26,7 @@ public class GameMenu {
     }
 
     public void run(Scanner scanner, ArrayList<User> users) {
+        this.scanner = scanner;
         GameController.getInstance().startGame(users);
         printGameStarted(users);
         String command;
@@ -372,16 +376,38 @@ public class GameMenu {
     }
 
     private void showEconomic() {
+
     }
 
     private void showMilitary() {
+
     }
 
     private void showNotifications() {
+        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        for (String notification : civilization.getNotifications())
+            System.out.println(notification);
     }
 
     private void showDemographics() {
+        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        System.out.println("population: " + civilization.calculatePopulation() +
+                "\ngold: " + civilization.getGold() +
+                "\nnumber of combat units: " + civilization.getMilitaryUnits().size());
+        int population = 0, numberOfCombatUnits = 0, gold = 0;
+        ArrayList<Civilization> arrayList = GameController.getInstance().getGame().getCivilizations();
+        for (Civilization value : arrayList) {
+            if (value.getGold() > civilization.getGold())
+                gold++;
+            if (value.calculatePopulation() > civilization.calculatePopulation())
+                population++;
+            if (value.getMilitaryUnits().size() > civilization.getMilitaryUnits().size())
+                numberOfCombatUnits++;
+        }
 
+        System.out.println("rank in gold: " + gold);
+        System.out.println("rank in population: " + population);
+        System.out.println("rank in number of combat units: " + numberOfCombatUnits);
     }
 
     private void showCities() {
@@ -401,6 +427,26 @@ public class GameMenu {
         for (Unit unit : civilization.getUnits()) {
             System.out.println(unit.toString());
         }
+
+        System.out.println("choose a unit or exit");
+        String string = this.scanner.nextLine();
+
+        if (string.equals("exit"))
+            return;
+        if (!Pattern.compile("\\d+").matcher(string).matches()) {
+            System.out.println("invalid input");
+            return;
+        }
+
+        showUnit(civilization.getMilitaryUnits().get(Integer.parseInt(string)));
+    }
+
+    private void showUnit(MilitaryUnit militaryUnit) {
+        System.out.println("name: " + militaryUnit.getName() + "\nx , y: " + militaryUnit.getX() + " , " +
+                militaryUnit.getY() + "\ncombat strength: " + militaryUnit.getCombatStrength() +
+                "\nrange: " + militaryUnit.getRange() + "\nrange strength: " + militaryUnit.getRangedCombatStrength()
+                + "\nmovement: " + militaryUnit.getMovement() + "\nhp: " + militaryUnit.getHp() +
+                "\nstate: " + militaryUnit.getState());
     }
 
     private void showResearch() {
@@ -508,7 +554,7 @@ public class GameMenu {
             showMapByPosition(matcher);
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP2)) != null)
             showMapByCityName(matcher);
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP3)) != null)
+        else if (GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP3) != null)
             showMapWithoutPosition();
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.MOVE_MAP)) != null)
             moveMap(matcher);
@@ -570,12 +616,12 @@ public class GameMenu {
             cityLockingCitizenToTile(matcher);
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.REMOVE_CITIZEN_FROM_TILE)) != null)
             cityRemoveCitizenFromTile(matcher);
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SCREEN_MENU)) != null)
-            cityScreenMenu(matcher);
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_RESOURCES_OUTPUT)) != null)
-            cityResourcesOutput(matcher);
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_UNEMPLOYED_CITIZEN_SECTION)) != null)
-            unemployedCitizenSection(matcher);
+        else if (GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_SCREEN_MENU) != null)
+            cityScreenMenu();
+        else if (GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_RESOURCES_OUTPUT) != null)
+            cityResourcesOutput();
+        else if (GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_UNEMPLOYED_CITIZEN_SECTION) != null)
+            unemployedCitizenSection();
         else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CITY_BUY_TILE)) != null)
             cityBuyTile(matcher);
         else
@@ -588,15 +634,15 @@ public class GameMenu {
         System.out.println(CityController.getInstance().cityBuyTile(x, y));
     }
 
-    private void unemployedCitizenSection(Matcher matcher) {
+    private void unemployedCitizenSection() {
         System.out.println(CityController.getInstance().unemployedCitizenSection());
     }
 
-    private void cityResourcesOutput(Matcher matcher) {
+    private void cityResourcesOutput() {
         System.out.println(CityController.getInstance().cityResourcesOutput());
     }
 
-    private void cityScreenMenu(Matcher matcher) {
+    private void cityScreenMenu() {
         System.out.println(CityController.getInstance().cityScreenMenu());
     }
 

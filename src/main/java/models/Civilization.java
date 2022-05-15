@@ -19,6 +19,7 @@ public class Civilization {
     private final ArrayList<Technology> availableTechnology = new ArrayList<>();
     private String color;
     private Technology currentTechnology = null;
+    private ArrayList<String> notifications = new ArrayList<>();
 
     public Civilization(User leader, int x, int y) {
         Leader = leader;
@@ -163,9 +164,17 @@ public class Civilization {
 
     public int calculatePopulation() {
         int count = 0;
-        for (int i = 0; i < cities.size(); i++){
-            count +=cities.get(i).getPopulation();
+        for (City city : cities) {
+            count += city.getPopulation();
         }
         return count;
+    }
+
+    public ArrayList<String> getNotifications() {
+        return notifications;
+    }
+
+    public void addToNotifications(String string) {
+        this.notifications.add(string);
     }
 }

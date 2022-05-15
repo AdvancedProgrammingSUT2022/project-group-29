@@ -182,6 +182,7 @@ public class CityController {
             if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
                 return "do not have needed resources";
             addMilitaryUnitToCity(militaryUnit, selectedCity, militaryUnitEnum.getCost());
+            game.getCurrentCivilization().addToNotifications("combat unit " + militaryUnit.getName() + " created");
             return "unit created successfully in city";
         } else if ((nonCombatUnitsEnum = UnitController.getInstance().isExistNonCombatUnits(unitName)) != null) {
             if (selectedCity.getGold() < nonCombatUnitsEnum.getCost())
@@ -192,6 +193,7 @@ public class CityController {
             Unit civilianUnit = new Unit(nonCombatUnitsEnum, selectedCity.getX(), selectedCity.getY());
             addCivilianToCity(civilianUnit, selectedCity, nonCombatUnitsEnum.getCost());
 
+            game.getCurrentCivilization().addToNotifications("non combat unit " + civilianUnit.getName() + "created");
             return "unit created successfully in city";
         } else
             return "unit name is invalid";
@@ -371,6 +373,7 @@ public class CityController {
         if (game.getCurrentCivilization().getCapital() == null)
             game.getCurrentCivilization().setCapital(city);
         game.getCurrentCivilization().decreaseHappiness(1);
+        game.getCurrentCivilization().addToNotifications("city " + name + " created");
         return "city created successfully";
     }
 
