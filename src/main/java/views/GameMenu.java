@@ -42,6 +42,8 @@ public class GameMenu {
                 map(command);
             else if (command.startsWith("city"))
                 city(command);
+            else if (command.startsWith("technology"))
+                technology(command);
             else if (command.trim().equals("end"))
                 break;
             else if (command.equals("next turn"))
@@ -57,6 +59,7 @@ public class GameMenu {
 
         MainMenu.getInstance().run(scanner);
     }
+
 
     private void printGameStarted(ArrayList<User> users) {
         StringBuilder stringBuilder = new StringBuilder("A new game started between ");
@@ -153,8 +156,7 @@ public class GameMenu {
                         if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10 - 1].getRivers()[1])
                             hasRiver = (i / 6 < (xEnd + 1) && j / 10 - 1 < (yEnd + 1)) ? blueColor : "";
                         System.out.print("\033[000m" + hasRiver + "\\" + "\033[000m");
-                    }
-                    else
+                    } else
                         System.out.print(" ");
 
                 } else if (i % 6 == 3) {
@@ -169,8 +171,7 @@ public class GameMenu {
 
                         System.out.print(hasRiver + "--------" + "\033[000m");
                         j += 7;
-                    }
-                    else
+                    } else
                         System.out.print(" ");
 
                 } else if (i % 6 == 4) {
@@ -213,8 +214,7 @@ public class GameMenu {
                         if ((i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) && tiles[i / 6][j / 10].getRivers()[4])
                             hasRiver = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1)) ? blueColor : "";
                         System.out.print("\033[000m" + hasRiver + "\\" + "\033[000m");
-                    }
-                    else if (j % 20 == 10) {
+                    } else if (j % 20 == 10) {
                         // river
 
                         String hasRiver = "";
@@ -586,7 +586,6 @@ public class GameMenu {
         int x = Integer.parseInt(matcher.group("xPoint"));
         int y = Integer.parseInt(matcher.group("yPoint"));
         System.out.println(CityController.getInstance().cityBuyTile(x, y));
-
     }
 
     private void unemployedCitizenSection(Matcher matcher) {
@@ -647,6 +646,30 @@ public class GameMenu {
         String unitName = matcher.group("unitName");
         System.out.println(CityController.getInstance().createUnit(unitName));
     }
+
+    private void technology(String command) {
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TECHNOLOGY_STUDY)) != null)
+            technologyStudy(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TECHNOLOGY_CHANGE)) != null)
+            technologyChange(matcher);
+        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.TECHNOLOGY_MENU)) != null)
+            System.out.println(GameController.getInstance().technologyMenu());
+        else
+            err();
+    }
+
+    private void technologyChange(Matcher matcher) {
+        String technologyName = matcher.group("technologyName");
+        System.out.println(GameController.getInstance().technologyChange(technologyName));
+    }
+
+
+    private void technologyStudy(Matcher matcher) {
+        String technologyName = matcher.group("technologyName");
+        System.out.println(GameController.getInstance().technologyStudy(technologyName));
+    }
+
 
     private void err() {
         System.out.println("invalid command");

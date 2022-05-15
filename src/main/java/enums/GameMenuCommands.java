@@ -29,7 +29,10 @@ public enum GameMenuCommands {
     CITY_RESOURCES_OUTPUT("city resources output"),
     CITY_SCREEN_MENU("city screen menu"),
     CITY_UNEMPLOYED_CITIZEN_SECTION("city Unemployed Citizen Section"),
-    CITY_BUY_TILE("city buy tile (?<xPoint>\\d+) (?<yPoint>\\d+)");
+    CITY_BUY_TILE("city buy tile (?<xPoint>\\d+) (?<yPoint>\\d+)"),
+    TECHNOLOGY_STUDY("technology study (?<technologyName>.*)"),
+    TECHNOLOGY_CHANGE("technology change (?<technologyName>.*)"),
+    TECHNOLOGY_MENU("technology menu (?<technologyName>.*)");
 
 
 

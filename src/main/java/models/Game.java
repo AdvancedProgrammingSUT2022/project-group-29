@@ -23,6 +23,7 @@ public class Game {
         UnitController.getInstance().changePlaceAfterTurnAllUnits();
         UnitController.getInstance().healAfterTurn();
         currentCivilization = civilizations.get(++turn % civilizations.size());
+        currentCivilization.increaseScience(3 + currentCivilization.calculatePopulation());
     }
 
     public int getTurn() {
