@@ -7,16 +7,17 @@ import enums.modelsEnum.nonCombatUnitsEnum;
 import java.util.ArrayList;
 
 public class Civilization {
-    private User Leader;
+    private final User Leader;
     private String name;
-    private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<MilitaryUnit> militaryUnits = new ArrayList<>();
-    private ArrayList<City> cities = new ArrayList<>();
+    private final ArrayList<Unit> units = new ArrayList<>();
+    private final ArrayList<MilitaryUnit> militaryUnits = new ArrayList<>();
+    private final ArrayList<City> cities = new ArrayList<>();
     private City capital;
-    private int happiness, gold;
-    private ArrayList<Tile> tiles = new ArrayList<>();
-    private ArrayList<Technology> technologies = new ArrayList<>();
-    private ArrayList<Improvement> improvements = new ArrayList<>();
+    private int happiness, gold, science;
+    private final ArrayList<Tile> tiles = new ArrayList<>();
+    private final ArrayList<Technology> technologies = new ArrayList<>();
+    private final ArrayList<Technology> availableTechnology = new ArrayList<>();
+    private final ArrayList<Improvement> improvements = new ArrayList<>();
     private String color;
     private Technology currentTechnology = null;
 
@@ -44,7 +45,7 @@ public class Civilization {
         return militaryUnits;
     }
 
-    public void addMilitaryUnit (MilitaryUnit militaryUnit){
+    public void addMilitaryUnit(MilitaryUnit militaryUnit) {
         this.militaryUnits.add(militaryUnit);
     }
 
@@ -102,6 +103,7 @@ public class Civilization {
             }
         }
     }
+
     public void deleteNonMilitaryUnit(int x, int y) {
         GameController.getInstance().getGame().getMap()[x][y].setCivilian(null);
         for (int i = 0; i < units.size(); i++) {
@@ -119,6 +121,7 @@ public class Civilization {
     public void increaseHappiness(int amount) {
         this.happiness += amount;
     }
+
     public void decreaseHappiness(int amount) {
         this.happiness += amount;
     }
@@ -129,5 +132,41 @@ public class Civilization {
 
     public int getGold() {
         return gold;
+    }
+
+    public ArrayList<Technology> getAvailableTechnology() {
+        return availableTechnology;
+    }
+
+    public boolean isExistTechnology(String name) {
+        for (int i = 0; i < technologies.size(); i++) {
+            if (availableTechnology.get(i).getName().equals(name))
+                return true;
+        }
+        return false;
+    }
+
+    public void addTechnology(Technology technology) {
+        technologies.add(technology);
+    }
+
+    public int getScience() {
+        return science;
+    }
+
+    public void increaseScience(int amount) {
+        this.science += amount;
+    }
+
+    public void decreaseScience(int amount) {
+        this.science -= amount;
+    }
+
+    public int calculatePopulation() {
+        int count = 0;
+        for (int i = 0; i < cities.size(); i++){
+            count +=cities.get(i).getPopulation();
+        }
+        return count;
     }
 }
