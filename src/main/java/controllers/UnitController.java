@@ -470,4 +470,18 @@ public class UnitController {
 
         return "successful";
     }
+
+    public String readySiege() {
+        MilitaryUnit militaryUnit = game.getSelectedCombatUnit();
+        if (militaryUnit == null)
+            return "no selected combat unit";
+        if (!militaryUnit.getCombatType().equals("Siege"))
+            return "unit is not siege";
+        if (militaryUnit.isReadySiege())
+            return "unit is already set";
+
+        militaryUnit.setHasDone(true);
+        militaryUnit.setReadySiege(true);
+        return "siege set";
+    }
 }

@@ -79,6 +79,8 @@ public class GameMenu {
             System.out.println(GameController.getInstance().cheatScience(Integer.parseInt(matcher.group("amount"))));
         else if (matcher.group("name").equals("finishTechnology"))
             System.out.println(GameController.getInstance().cheatTechnology(Integer.parseInt(matcher.group("amount"))));
+        else
+            err();
     }
 
 
@@ -485,6 +487,8 @@ public class GameMenu {
             System.out.println(UnitController.getInstance().deleteUnit());
         else if (command.equals("unit create route"))
             System.out.println(UnitController.getInstance().createRoute());
+        else if (command.equals("unit ready siege"))
+            System.out.println(UnitController.getInstance().readySiege());
         else
             err();
     }
