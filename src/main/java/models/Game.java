@@ -26,6 +26,8 @@ public class Game {
         currentCivilization.increaseScience(3 + currentCivilization.calculatePopulation());
         GameController.getInstance().getResourceAndGoldTurn();
         GameController.getInstance().decreaseTechnologyTurn();
+        GameController.getInstance().food();
+        GameController.getInstance().makeFood();
 
         currentCivilization = civilizations.get(++turn % civilizations.size());
     }

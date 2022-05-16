@@ -40,4 +40,8 @@ public class TerrainAndFeature {
     public int getGold() {
         return gold;
     }
+
+    public int getFood() {
+        return food;
+    }
 }

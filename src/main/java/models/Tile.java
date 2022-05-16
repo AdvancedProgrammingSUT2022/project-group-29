@@ -146,4 +146,8 @@ public class Tile {
     public double getCombatChange() {
         return (feature == null ? 0 : feature.getBattleEffect()) + (terrain == null ? 0 : terrain.getBattleEffect());
     }
+
+    public int getFood() {
+        return (feature == null ? 0 : feature.getFood()) + (terrain == null ? 0 : terrain.getFood());
+    }
 }

@@ -251,4 +251,37 @@ public class GameController {
         game.getCurrentCivilization().addTechnology(technology);
         return "successful";
     }
+
+    public void food() {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                city.setAllFood(city.getAllFood() - city.getPopulation());
+                if (city.getCivilian() != null && !city.getCivilian().isHasDone())
+                    city.setAllFood(city.getAllFood() - 1);
+            }
+        }
+    }
+
+    public void makeFood() {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                for (Tile cityTile : city.getCityTiles()) {
+                    if (cityTile.isThereCitizen()) {
+                        int amount = cityTile.getFood();
+                        if (cityTile.getImprovement() != null)
+                            amount += cityTile.getImprovement().getFoodChange();
+                        city.setAllFood(city.getAllFood() + amount);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < game.getCivilizations().size(); i++) {
+            for (int i1 = 0; i1 < game.getCivilizations().get(i).getCities().size(); i1++) {
+                if (game.getCivilizations().get(i).getCities().get(i1).getAllFood() <= 0) {
+                    game.getCivilizations().get(i).getCities().get(i1).setAllFood(0);
+                    game.getCivilizations().get(i).decreaseHappiness(10);
+                }
+            }
+        }
+    }
 }

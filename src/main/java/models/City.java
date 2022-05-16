@@ -5,6 +5,7 @@ import controllers.GameController;
 import java.util.ArrayList;
 
 public class City {
+    private int allFood = 0;
     private String name;
     private Civilization civilization;
     private int happiness;
@@ -32,14 +33,13 @@ public class City {
         this.combatStrength = 10;
         this.production = 0;
         this.hitPoint = 20;
-        this.population = 1;
 
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 this.cityTiles.add(GameController.getInstance().getGame().getMap()[i][j]);
             }
         }
-        this.citizen = 0;
+        this.citizen = 1;
         this.science = 0;
     }
 
@@ -113,7 +113,7 @@ public class City {
     }
 
     public int getPopulation() {
-        return population;
+        return citizen;
     }
 
     public int getHitPoint() {
@@ -158,5 +158,13 @@ public class City {
                 return;
             }
         }
+    }
+
+    public int getAllFood() {
+        return allFood;
+    }
+
+    public void setAllFood(int allFood) {
+        this.allFood = allFood;
     }
 }
