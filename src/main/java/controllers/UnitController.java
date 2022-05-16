@@ -119,22 +119,44 @@ public class UnitController {
 
 
     private boolean movePossible(int x, int y, MilitaryUnit militaryUnit) {
-        if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
-                game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
-                game.getMap()[x][y].getMilitaryUnit() != null ||
-                militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost())
-            return false;
+        if (!game.getMap()[x][y].isHasRoute()) {
+            if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
+                    game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
+                    game.getMap()[x][y].getMilitaryUnit() != null ||
+                    militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost()||
+                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName()))
+                return false;
+        } else {
+            if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
+                    game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
+                    game.getMap()[x][y].getMilitaryUnit() != null ||
+                    militaryUnit.getMovement() < 1||
+                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName()))
+                return false;
+        }
         return true;
     }
 
     private boolean movePossible(int x, int y, Unit unit) {
-        if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
-                game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
-                game.getMap()[x][y].getMilitaryUnit() != null ||
-                unit.getMovement() < game.getMap()[x][y].getMovementCost() ||
-                !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                        game.getCurrentCivilization().LeaderName()))
-            return false;
+        if (!game.getMap()[x][y].isHasRoute()) {
+            if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
+                    game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
+                    game.getMap()[x][y].getMilitaryUnit() != null ||
+                    unit.getMovement() < game.getMap()[x][y].getMovementCost() ||
+                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName()))
+                return false;
+        } else {
+            if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
+                    game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
+                    game.getMap()[x][y].getMilitaryUnit() != null ||
+                    unit.getMovement() < 1 ||
+                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName()))
+                return false;
+        }
         return true;
     }
 
@@ -177,7 +199,7 @@ public class UnitController {
         int y = Integer.parseInt(matcher.group("y"));
         if (game.getSelectedCombatUnit() != null) {
             if (!game.getSelectedCombatUnit().getState().equals("ready"))
-                return "unit is slept";
+                return "unit is not ready";
             if (game.getSelectedCombatUnit().isHasDone())
                 return "unit has done its work";
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
@@ -186,6 +208,8 @@ public class UnitController {
             if (!GameController.getInstance().getCivilization(x, y).LeaderName().equals(
                     game.getCurrentCivilization().LeaderName()))
                 return "can not move to enemies tile";
+            if (CityController.getInstance().getCity(x, y).getMilitaryUnit() != null)
+                return "there is a military unit in that city";
 
             game.getSelectedCombatUnit().setHasDone(true);
             game.getSelectedCombatUnit().setxEnd(x);
@@ -198,6 +222,11 @@ public class UnitController {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
+            if (!GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                    game.getCurrentCivilization().LeaderName()))
+                return "can not move to enemies tile";
+            if (CityController.getInstance().getCity(x, y).getCivilian() != null)
+                return "there is a non combat unit in that city";
 
             game.getSelectedNonCombatUnit().setHasDone(true);
             game.getSelectedNonCombatUnit().setxEnd(x);
@@ -250,7 +279,6 @@ public class UnitController {
         return null;
     }
 
-    // TODO .. complete
     public String unitFortify() {
         if (game.getSelectedCombatUnit() != null) {
             if (game.getSelectedCombatUnit().isHasDone())
@@ -319,14 +347,50 @@ public class UnitController {
     }
 
     public String removeJungle() {
-        return null;
+        if (game.getSelectedNonCombatUnit() == null)
+            return "no selected non combat unit";
+        if (!game.getSelectedNonCombatUnit().getName().equals("worker"))
+            return "select worker first";
+        if (game.getSelectedNonCombatUnit().isHasDone())
+            return "worker has done its work";
+        if (!game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].
+                getFeature().getKind().equals("jungle"))
+            return "tile does not have jungle";
+
+        game.getSelectedNonCombatUnit().setHasDone(true);
+        game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].setFeature(null);
+
+        return "jungle removed";
     }
 
     public String removeRoute() {
-        return null;
+        if (game.getSelectedNonCombatUnit() == null)
+            return "no selected non combat unit";
+        if (!game.getSelectedNonCombatUnit().getName().equals("worker"))
+            return "select worker first";
+        if (game.getSelectedNonCombatUnit().isHasDone())
+            return "worker has done its work";
+        if (!game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].isHasRoute())
+            return "tile does not have route";
+
+        game.getSelectedNonCombatUnit().setHasDone(true);
+        game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].setHasRoute(false);
+
+        return "route removed";
     }
 
     public String repair() {
+        if (game.getSelectedNonCombatUnit() == null)
+            return "no selected non combat unit";
+        if (!game.getSelectedNonCombatUnit().getName().equals("worker"))
+            return "select worker first";
+        if (game.getSelectedNonCombatUnit().isHasDone())
+            return "worker has done its work";
+        if (!game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].isNeedRepair())
+            return "tile does not need repair";
+
+        game.getSelectedNonCombatUnit().setHasDone(true);
+        game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].setNeedRepair(false);
         return null;
     }
 
@@ -389,4 +453,19 @@ public class UnitController {
     }
 
 
+    public String createRoute() {
+        if (game.getSelectedNonCombatUnit() == null)
+            return "no selected non combat unit";
+        if (!game.getSelectedNonCombatUnit().getName().equals("worker"))
+            return "select worker first";
+        if (game.getSelectedNonCombatUnit().isHasDone())
+            return "worker has done its work";
+        if (game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].isHasRoute())
+            return "tile have a route already";
+
+        game.getSelectedNonCombatUnit().setHasDone(true);
+        game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].setHasRoute(true);
+
+        return "successful";
+    }
 }

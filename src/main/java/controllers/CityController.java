@@ -281,6 +281,7 @@ public class CityController {
                     "happiness: " + selectedCity.getHappiness() + "\n" +
                     "food: " + selectedCity.getFood() + "\n" +
                     "production: " + selectedCity.getProduction() + "\n" +
+                    "gold: " + selectedCity.getGold() + "\n" +
                     "combatStrength: " + selectedCity.getCombatStrength() + "\n" +
                     "population: " + selectedCity.getPopulation() + "\n" +
                     "hitPoint: " + selectedCity.getHitPoint();
@@ -467,6 +468,13 @@ public class CityController {
 
     private void destroyCity(City city) {
         game.getCurrentCivilization().setGold(game.getCurrentCivilization().getGold() + city.getGold());
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City civilizationCity : civilization.getCities()) {
+                for (int i = 0; i < civilizationCity.getCityTiles().size(); i++) {
+                    civilizationCity.getCityTiles().get(i).setNeedRepair(true);
+                }
+            }
+        }
         for (Civilization civilization : game.getCivilizations()) {
             for (int i = 0; i < civilization.getCities().size(); i++) {
                 if (civilization.getCities().get(i).getName().equals(city.getName())) {

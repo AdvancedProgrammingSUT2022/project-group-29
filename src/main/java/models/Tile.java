@@ -11,11 +11,12 @@ public class Tile {
     private Unit civilian;
     private MilitaryUnit militaryUnit;
     private boolean isThereCitizen;
-
+    private boolean hasRoute = false;
     private ArrayList<Tile> neighbourTiles ;
     private  boolean[] rivers;
     private Improvement improvement;
-    private int value = 0;
+    private int value = 1;
+    private boolean needRepair = false;
 
     public Tile(int x, int y) {
         this.x = x;
@@ -105,6 +106,7 @@ public class Tile {
     public void setThereCitizen(boolean thereCitizen) {
         isThereCitizen = thereCitizen;
     }
+
     public int getValue() {
         return value;
     }
@@ -123,5 +125,21 @@ public class Tile {
 
     public int getGold() {
         return feature.getGold() + terrain.getGold();
+    }
+
+    public boolean isNeedRepair() {
+        return needRepair;
+    }
+
+    public void setNeedRepair(boolean needRepair) {
+        this.needRepair = needRepair;
+    }
+
+    public boolean isHasRoute() {
+        return hasRoute;
+    }
+
+    public void setHasRoute(boolean hasRoute) {
+        this.hasRoute = hasRoute;
     }
 }

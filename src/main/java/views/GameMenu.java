@@ -466,6 +466,8 @@ public class GameMenu {
             System.out.println(UnitController.getInstance().repair());
         else if (command.equals("unit delete"))
             System.out.println(UnitController.getInstance().deleteUnit());
+        else if (command.equals("unit create route"))
+            System.out.println(UnitController.getInstance().createRoute());
         else
             err();
     }
@@ -473,8 +475,10 @@ public class GameMenu {
     private void unitBuild(String command) {
         Matcher matcher;
         String improvementName;
-        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_BUILD)) != null)
-            System.out.println(UnitController.getInstance().buildImprovement(improvementName = matcher.group("improvementName")));
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_BUILD)) != null) {
+            improvementName = matcher.group("improvementName");
+            System.out.println(UnitController.getInstance().buildImprovement(improvementName));
+        }
         else
             err();
     }

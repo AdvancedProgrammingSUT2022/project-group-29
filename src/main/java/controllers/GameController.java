@@ -173,7 +173,9 @@ public class GameController {
             for (Tile cityTile : city.getCityTiles()) {
                 if (cityTile.isThereCitizen()) {
                     if (civilization.isExistTechnology(cityTile.getResource().getNeededTechnology().getName())) {
-                        if (civilization.isExistImprovement(cityTile.getResource().getNeededImprovement().getName())) {
+                        if (cityTile.getImprovement() != null && cityTile.getImprovement().getName()
+                                .equals(cityTile.getResource().getNeededImprovement().getName()) &&
+                        !cityTile.isNeedRepair()) {
                             if (cityTile.getResource().getType().equals("Luxury")) {
                                 if (!cityTile.getResource().getName().equals("Gold"))
                                     civilization.addLuxuryResource(cityTile.getResource());
@@ -181,6 +183,8 @@ public class GameController {
                                     int amount = 0;
                                     amount += cityTile.getTerrain().getGold();
                                     amount += cityTile.getResource().getGold();
+                                    if (cityTile.getImprovement() != null)
+                                        amount += cityTile.getImprovement().getGoldChange();
                                     for (int i = 0; i < cityTile.getRivers().length; i++) {
                                         if (cityTile.getRivers()[i])
                                             amount++;
