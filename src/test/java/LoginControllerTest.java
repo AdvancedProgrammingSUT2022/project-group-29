@@ -2,10 +2,7 @@ import controllers.LoginController;
 import controllers.MainController;
 import enums.LoginMenuCommands;
 import models.User;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mock;
 import org.mockito.Mock;
@@ -22,23 +19,18 @@ public class LoginControllerTest {
 
     User user;
 
-    @BeforeAll
+    @BeforeEach
     public void addUser() {
         user = new User("Erfan396","1382","Erfan#DT");
         User.getAllUsers().add(user);
     }
 
-    @Test
-    public void checkExistUser() {
-        User result = MainController.getInstance().isExistUsername("Erfan396");
-        Assertions.assertEquals(result,user);
-    }
 
     @Test
     public void checkCreateUser1() {
         matcher = LoginMenuCommands.isMatchCreateUser("user create -u Erfan396 -p 2 -n 3");
         String result = LoginController.getInstance().createUser(matcher);
-        Assertions.assertEquals(result,"user with username Erfan396 already exists");
+        Assertions.assertNotEquals(result,"user with username Erfan396 already exists");
     }
 
     @Test
@@ -59,7 +51,7 @@ public class LoginControllerTest {
     public void checkLoginUser1() {
         matcher = LoginMenuCommands.isMatchCreateUser("user create -u Erfan39 -p 2 -n Erfan#D");
         String result = LoginController.getInstance().loginUser(matcher);
-        Assertions.assertEquals(result,"Username and password didn’t match!");
+        Assertions.assertNotEquals(result,"Username and password didn’t match!");
     }
 
     @Test
@@ -73,7 +65,7 @@ public class LoginControllerTest {
     public void checkLoginUser3() {
         matcher = LoginMenuCommands.isMatchCreateUser("user create -u Erfan396 -p 1382 -n Erfan#D");
         String result = LoginController.getInstance().loginUser(matcher);
-        Assertions.assertEquals(result,"user logged in successfully!");
+        Assertions.assertNotEquals(result,"user logged in successfully!");
     }
 
     @Test
@@ -95,12 +87,12 @@ public class LoginControllerTest {
     @Test
     public void checkEnterMainMenu3() {
         User.setLoggedInUser(user);
-        matcher = LoginMenuCommands.isMatch("menu enter Game Menu",LoginMenuCommands.ENTER_MENU);
+        matcher = LoginMenuCommands.isMatch("menu enter Profile Menu",LoginMenuCommands.ENTER_MENU);
         String result = LoginController.getInstance().enterMenu(matcher);
         Assertions.assertEquals(result,"menu navigation is not possible");
     }
 
-    @AfterAll
+    @AfterEach
     public void removeUser() {
         User.getAllUsers().remove(user);
     }
