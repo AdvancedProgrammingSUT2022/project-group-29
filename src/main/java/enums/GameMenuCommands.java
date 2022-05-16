@@ -33,8 +33,9 @@ public enum GameMenuCommands {
     CITY_BUY_TILE("city buy tile (?<xPoint>\\d+) (?<yPoint>\\d+)"),
     TECHNOLOGY_STUDY("technology study (?<technologyName>.*)"),
     TECHNOLOGY_CHANGE("technology change (?<technologyName>.*)"),
-    TECHNOLOGY_MENU("technology menu (?<technologyName>.*)");
-
+    TECHNOLOGY_MENU("technology menu (?<technologyName>.*)"),
+    CHEAT("cheat (?<name>\\S+) (?<amount>\\d+)"),
+    CHEAT_TECHNOLOGY("cheat technology (?<name>\\S+)");
 
 
     private String regex;

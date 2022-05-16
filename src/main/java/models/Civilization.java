@@ -21,11 +21,12 @@ public class Civilization {
     private Technology currentTechnology = null;
     private ArrayList<String> notifications = new ArrayList<>();
     private ArrayList<Resource> luxuryResources = new ArrayList<>();
+    private int remainingTurns = -1;
 
     public Civilization(User leader, int x, int y) {
         Leader = leader;
         name = leader.getNickname();
-
+        this.happiness = 5;
         MilitaryUnit militaryUnit = new MilitaryUnit(MilitaryUnitsEnum.WARRIOR, x, y);
         militaryUnits.add(militaryUnit);
         GameController.getInstance().getGame().getMap()[x][y].setMilitaryUnit(militaryUnit);
@@ -237,4 +238,17 @@ public class Civilization {
         }
         return false;
     }
+
+    public int getScience() {
+        return science;
+    }
+
+    public int getRemainingTurns() {
+        return remainingTurns;
+    }
+
+    public void setRemainingTurns(int remainingTurns) {
+        this.remainingTurns = remainingTurns;
+    }
+
 }

@@ -52,16 +52,33 @@ public class GameMenu {
                 break;
             else if (command.equals("next turn"))
                 System.out.println(GameController.getInstance().cheatTurn(1));
-            else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_TURN)) != null)
-                System.out.println(GameController.getInstance().cheatTurn(Integer.parseInt(matcher.group("amount"))));
-            else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.INCREASE_GOLD)) != null)
-                System.out.println(GameController.getInstance().cheatGold(Integer.parseInt(matcher.group("amount"))));
+            else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CHEAT)) != null)
+                cheat(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CHEAT_TECHNOLOGY)) != null)
+                cheatTechnology(matcher);
             else
                 err();
-            //showMapWithoutPosition();
+            showMapWithoutPosition();
         }
 
         MainMenu.getInstance().run(scanner);
+    }
+
+    private void cheatTechnology(Matcher matcher) {
+        System.out.println(GameController.getInstance().cheatAllTechnology(matcher.group("name")));
+    }
+
+    private void cheat(Matcher matcher) {
+        if (matcher.group("name").equals("turn"))
+            System.out.println(GameController.getInstance().cheatTurn(Integer.parseInt(matcher.group("amount"))));
+        else if (matcher.group("name").equals("gold"))
+            System.out.println(GameController.getInstance().cheatGold(Integer.parseInt(matcher.group("amount"))));
+        else if (matcher.group("name").equals("happiness"))
+            System.out.println(GameController.getInstance().cheatHappiness(Integer.parseInt(matcher.group("amount"))));
+        else if (matcher.group("name").equals("science"))
+            System.out.println(GameController.getInstance().cheatScience(Integer.parseInt(matcher.group("amount"))));
+        else if (matcher.group("name").equals("finishTechnology"))
+            System.out.println(GameController.getInstance().cheatTechnology(Integer.parseInt(matcher.group("amount"))));
     }
 
 

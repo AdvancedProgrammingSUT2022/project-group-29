@@ -127,9 +127,12 @@ public class GameController {
             return "technologyName is invalid";
         if (!game.getCurrentCivilization().isExistTechnology(technologyName))
             return "don not have access to this technology";
+        if (game.getCurrentCivilization().getScience() < technology.getCost())
+            return "science is ont enough";
         game.getCurrentCivilization().setCurrentTechnology(technology);
         game.getCurrentCivilization().addTechnology(technology);
         game.getCurrentCivilization().decreaseScience(technology.getCost());
+        game.getCurrentCivilization().setRemainingTurns(20 / game.getCurrentCivilization().getHappiness());
         return "technology buy successfully";
     }
 
@@ -148,6 +151,7 @@ public class GameController {
         game.getCurrentCivilization().setCurrentTechnology(technology);
         game.getCurrentCivilization().addTechnology(technology);
         game.getCurrentCivilization().decreaseScience(technology.getCost());
+        game.getCurrentCivilization().setRemainingTurns(20 / game.getCurrentCivilization().getHappiness());
         return "technology change successfully";
     }
 
@@ -168,39 +172,83 @@ public class GameController {
     }
 
     public void getResourceAndGoldTurn() {
-        Civilization civilization = game.getCurrentCivilization();
-        for (City city : civilization.getCities()) {
-            for (Tile cityTile : city.getCityTiles()) {
-                if (cityTile.isThereCitizen()) {
-                    if (civilization.isExistTechnology(cityTile.getResource().getNeededTechnology().getName())) {
-                        if (cityTile.getImprovement() != null && cityTile.getImprovement().getName()
-                                .equals(cityTile.getResource().getNeededImprovement().getName()) &&
-                        !cityTile.isNeedRepair()) {
-                            if (cityTile.getResource().getType().equals("Luxury")) {
-                                if (!cityTile.getResource().getName().equals("Gold"))
-                                    civilization.addLuxuryResource(cityTile.getResource());
-                                else {
-                                    int amount = 0;
-                                    amount += cityTile.getTerrain().getGold();
-                                    amount += cityTile.getResource().getGold();
-                                    if (cityTile.getImprovement() != null)
-                                        amount += cityTile.getImprovement().getGoldChange();
-                                    for (int i = 0; i < cityTile.getRivers().length; i++) {
-                                        if (cityTile.getRivers()[i])
-                                            amount++;
-                                    }
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                for (Tile cityTile : city.getCityTiles()) {
+                    if (cityTile.isThereCitizen()) {
+                        if (civilization.isExistTechnology(cityTile.getResource().getNeededTechnology().getName())) {
+                            if (cityTile.getImprovement() != null && cityTile.getImprovement().getName()
+                                    .equals(cityTile.getResource().getNeededImprovement().getName()) &&
+                                    !cityTile.isNeedRepair()) {
+                                if (cityTile.getResource().getType().equals("Luxury")) {
+                                    if (!cityTile.getResource().getName().equals("Gold"))
+                                        civilization.addLuxuryResource(cityTile.getResource());
+                                    else {
+                                        int amount = 0;
+                                        amount += cityTile.getTerrain().getGold();
+                                        amount += cityTile.getResource().getGold();
+                                        if (cityTile.getImprovement() != null)
+                                            amount += cityTile.getImprovement().getGoldChange();
+                                        for (int i = 0; i < cityTile.getRivers().length; i++) {
+                                            if (cityTile.getRivers()[i])
+                                                amount++;
+                                        }
 
-                                    city.setGold(city.getGold() + amount);
-                                }
-                                if (!civilization.hasLuxuryResource(cityTile.getResource()))
-                                    civilization.increaseHappiness(10);
+                                        city.setGold(city.getGold() + amount);
+                                    }
+                                    if (!civilization.hasLuxuryResource(cityTile.getResource()))
+                                        civilization.increaseHappiness(10);
+                                } else
+                                    city.addResource(cityTile.getResource());
                             }
-                            else
-                                city.addResource(cityTile.getResource());
                         }
                     }
                 }
             }
         }
+    }
+
+    public void decreaseTechnologyTurn() {
+        for (Civilization civilization : game.getCivilizations()) {
+            if (civilization.getRemainingTurns() != -1) {
+                if (civilization.getRemainingTurns() == 0) {
+                    civilization.setRemainingTurns(-1);
+                    civilization.addTechnology(civilization.getCurrentTechnology());
+                    civilization.setCurrentTechnology(null);
+                }
+                else
+                    civilization.setRemainingTurns(civilization.getRemainingTurns() - 1);
+            }
+        }
+    }
+
+    public String cheatHappiness(int amount) {
+        game.getCurrentCivilization().increaseHappiness(amount);
+        return "successful";
+    }
+
+    public String cheatScience(int amount) {
+        game.getCurrentCivilization().increaseScience(amount);
+        return "successful";
+    }
+
+    public String cheatTechnology(int amount) {
+        game.getCurrentCivilization().setRemainingTurns(0);
+        return "successful";
+    }
+
+    public String cheatAllTechnology(String technologyName) {
+        Technology technology = null;
+        for (TechnologyEnum technologyEnum : TechnologyEnum.values()) {
+            if (technologyName.equals(technologyEnum.getName()))
+                technology = new Technology(technologyEnum);
+        }
+        if (game.getCurrentCivilization().getCurrentTechnology() != null)
+            return "no need buy";
+        if (technology == null)
+            return "technologyName is invalid";
+
+        game.getCurrentCivilization().addTechnology(technology);
+        return "successful";
     }
 }

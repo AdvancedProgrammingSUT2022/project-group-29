@@ -318,15 +318,29 @@ public class CityController {
         selectedCity.getMilitaryUnit().setHasDone(true);
         MilitaryUnit militaryUnit = game.getMap()[x][y].getMilitaryUnit();
         if (1 == getLeastDistance(selectedCity, x, y)) {
-            if (militaryUnit.getHp() <= selectedCity.getMilitaryUnit().getCombatStrength())
-                destroyCombatUnit(x, y);
-            else
-                militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getCombatStrength());
+            if (game.getMap()[selectedCity.getX()][selectedCity.getY()].getTerrain().getKind().equals("hills")) {
+                if (militaryUnit.getHp() <= selectedCity.getMilitaryUnit().getCombatStrength() * 2)
+                    destroyCombatUnit(x, y);
+                else
+                    militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getCombatStrength() * 2);
+            } else {
+                if (militaryUnit.getHp() <= selectedCity.getMilitaryUnit().getCombatStrength())
+                    destroyCombatUnit(x, y);
+                else
+                    militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getCombatStrength());
+            }
         } else {
-            if (militaryUnit.getHp() < selectedCity.getMilitaryUnit().getRangedCombatStrength())
-                destroyCombatUnit(x, y);
-            else
-                militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getRangedCombatStrength());
+            if (game.getMap()[selectedCity.getX()][selectedCity.getY()].getTerrain().getKind().equals("hills")) {
+                if (militaryUnit.getHp() <= selectedCity.getMilitaryUnit().getRangedCombatStrength() * 2)
+                    destroyCombatUnit(x, y);
+                else
+                    militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getRangedCombatStrength() * 2);
+            } else {
+                if (militaryUnit.getHp() < selectedCity.getMilitaryUnit().getRangedCombatStrength())
+                    destroyCombatUnit(x, y);
+                else
+                    militaryUnit.setHp(militaryUnit.getHp() - selectedCity.getMilitaryUnit().getRangedCombatStrength());
+            }
         }
     }
 
@@ -459,21 +473,51 @@ public class CityController {
             else
                 city.setHitPoint(city.getHitPoint() - combatUnit.getCombatStrength());
         } else {
-            if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
-                destroyCity(city);
-            else
-                city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+            if (city.getMilitaryUnit() == null) {
+                if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                    takeCity(city);
+                else
+                    city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+            } else {
+                if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                    destroyCity(city);
+                else
+                    city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+            }
+        }
+    }
+
+    private void takeCity(City city) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                if (militaryUnit.getX() == game.getSelectedCombatUnit().getX() &&
+                        militaryUnit.getY() == game.getSelectedCombatUnit().getY()) {
+                    civilization.decreaseHappiness(5);
+                    destroyCitySettler(city);
+                    break;
+                }
+            }
+        }
+        GameController.getInstance().getCivilization(game.getSelectedCombatUnit().getX(), game.getSelectedCombatUnit().getY()).addCity(city);
+        GameController.getInstance().getCivilization(game.getSelectedCombatUnit().getX(), game.getSelectedCombatUnit().getY()).decreaseHappiness(1);
+        destroyCity(city);
+    }
+
+    private void destroyCitySettler(City city) {
+        Unit unit;
+        for (int i = 0; i < city.getCityTiles().size(); i++) {
+            if ((unit = city.getCityTiles().get(i).getCivilian()) != null) {
+                GameController.getInstance().getCivilization(city.getX(), city.getY()).
+                        deleteNonMilitaryUnit(unit.getX(), unit.getY());
+                return;
+            }
         }
     }
 
     private void destroyCity(City city) {
         game.getCurrentCivilization().setGold(game.getCurrentCivilization().getGold() + city.getGold());
-        for (Civilization civilization : game.getCivilizations()) {
-            for (City civilizationCity : civilization.getCities()) {
-                for (int i = 0; i < civilizationCity.getCityTiles().size(); i++) {
-                    civilizationCity.getCityTiles().get(i).setNeedRepair(true);
-                }
-            }
+        for (int i = 0; i < city.getCityTiles().size(); i++) {
+            city.getCityTiles().get(i).setNeedRepair(true);
         }
         for (Civilization civilization : game.getCivilizations()) {
             for (int i = 0; i < civilization.getCities().size(); i++) {

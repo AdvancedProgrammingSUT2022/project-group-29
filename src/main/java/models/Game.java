@@ -25,6 +25,7 @@ public class Game {
         UnitController.getInstance().healAfterTurn();
         currentCivilization.increaseScience(3 + currentCivilization.calculatePopulation());
         GameController.getInstance().getResourceAndGoldTurn();
+        GameController.getInstance().decreaseTechnologyTurn();
 
         currentCivilization = civilizations.get(++turn % civilizations.size());
     }
