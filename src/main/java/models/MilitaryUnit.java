@@ -18,6 +18,7 @@ public class MilitaryUnit {
     private int xEnd, yEnd;
     private String state = "ready";
     private boolean hasDone = false;
+    private boolean readySiege = true;
 
     public MilitaryUnit(MilitaryUnitsEnum type, int x, int y) {
         this.cost = type.getCost();
@@ -34,6 +35,9 @@ public class MilitaryUnit {
         this.neededTechnology = type.getNeededTechnology();
         this.neededResource = type.getNeededResource();
         this.fullHp = type.getHp();
+
+        if (type.getCombatType().equals("Siege"))
+            this.readySiege = false;
     }
 
     public int getX() {
@@ -135,5 +139,17 @@ public class MilitaryUnit {
 
     public void setHasDone(boolean hasDone) {
         this.hasDone = hasDone;
+    }
+
+    public boolean isReadySiege() {
+        return readySiege;
+    }
+
+    public void setReadySiege(boolean readySiege) {
+        this.readySiege = readySiege;
+    }
+
+    public String getCombatType() {
+        return combatType;
     }
 }

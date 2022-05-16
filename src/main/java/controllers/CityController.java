@@ -454,37 +454,52 @@ public class CityController {
     }
 
     public String combat(City city, MilitaryUnit combatUnit, int x, int y) {
+        if (!combatUnit.getState().equals("ready"))
+            return "unit is not ready";
+        if (combatUnit.isHasDone())
+            return "unit has done its work";
+        if (!combatUnit.isReadySiege())
+            return "siege unit is not set";
         if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
                 (x - combatUnit.getX()) * (x - combatUnit.getX()) >
                 combatUnit.getRange() * combatUnit.getRange())
             return "position is not in range";
-
         unitAttackCity(city, combatUnit, x, y);
         return "attacked successfully";
     }
 
     private void unitAttackCity(City city, MilitaryUnit combatUnit, int x, int y) {
-        combatUnit.setHasDone(true);
-
+        if (!(combatUnit.getName().equals("HorseMan") || combatUnit.getName().equals("Knight") ||
+                combatUnit.getName().equals("Cavalry")) || combatUnit.getName().equals("Lancer") ||
+                combatUnit.getName().equals("Tank"))
+            combatUnit.setHasDone(true);
+        int attack = combatUnit.getCombatStrength();
+        int rangedAttack = combatUnit.getRangedCombatStrength();
+        attack *= game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange();
+        rangedAttack *= game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange();
+        if (combatUnit.getCombatType().equals("Siege"))
+            rangedAttack += 10;
         if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
                 + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
-            if (combatUnit.getCombatStrength() >= city.getHitPoint())
+            if (attack >= city.getHitPoint())
                 destroyCity(city);
             else
-                city.setHitPoint(city.getHitPoint() - combatUnit.getCombatStrength());
+                city.setHitPoint(city.getHitPoint() - attack);
         } else {
             if (city.getMilitaryUnit() == null) {
-                if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                if (rangedAttack >= city.getHitPoint())
                     takeCity(city);
                 else
-                    city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+                    city.setHitPoint(city.getHitPoint() - rangedAttack);
             } else {
-                if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                if (rangedAttack >= city.getHitPoint())
                     destroyCity(city);
                 else
-                    city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+                    city.setHitPoint(city.getHitPoint() - rangedAttack);
             }
         }
+        if (combatUnit.getCombatType().equals("Siege"))
+            combatUnit.setReadySiege(false);
     }
 
     private void takeCity(City city) {

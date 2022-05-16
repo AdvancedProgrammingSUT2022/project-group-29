@@ -123,7 +123,8 @@ public class UnitController {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                     game.getMap()[x][y].getMilitaryUnit() != null ||
-                    militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost()||
+                    (militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost() &&
+                            !militaryUnit.getName().equals("scout")) ||
                     !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
                             game.getCurrentCivilization().LeaderName()))
                 return false;
@@ -131,7 +132,8 @@ public class UnitController {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                     game.getMap()[x][y].getMilitaryUnit() != null ||
-                    militaryUnit.getMovement() < 1||
+                    (militaryUnit.getMovement() < 1 &&
+                            !militaryUnit.getName().equals("scout"))||
                     !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
                             game.getCurrentCivilization().LeaderName()))
                 return false;
@@ -467,5 +469,19 @@ public class UnitController {
         game.getMap()[game.getSelectedNonCombatUnit().getX()][game.getSelectedNonCombatUnit().getY()].setHasRoute(true);
 
         return "successful";
+    }
+
+    public String readySiege() {
+        MilitaryUnit militaryUnit = game.getSelectedCombatUnit();
+        if (militaryUnit == null)
+            return "no selected combat unit";
+        if (!militaryUnit.getCombatType().equals("Siege"))
+            return "unit is not siege";
+        if (militaryUnit.isReadySiege())
+            return "unit is already set";
+
+        militaryUnit.setHasDone(true);
+        militaryUnit.setReadySiege(true);
+        return "siege set";
     }
 }
