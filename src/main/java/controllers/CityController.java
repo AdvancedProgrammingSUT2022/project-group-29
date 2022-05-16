@@ -465,24 +465,27 @@ public class CityController {
 
     private void unitAttackCity(City city, MilitaryUnit combatUnit, int x, int y) {
         combatUnit.setHasDone(true);
-
+        int attack = combatUnit.getCombatStrength();
+        int rangedAttack = combatUnit.getRangedCombatStrength();
+        attack *= game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange();
+        rangedAttack *= game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange();
         if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
                 + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
-            if (combatUnit.getCombatStrength() >= city.getHitPoint())
+            if (attack >= city.getHitPoint())
                 destroyCity(city);
             else
-                city.setHitPoint(city.getHitPoint() - combatUnit.getCombatStrength());
+                city.setHitPoint(city.getHitPoint() - attack);
         } else {
             if (city.getMilitaryUnit() == null) {
-                if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                if (rangedAttack >= city.getHitPoint())
                     takeCity(city);
                 else
-                    city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+                    city.setHitPoint(city.getHitPoint() - rangedAttack);
             } else {
-                if (combatUnit.getRangedCombatStrength() >= city.getHitPoint())
+                if (rangedAttack >= city.getHitPoint())
                     destroyCity(city);
                 else
-                    city.setHitPoint(city.getHitPoint() - combatUnit.getRangedCombatStrength());
+                    city.setHitPoint(city.getHitPoint() - rangedAttack);
             }
         }
     }

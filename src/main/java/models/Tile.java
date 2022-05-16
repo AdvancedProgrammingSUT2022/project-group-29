@@ -12,8 +12,8 @@ public class Tile {
     private MilitaryUnit militaryUnit;
     private boolean isThereCitizen;
     private boolean hasRoute = false;
-    private ArrayList<Tile> neighbourTiles ;
-    private  boolean[] rivers;
+    private ArrayList<Tile> neighbourTiles;
+    private boolean[] rivers;
     private Improvement improvement;
     private int value = 1;
     private boolean needRepair = false;
@@ -92,7 +92,7 @@ public class Tile {
     }
 
     public int getMovementCost() {
-        return terrain.getMovementCost() + feature.getMovementCost();
+        return (terrain == null ? 0 : terrain.getMovementCost()) + (feature == null ? 0 : feature.getMovementCost());
     }
 
     public Unit getCivilian() {
@@ -141,5 +141,9 @@ public class Tile {
 
     public void setHasRoute(boolean hasRoute) {
         this.hasRoute = hasRoute;
+    }
+
+    public double getCombatChange() {
+        return (feature == null ? 0 : feature.getBattleEffect()) + (terrain == null ? 0 : terrain.getBattleEffect());
     }
 }
