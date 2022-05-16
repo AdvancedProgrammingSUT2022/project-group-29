@@ -521,29 +521,11 @@ public class GameMenu {
             err();
     }
 
-    // TODO complete
     private void unitBuild(String command) {
-        String improvement = command.split(" ")[2];
-        if (improvement.equals("road"))
-            System.out.println(UnitController.getInstance().buildRoad());
-        else if (improvement.equals("railroad"))
-            System.out.println(UnitController.getInstance().buildRailroad());
-        else if (improvement.equals("farm"))
-            System.out.println(UnitController.getInstance().buildFarm());
-        else if (improvement.equals("mine"))
-            System.out.println(UnitController.getInstance().buildMine());
-        else if (improvement.equals("trading post"))
-            System.out.println(UnitController.getInstance().buildTradingPost());
-        else if (improvement.equals("lumber mill"))
-            System.out.println(UnitController.getInstance().buildLumberMill());
-        else if (improvement.equals("pasture"))
-            System.out.println(UnitController.getInstance().buildPasture());
-        else if (improvement.equals("camp"))
-            System.out.println(UnitController.getInstance().buildCamp());
-        else if (improvement.equals("plantation"))
-            System.out.println(UnitController.getInstance().buildPlantation());
-        else if (improvement.equals("quarry"))
-            System.out.println(UnitController.getInstance().buildQuarry());
+        Matcher matcher;
+        String improvementName;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_BUILD)) != null)
+            System.out.println(UnitController.getInstance().buildImprovement(improvementName = matcher.group("improvementName")));
         else
             err();
     }
@@ -715,7 +697,6 @@ public class GameMenu {
         String technologyName = matcher.group("technologyName");
         System.out.println(GameController.getInstance().technologyStudy(technologyName));
     }
-
 
     private void err() {
         System.out.println("invalid command");

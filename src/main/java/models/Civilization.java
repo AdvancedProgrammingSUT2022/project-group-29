@@ -17,6 +17,7 @@ public class Civilization {
     private final ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Technology> technologies = new ArrayList<>();
     private final ArrayList<Technology> availableTechnology = new ArrayList<>();
+    private final ArrayList<Improvement> availableImprovements = new ArrayList<>();
     private String color;
     private Technology currentTechnology = null;
     private ArrayList<String> notifications = new ArrayList<>();
@@ -176,5 +177,16 @@ public class Civilization {
 
     public void addToNotifications(String string) {
         this.notifications.add(string);
+    }
+
+    public ArrayList<Improvement> getAvailableImprovements() {
+        return availableImprovements;
+    }
+    public boolean isExistImprovement(String name) {
+        for (Improvement availableImprovement : availableImprovements) {
+            if (availableImprovement.getName().equals(name))
+                return true;
+        }
+        return false;
     }
 }

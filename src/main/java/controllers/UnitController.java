@@ -1,11 +1,10 @@
 package controllers;
 
+import enums.modelsEnum.ImprovementsEnum;
 import enums.modelsEnum.MilitaryUnitsEnum;
+import enums.modelsEnum.TechnologyEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
-import models.Civilization;
-import models.Game;
-import models.MilitaryUnit;
-import models.Unit;
+import models.*;
 
 import java.util.regex.Matcher;
 
@@ -331,44 +330,27 @@ public class UnitController {
         return null;
     }
 
-    public String buildRoad() {
-        return null;
-    }
 
-    public String buildRailroad() {
-        return null;
-    }
-
-    public String buildFarm() {
-        return null;
-    }
-
-    public String buildMine() {
-        return null;
-    }
-
-    public String buildTradingPost() {
-        return null;
-    }
-
-    public String buildLumberMill() {
-        return null;
-    }
-
-    public String buildPasture() {
-        return null;
-    }
-
-    public String buildCamp() {
-        return null;
-    }
-
-    public String buildPlantation() {
-        return null;
-    }
-
-    public String buildQuarry() {
-        return null;
+    public String buildImprovement(String improvementName) {
+        Improvement improvement = null;
+        Tile tile;
+        for (ImprovementsEnum improvementsEnum : ImprovementsEnum.values()) {
+            if (improvementName.equals(improvementsEnum.getName()))
+                improvement = new Improvement(improvementsEnum);
+        }
+        if (improvement == null)
+            return "improvementName is invalid";
+        if (game.getSelectedNonCombatUnit() == null)
+            return "no selected noncombat unit";
+        if (!game.getSelectedNonCombatUnit().getName().equals("worker"))
+            return "select a worker";
+        if (!game.getCurrentCivilization().isExistImprovement(improvementName))
+            return "don not have access to this improvement";
+        int x = game.getSelectedNonCombatUnit().getX();
+        int y = game.getSelectedNonCombatUnit().getY();
+        tile = game.getMap()[x][y];
+        tile.setImprovement(improvement);
+        return "improvement build successfully";
     }
 
     public MilitaryUnitsEnum isExistMilitaryUnits(String unitName) {
@@ -390,4 +372,6 @@ public class UnitController {
     public String combat(MilitaryUnit militaryUnit, MilitaryUnit selectedCombatUnit) {
         return null;
     }
+
+
 }

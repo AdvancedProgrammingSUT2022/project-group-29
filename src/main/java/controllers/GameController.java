@@ -120,6 +120,8 @@ public class GameController {
             if (technologyName.equals(technologyEnum.getName()))
                 technology = new Technology(technologyEnum);
         }
+        if (game.getCurrentCivilization().getCurrentTechnology() != null)
+            return "no need buy";
         if (technology == null)
             return "technologyName is invalid";
         if (!game.getCurrentCivilization().isExistTechnology(technologyName))

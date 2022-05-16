@@ -113,4 +113,8 @@ public class Tile {
     public void setValue(int value) {
         this.value = value;
     }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
+    }
 }
