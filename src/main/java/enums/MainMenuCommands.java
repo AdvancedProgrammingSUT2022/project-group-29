@@ -29,6 +29,7 @@ public enum MainMenuCommands {
         while (matcher.find()) {
             count++;
         }
+
         return count;
     }
 

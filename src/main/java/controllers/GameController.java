@@ -47,8 +47,9 @@ public class GameController {
         return "successful";
     }
 
-    public String cheatGold(int turn) {
-        return null;
+    public String cheatGold(int amount) {
+        game.getCurrentCivilization().setGold(amount + game.getCurrentCivilization().getGold());
+        return "successful";
     }
 
     public Game getGame() {
@@ -155,14 +156,47 @@ public class GameController {
         Civilization currentCivilization = game.getCurrentCivilization();
         sb.append("studyTechnology: " + "\n");
 
-        for (int i = 0; i < currentCivilization.getTechnologies().size(); i++){
+        for (int i = 0; i < currentCivilization.getTechnologies().size(); i++) {
             sb.append(currentCivilization.getTechnologies().get(i).getName() + "\n");
         }
 
         sb.append("availableTechnology: " + "\n");
-        for (int i = 0; i < currentCivilization.getAvailableTechnology().size(); i++){
+        for (int i = 0; i < currentCivilization.getAvailableTechnology().size(); i++) {
             sb.append(currentCivilization.getAvailableTechnology().get(i).getName() + "\n");
         }
         return sb.toString();
+    }
+
+    public void getResourceAndGoldTurn() {
+        Civilization civilization = game.getCurrentCivilization();
+        for (City city : civilization.getCities()) {
+            for (Tile cityTile : city.getCityTiles()) {
+                if (cityTile.isThereCitizen()) {
+                    if (civilization.isExistTechnology(cityTile.getResource().getNeededTechnology().getName())) {
+                        if (civilization.isExistImprovement(cityTile.getResource().getNeededImprovement().getName())) {
+                            if (cityTile.getResource().getType().equals("Luxury")) {
+                                if (!cityTile.getResource().getName().equals("Gold"))
+                                    civilization.addLuxuryResource(cityTile.getResource());
+                                else {
+                                    int amount = 0;
+                                    amount += cityTile.getTerrain().getGold();
+                                    amount += cityTile.getResource().getGold();
+                                    for (int i = 0; i < cityTile.getRivers().length; i++) {
+                                        if (cityTile.getRivers()[i])
+                                            amount++;
+                                    }
+
+                                    city.setGold(city.getGold() + amount);
+                                }
+                                if (!civilization.hasLuxuryResource(cityTile.getResource()))
+                                    civilization.increaseHappiness(10);
+                            }
+                            else
+                                city.addResource(cityTile.getResource());
+                        }
+                    }
+                }
+            }
+        }
     }
 }

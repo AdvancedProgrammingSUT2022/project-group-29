@@ -37,4 +37,7 @@ public class TerrainAndFeature {
         return battleEffect;
     }
 
+    public int getGold() {
+        return gold;
+    }
 }

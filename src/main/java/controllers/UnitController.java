@@ -344,12 +344,19 @@ public class UnitController {
             return "no selected noncombat unit";
         if (!game.getSelectedNonCombatUnit().getName().equals("worker"))
             return "select a worker";
+        if (game.getSelectedNonCombatUnit().isHasDone())
+            return "unit has done its work";
         if (!game.getCurrentCivilization().isExistImprovement(improvementName))
             return "don not have access to this improvement";
         int x = game.getSelectedNonCombatUnit().getX();
         int y = game.getSelectedNonCombatUnit().getY();
+        if (game.getMap()[x][y].getImprovement() != null)
+            return "tile has an improvement";
+        if (!canSetImprovement(improvement, game.getMap()[x][y]))
+            return "can not build an improvement there";
         tile = game.getMap()[x][y];
         tile.setImprovement(improvement);
+        game.getSelectedNonCombatUnit().setHasDone(true);
         return "improvement build successfully";
     }
 
@@ -367,6 +374,14 @@ public class UnitController {
                 return u;
         }
         return null;
+    }
+
+    private boolean canSetImprovement(Improvement improvement, Tile tile) {
+        for (TerrainAndFeature terrain : improvement.getTerrainFeaturesThatCanBeBuilt()) {
+            if (terrain.getKind().equals(tile.getTerrain().getKind()))
+                return true;
+        }
+        return false;
     }
 
     public String combat(MilitaryUnit militaryUnit, MilitaryUnit selectedCombatUnit) {

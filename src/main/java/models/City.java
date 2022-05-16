@@ -19,6 +19,7 @@ public class City {
     private int hitPoint;
     private ArrayList<Tile> cityTiles = new ArrayList<>();
     private int citizen;
+    private ArrayList<Resource> allResources = new ArrayList<>();
 
     public City(String name, Civilization civilization, int x, int y) {
         this.name = name;
@@ -140,5 +141,22 @@ public class City {
 
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
+    }
+
+    public ArrayList<Resource> getAllResources() {
+        return allResources;
+    }
+
+    public void addResource(Resource resource) {
+        allResources.add(resource);
+    }
+
+    public void removeResource(Resource resource) {
+        for (int i = 0; i < allResources.size(); i++) {
+            if (allResources.get(i).getName().equals(resource.getName())) {
+                allResources.remove(i);
+                return;
+            }
+        }
     }
 }

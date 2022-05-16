@@ -3,19 +3,20 @@ package models;
 import enums.modelsEnum.ImprovementsEnum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Improvement {
+    private static List<ImprovementsEnum> allImprovements = Arrays.asList(ImprovementsEnum.values());
     private String name;
     private Technology neededTechnology;
     private ArrayList<TerrainAndFeature> TerrainFeaturesThatCanBeBuilt;
-    private ArrayList<Resource> ImproveResources;
     private int FoodChange;
     private int ProductionChange;
     private int GoldChange;
 
     public Improvement(ImprovementsEnum type) {
         this.name = type.getName();
-        ImproveResources = type.getImproveResources();
         this.neededTechnology = type.getNeededTechnology();
         TerrainFeaturesThatCanBeBuilt = type.getTerrainFeaturesThatCanBeBuilt();
         this.FoodChange = type.getFoodChange();
@@ -47,7 +48,7 @@ public class Improvement {
         return GoldChange;
     }
 
-    public ArrayList<Resource> getImproveResources() {
-        return ImproveResources;
+    public static List<ImprovementsEnum> getAllImprovements() {
+        return allImprovements;
     }
 }

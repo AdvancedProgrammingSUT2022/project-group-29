@@ -1,5 +1,6 @@
 package models;
 
+import controllers.GameController;
 import controllers.UnitController;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Game {
         UnitController.getInstance().changePlaceAfterTurnAllUnits();
         UnitController.getInstance().healAfterTurn();
         currentCivilization.increaseScience(3 + currentCivilization.calculatePopulation());
+        GameController.getInstance().getResourceAndGoldTurn();
 
         currentCivilization = civilizations.get(++turn % civilizations.size());
     }

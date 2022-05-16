@@ -15,7 +15,6 @@ public class Tile {
     private ArrayList<Tile> neighbourTiles ;
     private  boolean[] rivers;
     private Improvement improvement;
-    private int movementCost;
     private int value = 0;
 
     public Tile(int x, int y) {
@@ -92,7 +91,7 @@ public class Tile {
     }
 
     public int getMovementCost() {
-        return movementCost;
+        return terrain.getMovementCost() + feature.getMovementCost();
     }
 
     public Unit getCivilian() {
@@ -114,7 +113,15 @@ public class Tile {
         this.value = value;
     }
 
+    public Improvement getImprovement() {
+        return improvement;
+    }
+
     public void setImprovement(Improvement improvement) {
         this.improvement = improvement;
+    }
+
+    public int getGold() {
+        return feature.getGold() + terrain.getGold();
     }
 }

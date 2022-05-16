@@ -206,14 +206,15 @@ public class CityController {
     }
 
     private void addMilitaryUnitToCity(MilitaryUnit militaryUnit, City selectedCity, int gold) {
+        selectedCity.removeResource(militaryUnit.getNeededResource());
         selectedCity.setMilitaryUnit(militaryUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
         game.getCurrentCivilization().addMilitaryUnit(militaryUnit);
     }
 
     private boolean doesCityHaveNeededResources(City selectedCity, MilitaryUnit militaryUnit) {
-        for (Tile tile : selectedCity.getCityTiles()) {
-            if (tile.getResource().getName().equals(militaryUnit.getNeededResource().getName()))
+        for (Resource resource : selectedCity.getAllResources()) {
+            if (resource.getName().equals(militaryUnit.getNeededResource().getName()))
                 return true;
         }
         return false;

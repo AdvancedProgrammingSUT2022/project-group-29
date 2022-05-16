@@ -1,29 +1,30 @@
 package models;
 
 import controllers.GameController;
+import enums.modelsEnum.ImprovementsEnum;
 import enums.modelsEnum.MilitaryUnitsEnum;
+import enums.modelsEnum.TechnologyEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 
 import java.util.ArrayList;
 
 public class Civilization {
     private final User Leader;
-    private String name;
+    private final String name;
     private final ArrayList<Unit> units = new ArrayList<>();
     private final ArrayList<MilitaryUnit> militaryUnits = new ArrayList<>();
     private final ArrayList<City> cities = new ArrayList<>();
     private City capital;
     private int happiness, gold, science;
-    private final ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Technology> technologies = new ArrayList<>();
-    private final ArrayList<Technology> availableTechnology = new ArrayList<>();
-    private final ArrayList<Improvement> availableImprovements = new ArrayList<>();
     private String color;
     private Technology currentTechnology = null;
     private ArrayList<String> notifications = new ArrayList<>();
+    private ArrayList<Resource> luxuryResources = new ArrayList<>();
 
     public Civilization(User leader, int x, int y) {
         Leader = leader;
+        name = leader.getNickname();
 
         MilitaryUnit militaryUnit = new MilitaryUnit(MilitaryUnitsEnum.WARRIOR, x, y);
         militaryUnits.add(militaryUnit);
@@ -32,10 +33,6 @@ public class Civilization {
         Unit unit = new Unit(nonCombatUnitsEnum.SETTLER, x + 1, y + 1);
         units.add(unit);
         GameController.getInstance().getGame().getMap()[x + 1][y + 1].setCivilian(unit);
-    }
-
-    public ArrayList<Tile> getTiles() {
-        return tiles;
     }
 
     public ArrayList<Unit> getUnits() {
@@ -132,16 +129,42 @@ public class Civilization {
     }
 
     public int getGold() {
-        return gold;
+        int cityGold = 0;
+        for (City city : this.cities) {
+            cityGold += city.getGold();
+        }
+        return gold + cityGold;
     }
 
     public ArrayList<Technology> getAvailableTechnology() {
+        ArrayList<Technology> availableTechnology = new ArrayList<>();
+        outer:
+        for (TechnologyEnum technology : Technology.getAllTechnologies()) {
+            for (Technology technology1 : this.technologies) {
+                if (technology.getName().equals(technology1.getName()))
+                    continue outer;
+            }
+            boolean flag = true;
+            for (Technology neededTechnology : technology.getNeededTechnologies()) {
+                boolean flag1 = false;
+                for (Technology technology1 : this.technologies) {
+                    if (neededTechnology.getName().equals(technology1.getName())) {
+                        flag1 = true;
+                        break;
+                    }
+                }
+                if (!flag1)
+                    flag = false;
+            }
+            if (flag)
+                availableTechnology.add(new Technology(technology));
+        }
         return availableTechnology;
     }
 
     public boolean isExistTechnology(String name) {
-        for (int i = 0; i < technologies.size(); i++) {
-            if (availableTechnology.get(i).getName().equals(name))
+        for (Technology technology : getAvailableTechnology()) {
+            if (technology.getName().equals(name))
                 return true;
         }
         return false;
@@ -149,10 +172,6 @@ public class Civilization {
 
     public void addTechnology(Technology technology) {
         technologies.add(technology);
-    }
-
-    public int getScience() {
-        return science;
     }
 
     public void increaseScience(int amount) {
@@ -180,11 +199,40 @@ public class Civilization {
     }
 
     public ArrayList<Improvement> getAvailableImprovements() {
-        return availableImprovements;
+        ArrayList<Improvement> availableImprovement = new ArrayList<>();
+
+        for (ImprovementsEnum improvement : Improvement.getAllImprovements()) {
+            for (Technology technology : this.technologies) {
+                if (improvement.getNeededTechnology().getName().equals(technology.getName()))
+                    availableImprovement.add(new Improvement(improvement));
+            }
+        }
+        return availableImprovement;
     }
+
     public boolean isExistImprovement(String name) {
-        for (Improvement availableImprovement : availableImprovements) {
+        for (Improvement availableImprovement : getAvailableImprovements()) {
             if (availableImprovement.getName().equals(name))
+                return true;
+        }
+        return false;
+    }
+
+    public int getHappiness() {
+        int cityHappiness = 0;
+        for (City city : this.cities) {
+            cityHappiness += city.getHappiness();
+        }
+        return happiness + cityHappiness;
+    }
+
+    public void addLuxuryResource(Resource resource) {
+        this.luxuryResources.add(resource);
+    }
+
+    public boolean hasLuxuryResource(Resource resource) {
+        for (Resource luxuryResource : this.luxuryResources) {
+            if (luxuryResource.getName().equals(resource.getName()))
                 return true;
         }
         return false;

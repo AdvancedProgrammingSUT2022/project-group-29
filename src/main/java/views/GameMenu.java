@@ -247,60 +247,8 @@ public class GameMenu {
 
             System.out.println();
         }
-    }
 
-    private int printStuff(int xEnd, int yEnd, Tile[][] tiles, int i, int j, String whiteColor) {
-        StringBuilder color = new StringBuilder("");
-        if (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) && !MapController.getInstance().isTerrainVisible(i / 6, j / 10))
-            System.out.print("          ");
-        else {
-            String terrainColor = (i / 6 < (xEnd + 1) && j / 10 < (yEnd + 1) ? tiles[i / 6][j / 10].getTerrain().getColor() : "");
-            String m = "  ", u = "  ", s = " ", f = " ";
-            String mColor = "";
-            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit() != null) {
-                for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
-                    for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
-                        if (militaryUnit.getX() == i / 6 && militaryUnit.getY() == j / 10) {
-                            mColor = civilization.getColor();
-                            break;
-                        }
-                    }
-                }
-                m = mColor +
-                        GameController.getInstance().getGame().getMap()[i / 6][j / 10].getMilitaryUnit().
-                                getName().substring(0, 2) + "\033[000m";
-            }
-
-            String uColor = "";
-            if (GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian() != null) {
-                for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
-                    for (Unit unit : civilization.getUnits()) {
-                        if (unit.getX() == i / 6 && unit.getY() == j / 10) {
-                            uColor = civilization.getColor();
-                            break;
-                        }
-                    }
-                }
-                u = uColor + GameController.getInstance().getGame().getMap()[i / 6][j / 10].getCivilian().
-                        getName().substring(0, 2) + "\033[000m";
-            }
-
-            if (GameController.getInstance().getCivilization(i / 6, j / 10) != null) {
-                s = GameController.getInstance().getCivilization(i / 6, j / 10).getColor() +
-                        GameController.getInstance().getCivilization(i / 6, j / 10).LeaderName() +
-                        "\033[000m";
-
-            }
-
-            TerrainAndFeature feature;
-            if ((feature = GameController.getInstance().getGame().getMap()[i / 6][j / 10].getFeature()) != null)
-                f = feature.getColor();
-            color.append(m).append(terrainColor).append(" \033[000m").append(u).append(terrainColor).
-                    append(" \033[000m").append(s).append(terrainColor).append(" ").append(f).append(" \033[000m");
-
-            System.out.print(color);
-        }
-        return j + 10;
+        showDemographics();
     }
 
     private int printTerrain(int xEnd, int yEnd, Tile[][] tiles, int i, int j, String whiteColor) {
@@ -380,7 +328,7 @@ public class GameMenu {
     }
 
     private void showMilitary() {
-
+        showUnits();
     }
 
     private void showNotifications() {
@@ -393,7 +341,8 @@ public class GameMenu {
         Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
         System.out.println("population: " + civilization.calculatePopulation() +
                 "\ngold: " + civilization.getGold() +
-                "\nnumber of combat units: " + civilization.getMilitaryUnits().size());
+                "\nnumber of combat units: " + civilization.getMilitaryUnits().size() +
+                "\nhappiness: " + civilization.getHappiness());
         int population = 0, numberOfCombatUnits = 0, gold = 0;
         ArrayList<Civilization> arrayList = GameController.getInstance().getGame().getCivilizations();
         for (Civilization value : arrayList) {
