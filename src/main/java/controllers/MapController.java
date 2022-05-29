@@ -31,8 +31,7 @@ public class MapController {
 
     public boolean isTerrainVisible(int x, int y) {
         Game game = GameController.getInstance().getGame();
-        int LENGTH = GameController.getInstance().getLENGTH();
-        int WIDTH = GameController.getInstance().getWIDTH();
+
         for (City city : game.getCurrentCivilization().getCities()) {
             for (Tile cityTile : city.getCityTiles()) {
                 if (x == cityTile.getX() && (y == cityTile.getY() || y == cityTile.getY() + 1 || y == cityTile.getY() - 1))
@@ -42,25 +41,39 @@ public class MapController {
             }
         }
         for (MilitaryUnit militaryUnit : game.getCurrentCivilization().getMilitaryUnits()) {
-            if (x == militaryUnit.getX() &&
-                    (y == militaryUnit.getY() || y == militaryUnit.getY() + 1 || y == militaryUnit.getY() - 1
-                            || y == militaryUnit.getY() + 2 || y == militaryUnit.getY() - 2))
-                return true;
-            if (y == militaryUnit.getY() &&
-                    (x == militaryUnit.getX() || x == militaryUnit.getX() + 1 || x == militaryUnit.getX() - 1
-                            || x == militaryUnit.getX() + 2 || x == militaryUnit.getX() - 2))
-                return true;
+            for (int i = x - 2; i <= x + 2; i++) {
+                for (int j = y - 2; j <= y + 2; j++) {
+                    if ((i == militaryUnit.getX()) && (j == militaryUnit.getY()))
+                        return true;
+                }
+            }
+
+//            if (x == militaryUnit.getX() &&
+//                    (y == militaryUnit.getY() || y == militaryUnit.getY() + 1 || y == militaryUnit.getY() - 1
+//                            || y == militaryUnit.getY() + 2 || y == militaryUnit.getY() - 2))
+//                return true;
+//            if (y == militaryUnit.getY() &&
+//                    (x == militaryUnit.getX() || x == militaryUnit.getX() + 1 || x == militaryUnit.getX() - 1
+//                            || x == militaryUnit.getX() + 2 || x == militaryUnit.getX() - 2))
+//                return true;
         }
 
-        for (Unit Unit : game.getCurrentCivilization().getUnits()) {
-            if (x == Unit.getX() &&
-                    (y == Unit.getY() || y == Unit.getY() + 1 || y == Unit.getY() - 1
-                            || y == Unit.getY() + 2 || y == Unit.getY() - 2))
-                return true;
-            if (y == Unit.getY() &&
-                    (x == Unit.getX() || x == Unit.getX() + 1 || x == Unit.getX() - 1
-                            || x == Unit.getX() + 2 || x == Unit.getX() - 2))
-                return true;
+        for (Unit unit : game.getCurrentCivilization().getUnits()) {
+            for (int i = x - 2; i <= x + 2; i++) {
+                for (int j = y - 2; j <= y + 2; j++) {
+                    if ((i == unit.getX()) && (j == unit.getY()))
+                        return true;
+                }
+            }
+
+//            if (x == unit.getX() &&
+//                    (y == unit.getY() || y == unit.getY() + 1 || y == unit.getY() - 1
+//                            || y == unit.getY() + 2 || y == unit.getY() - 2))
+//                return true;
+//            if (y == unit.getY() &&
+//                    (x == unit.getX() || x == unit.getX() + 1 || x == unit.getX() - 1
+//                            || x == unit.getX() + 2 || x == unit.getX() - 2))
+//                return true;
         }
 
         return false;

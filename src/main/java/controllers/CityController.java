@@ -47,11 +47,11 @@ public class CityController {
         City city;
         if ((city = game.getSelectedCity()) == null)
             return "select city";
-        if (isXTileValid(x))
+        if (!isXTileValid(x))
             return "x is out of map";
-        if (isYTileValid(y))
+        if (!isYTileValid(y))
             return "y is out of map";
-        else if (ownerTile(x, y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x, y).getName()))
+        else if (ownerTile(x, y) == null || !game.getCurrentCivilization().getName().equals(ownerTile(x, y).getName()))
             return "This tile is not for this civilization";
         else if (hasTileCitizen(x, y))
             return "This tile has citizen";
@@ -90,11 +90,11 @@ public class CityController {
         City city;
         if ((city = game.getSelectedCity()) == null)
             return "select city";
-        if (isXTileValid(x))
+        if (!isXTileValid(x))
             return "x is out of map";
-        if (isYTileValid(y))
+        if (!isYTileValid(y))
             return "y is out of map";
-        else if (ownerTile(x, y) == null || game.getCurrentCivilization().getName().equals(ownerTile(x, y).getName()))
+        else if (ownerTile(x, y) == null || !game.getCurrentCivilization().getName().equals(ownerTile(x, y).getName()))
             return "This tile is not for this civilization";
         else if (!hasTileCitizen(x, y))
             return "This tile has not citizen";
@@ -119,9 +119,9 @@ public class CityController {
         Tile tile;
         if ((city = game.getSelectedCity()) == null)
             return "select city";
-        if (isXTileValid(x))
+        if (!isXTileValid(x))
             return "x is out of map";
-        if (isYTileValid(y))
+        if (!isYTileValid(y))
             return "y is out of map";
         else if (ownerTile(x, y) != null)
             return "This tile has owner";

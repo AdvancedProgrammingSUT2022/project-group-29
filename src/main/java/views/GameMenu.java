@@ -61,7 +61,7 @@ public class GameMenu {
             showMapWithoutPosition();
         }
 
-        MainMenu.getInstance().run(scanner);
+//        MainMenu.getInstance().run(scanner);
     }
 
     private void cheatTechnology(Matcher matcher) {
@@ -362,7 +362,7 @@ public class GameMenu {
                 "\ngold: " + civilization.getGold() +
                 "\nnumber of combat units: " + civilization.getMilitaryUnits().size() +
                 "\nhappiness: " + civilization.getHappiness());
-        int population = 0, numberOfCombatUnits = 0, gold = 0;
+        int population = 1, numberOfCombatUnits = 1, gold = 1;
         ArrayList<Civilization> arrayList = GameController.getInstance().getGame().getCivilizations();
         for (Civilization value : arrayList) {
             if (value.getGold() > civilization.getGold())
@@ -388,7 +388,7 @@ public class GameMenu {
 
     private void showUnits() {
         Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
-        System.out.println("all combat units:");
+        System.out.println("all units:");
         for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
             System.out.println(militaryUnit.toString());
         }
@@ -406,7 +406,17 @@ public class GameMenu {
             return;
         }
 
-        showUnit(civilization.getMilitaryUnits().get(Integer.parseInt(string)));
+        if (Integer.parseInt(string) - 1 < civilization.getMilitaryUnits().size())
+            showUnit(civilization.getMilitaryUnits().get(Integer.parseInt(string) - 1));
+        else if (Integer.parseInt(string) - civilization.getMilitaryUnits().size() - 1 < civilization.getUnits().size())
+            showUnit(civilization.getUnits().get(Integer.parseInt(string) - civilization.getMilitaryUnits().size() - 1));
+        else
+            System.out.println("number out of range!");
+    }
+
+    private void showUnit(Unit unit) {
+        System.out.println("name: " + unit.getName() + "\nx , y: " + unit.getX() + " , " + unit.getY() +
+                "\nmovement: " + unit.getMovement());
     }
 
     private void showUnit(MilitaryUnit militaryUnit) {

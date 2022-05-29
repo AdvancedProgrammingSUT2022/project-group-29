@@ -6,6 +6,7 @@ public class User {
     private String username;
     private String password;
     private String nickname;
+    private String avatar;
     private static User loggedInUser = null;
     private static ArrayList<User> allUsers = new ArrayList<>();
 
@@ -17,12 +18,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.avatar = "src/main/resources/assets/avatars/avatar" + (allUsers.size() % 4 + 1) + ".png";
         allUsers.add(this);
     }
 
     public static User getLoggedInUser() {
         return loggedInUser;
     }
+
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
@@ -56,4 +59,15 @@ public class User {
         User.allUsers = allUsers;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }

@@ -23,27 +23,22 @@ public class LoginController {
     public static LoginController getInstance() {
         if (instance == null) {
             instance = new LoginController();
-            readUserInfo();
         }
         return instance;
     }
 
-    public String createUser(Matcher matcher) {
-        String username = matcher.group("username");
-        String password = matcher.group("password");
-        String nickname = matcher.group("nickname");
-
+    public String createUser(String username, String password, String nickname) {
+        if (username.equals("") || nickname.equals("") || password.equals(""))
+            return "complete fields please";
         if (MainController.getInstance().isExistUsername(username) != null)
             return "user with username " + username + " already exists";
         if (ProfileController.getInstance().isExistNickname(nickname) != null)
             return "user with nickname " + nickname + " already exists";
-        User user = new User(username, password, nickname);
+        new User(username, password, nickname);
         return "user created successfully!";
     }
 
-    public String loginUser(Matcher matcher) {
-        String username = matcher.group("username");
-        String password = matcher.group("password");
+    public String loginUser(String username, String password) {
 
         User user;
         if ((user = MainController.getInstance().isExistUsername(username)) == null)
@@ -54,13 +49,10 @@ public class LoginController {
         return "user logged in successfully!";
     }
 
-    public String enterMenu(Matcher matcher) {
-        String menuName = matcher.group("menuName");
+    public String enterMenu() {
         if (User.getLoggedInUser() == null)
             return "please login first";
-        if (menuName.equals("Main Menu"))
-            return "";
-        return "menu navigation is not possible";
+        return "successful";
     }
 
     public void writeUserInfo() {
@@ -73,7 +65,7 @@ public class LoginController {
         }
     }
 
-    private static void readUserInfo() {
+    public void readUserInfo() {
         try {
             String info = new String(Files.readAllBytes(Paths.get("user.txt")));
             User.setAllUsers(new Gson().fromJson(info, new TypeToken<List<User>>(){}.getType()));

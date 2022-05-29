@@ -207,10 +207,12 @@ public class UnitController {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
-            if (!GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+            if (GameController.getInstance().getCivilization(x, y) != null &&
+                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
                     game.getCurrentCivilization().LeaderName()))
                 return "can not move to enemies tile";
-            if (CityController.getInstance().getCity(x, y).getMilitaryUnit() != null)
+            if (CityController.getInstance().getCity(x, y) != null &&
+                    CityController.getInstance().getCity(x, y).getMilitaryUnit() != null)
                 return "there is a military unit in that city";
 
             game.getSelectedCombatUnit().setHasDone(true);
