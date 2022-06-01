@@ -79,4 +79,12 @@ public class User {
     public void setLastWin(long lastWin) {
         this.lastWin = lastWin;
     }
+
+    public static User getUserByNickname(String nickname) {
+        for (User user : allUsers) {
+            if (user.getNickname().equals(nickname))
+                return user;
+        }
+        return null;
+    }
 }

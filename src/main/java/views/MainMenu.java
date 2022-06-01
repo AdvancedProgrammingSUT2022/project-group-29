@@ -3,6 +3,7 @@ package views;
 import app.Main;
 import controllers.MainController;
 import controllers.ProfileController;
+import javafx.scene.input.MouseEvent;
 
 public class MainMenu {
 
@@ -19,5 +20,9 @@ public class MainMenu {
 
     public void scoreBoard() {
         Main.changeMenu("scoreBoardPage");
+    }
+
+    public void chatRoom() {
+        Main.changeMenu("chatRoom");
     }
 }
