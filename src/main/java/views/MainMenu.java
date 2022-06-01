@@ -16,4 +16,8 @@ public class MainMenu {
         Main.changeMenu("profilePage");
         ProfileController.getInstance().showInfo();
     }
+
+    public void scoreBoard() {
+        Main.changeMenu("scoreBoardPage");
+    }
 }

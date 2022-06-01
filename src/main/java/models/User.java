@@ -7,6 +7,7 @@ public class User {
     private String password;
     private String nickname;
     private String avatar;
+    private long lastWin;
     private static User loggedInUser = null;
     private static ArrayList<User> allUsers = new ArrayList<>();
 
@@ -69,5 +70,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public long getLastWin() {
+        return lastWin;
+    }
+
+    public void setLastWin(long lastWin) {
+        this.lastWin = lastWin;
     }
 }

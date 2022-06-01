@@ -31,6 +31,8 @@ public class ProfileController {
     public String changeNickname(String nickname) {
         if (nickname.equals(""))
             return "enter new nickname";
+        if (nickname.equals(User.getLoggedInUser().getNickname()))
+            return "please enter a new nickname";
         if (isExistNickname(nickname) != null)
             return "user with nickname " + nickname + " already exists";
         User.getLoggedInUser().setNickname(nickname);

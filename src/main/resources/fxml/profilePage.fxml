@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -19,8 +20,12 @@
     <TextField fx:id="changenickname" layoutX="719.0" layoutY="88.0" promptText="nickname"/>
     <TextField fx:id="changepassword" layoutX="719.0" layoutY="180.0" promptText="password"/>
     <Label alignment="CENTER" layoutX="72.0" layoutY="534.0" prefHeight="41.0" prefWidth="113.0" text="avatar"/>
-    <Button layoutX="505.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#changeAvatar" text="change"/>
+    <Button layoutX="505.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#changeAvatar" text="change">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+    </Button>
     <Button layoutX="787.0" layoutY="541.0" mnemonicParsing="false" onMouseClicked="#backToMain" text="back"/>
-    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="212.0" layoutY="456.0" stroke="BLACK"
-               strokeType="INSIDE" width="200.0" fx:id="avatar"/>
+    <Rectangle fx:id="avatar" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="212.0" layoutY="456.0"
+               stroke="BLACK" strokeType="INSIDE" width="200.0"/>
 </Pane>
