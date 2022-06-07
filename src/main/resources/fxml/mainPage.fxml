@@ -11,4 +11,5 @@
             prefWidth="68.0" text="profile"/>
     <Button layoutX="116.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#scoreBoard" text="score board"/>
     <Button layoutX="122.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#chatRoom" text="chat room"/>
+    <Button layoutX="122.0" layoutY="350" mnemonicParsing="false" onMouseClicked="#startGame" text="Start A New Game"/>
 </Pane>

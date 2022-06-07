@@ -1,6 +1,10 @@
 package controllers;
 
 import enums.modelsEnum.TechnologyEnum;
+import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import models.*;
 
 import java.util.ArrayList;
@@ -19,6 +23,74 @@ public class GameController {
         if (instance == null)
             instance = new GameController();
         return instance;
+    }
+
+    public void addUserToGame(String username, ArrayList<String> players, VBox vbox,Label message,int numberOfPlayers) {
+        if (numberOfPlayers == players.size()) {
+            message.setText("Error | You Had Added All Players");
+            return;
+        }
+
+        if (isExistUsername(username) == null) {
+            message.setText("Error | Username Is Not Exist");
+            return;
+        }
+
+        for (String player : players) {
+            if (player.equals(username)) {
+                message.setText("Error | User Had Been Selected");
+                return;
+            }
+        }
+
+        Label label = new Label(username);
+        vbox.getChildren().add(label);
+        players.add(username);
+        message.setText("Success | User Added");
+    }
+
+    public void removeUserFromGame(String username, ArrayList<String> players, VBox vbox,Label message) {
+        if (username.equals(User.getLoggedInUser().getUsername())) {
+            message.setText("Error | You Can't Remove Yourself");
+            return;
+        }
+
+        for (String player : players) {
+            if (player.equals(username)) {
+                message.setText("Success | User Removed");
+                players.remove(player);
+                removeLabel(vbox,username);
+                return;
+            }
+        }
+        message.setText("Error | You Haven't Add This User Yet");
+    }
+
+    public void checkNumberOfUsers(ArrayList<String> players, int numberOfPlayers, int number, Label message, ChoiceBox<String> playersNumber) {
+        if (players.size() > number) {
+            message.setText("Error | You Should Remove Some Users");
+            playersNumber.setValue(numberOfPlayers + " Players");
+        }
+    }
+
+    private void removeLabel(VBox vbox,String username) {
+        for (Node child : vbox.getChildren()) {
+            Label label = (Label) child;
+
+            if (label.getText().equals(username)) {
+                vbox.getChildren().remove(child);
+                return;
+            }
+        }
+    }
+
+    private User isExistUsername(String username) {
+        ArrayList<User> users = User.getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 
     public void startGame(ArrayList<User> users) {

@@ -1,0 +1,64 @@
+package views;
+
+import controllers.GameController;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import models.User;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class CreateGameMenu implements Initializable {
+    @FXML
+    private ChoiceBox<String> playersNumber;
+    @FXML
+    private TextField username;
+    @FXML
+    private VBox vbox;
+    @FXML
+    private Label message;
+    private final String[] numbers = {"2 Players", "4 Players", "6 Players"};
+    private int numberOfPlayers;
+    private ArrayList<String> players = new ArrayList<>();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        playersNumber.getItems().addAll(numbers);
+        playersNumber.setValue("2 Players");
+        numberOfPlayers = 2;
+        playersNumber.setOnAction(this::checkNumber);
+        vbox.getChildren().add(new Label(User.getLoggedInUser().getUsername()));
+        players.add(User.getLoggedInUser().getUsername());
+    }
+
+    private void checkNumber(ActionEvent actionEvent) {
+        int number = playersNumber.getValue().charAt(0) - 48;
+        GameController.getInstance().checkNumberOfUsers(players,numberOfPlayers,number,message,playersNumber);
+        this.numberOfPlayers =  playersNumber.getValue().charAt(0) - 48;
+    }
+
+    public void addPlayer(MouseEvent mouseEvent) {
+        GameController.getInstance().addUserToGame(username.getText(), players, vbox, message, numberOfPlayers);
+    }
+
+    public void removePlayer(MouseEvent mouseEvent) {
+        GameController.getInstance().removeUserFromGame(username.getText(),players,vbox,message);
+    }
+
+    public void startGame(MouseEvent mouseEvent) {
+        if (numberOfPlayers == players.size()) {
+            message.setText("Game Has Started");
+        }
+        else {
+            message.setText("You Haven't Add All Users Yet");
+        }
+    }
+}

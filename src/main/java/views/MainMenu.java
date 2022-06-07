@@ -25,4 +25,8 @@ public class MainMenu {
     public void chatRoom() {
         Main.changeMenu("chatRoom");
     }
+
+    public void startGame(MouseEvent mouseEvent) {
+        Main.changeMenu("createGamePage");
+    }
 }
