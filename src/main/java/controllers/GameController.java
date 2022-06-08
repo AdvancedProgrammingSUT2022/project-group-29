@@ -1,13 +1,28 @@
 package controllers;
 
+import app.Main;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import enums.modelsEnum.TechnologyEnum;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.*;
+import views.CreateGameMenu;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -25,7 +40,7 @@ public class GameController {
         return instance;
     }
 
-    public void addUserToGame(String username, ArrayList<String> players, VBox vbox,Label message,int numberOfPlayers) {
+    public void addUserToGame(String username, ArrayList<String> players, VBox vbox, Label message, int numberOfPlayers) {
         if (numberOfPlayers == players.size()) {
             message.setText("Error | You Had Added All Players");
             return;
@@ -49,7 +64,7 @@ public class GameController {
         message.setText("Success | User Added");
     }
 
-    public void removeUserFromGame(String username, ArrayList<String> players, VBox vbox,Label message) {
+    public void removeUserFromGame(String username, ArrayList<String> players, VBox vbox, Label message) {
         if (username.equals(User.getLoggedInUser().getUsername())) {
             message.setText("Error | You Can't Remove Yourself");
             return;
@@ -59,7 +74,7 @@ public class GameController {
             if (player.equals(username)) {
                 message.setText("Success | User Removed");
                 players.remove(player);
-                removeLabel(vbox,username);
+                removeLabel(vbox, username);
                 return;
             }
         }
@@ -73,7 +88,7 @@ public class GameController {
         }
     }
 
-    private void removeLabel(VBox vbox,String username) {
+    private void removeLabel(VBox vbox, String username) {
         for (Node child : vbox.getChildren()) {
             Label label = (Label) child;
 
@@ -105,7 +120,12 @@ public class GameController {
     private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
         int x = 5, y = 5;
         for (User user : users) {
-            Civilization civilization = new Civilization(user, x, y);
+            Civilization civilization;
+            if (user.getUsername().equals(User.getLoggedInUser().getUsername()))
+                civilization = new Civilization(user, CreateGameMenu.certainX, CreateGameMenu.certainY);
+            else
+                civilization = new Civilization(user, x, y);
+
             civilizations.add(civilization);
             user.setCivilization(civilization);
             x += 5;
@@ -287,8 +307,7 @@ public class GameController {
                     civilization.setRemainingTurns(-1);
                     civilization.addTechnology(civilization.getCurrentTechnology());
                     civilization.setCurrentTechnology(null);
-                }
-                else
+                } else
                     civilization.setRemainingTurns(civilization.getRemainingTurns() - 1);
             }
         }
@@ -355,5 +374,60 @@ public class GameController {
                 }
             }
         }
+    }
+
+    public void saveGame() {
+        try {
+            FileWriter fileWriter = new FileWriter("game.txt");
+            fileWriter.write(new Gson().toJson(this.game));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadGame() {
+        try {
+            String info = new String(Files.readAllBytes(Paths.get("game.json")));
+            this.setGame(new Gson().fromJson(info, new TypeToken<List<Game>>() {
+            }.getType()));
+            if (User.getAllUsers() == null)
+                User.setAllUsers(new ArrayList<>());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setPlace() {
+        Main.getPopup().setY(600);
+        TextField textFieldX = new TextField("enter x");
+        TextField textFieldY = new TextField("enter y");
+        Button button = new Button("ok");
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (textFieldX.getText().matches("\\d+"))
+                    CreateGameMenu.certainX = Integer.parseInt(textFieldX.getText());
+                if (textFieldY.getText().matches("\\d+"))
+                    CreateGameMenu.certainY = Integer.parseInt(textFieldY.getText());
+
+
+                if (CreateGameMenu.certainX > 8 || CreateGameMenu.certainX < 1
+                        || CreateGameMenu.certainY > 8 || CreateGameMenu.certainY < 1) {
+                    Main.showPopupJustText("enter number between 2 and 8 for x and y");
+                    CreateGameMenu.certainX = 5;
+                    CreateGameMenu.certainY = 5;
+                }
+            }
+        });
+        VBox vBox = new VBox(textFieldX, textFieldY, button);
+        Main.getPopup().getContent().add(vBox);
+        Main.getPopup().show(Main.getScene().getWindow());
+
     }
 }

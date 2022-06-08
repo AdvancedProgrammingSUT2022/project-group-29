@@ -87,4 +87,12 @@ public class User {
         }
         return null;
     }
+
+    public static User getUserByUsername(String username) {
+        for (User user : allUsers) {
+            if (user.username.equals(username))
+                return user;
+        }
+        return null;
+    }
 }

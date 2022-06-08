@@ -1,7 +1,6 @@
 package app;
 
 import controllers.LoginController;
-import controllers.MusicController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,23 +59,32 @@ public class Main extends Application {
 
     private static void makePopup() {
         popup = new Popup();
-        popup.setX(930);
+        popup.setX(900);
         popup.setY(150);
+        popup.setWidth(200);
+        popup.setHeight(1000);
+        popup.setAutoHide(true);
+    }
+
+    public static void showPopupJustText(String text) {
+        popup.setX(900);
+        popup.setY(150);
+        if (popup.getContent().size() == 1)
+            popup.getContent().remove(0);
         Label label = new Label("");
         label.setStyle(" -fx-background-color: #da76d6;");
         label.setMinWidth(80);
         label.setMinHeight(50);
-        popup.setAutoHide(true);
-        popup.getContent().add(label);
-    }
-
-    public static void showPopup(String text) {
-        Label label = (Label) popup.getContent().get(0);
         label.setText(text);
+        popup.getContent().add(label);
         popup.show(scene.getWindow());
     }
 
     public static Scene getScene() {
         return scene;
+    }
+
+    public static Popup getPopup() {
+        return popup;
     }
 }

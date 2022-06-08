@@ -10,7 +10,7 @@ public class MainMenu {
     public void logout() {
         String message = MainController.getInstance().logoutUser();
         Main.changeMenu("loginPage");
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
     }
 
     public void profile() {

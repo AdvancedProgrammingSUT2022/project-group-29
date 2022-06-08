@@ -14,17 +14,17 @@ public class LoginMenu {
     // TODO set background and avatar
     public void login() {
         String message = LoginController.getInstance().loginUser(username.getText(), password.getText());
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
     }
 
     public void register() {
         String message = LoginController.getInstance().createUser(username.getText(), password.getText(), nickname.getText());
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
     }
 
     public void enterMainMenu() {
         String message = LoginController.getInstance().enterMenu();
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
         if (message.equals("successful"))
             Main.changeMenu("mainPage");
     }

@@ -2,17 +2,12 @@ package views;
 
 import app.Main;
 import controllers.ProfileController;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import models.User;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ProfileMenu {
     public TextField changepassword;
@@ -23,13 +18,13 @@ public class ProfileMenu {
 
     public void changeUsername() {
         String message = ProfileController.getInstance().changeNickname(changenickname.getText());
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
         ProfileController.getInstance().showInfo();
     }
 
     public void changePassword() {
         String message = ProfileController.getInstance().changePassword(changepassword.getText());
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
         ProfileController.getInstance().showInfo();
     }
 

@@ -53,11 +53,11 @@ public class ChatRoom implements Initializable {
             new Room(users, room.getText());
             message = "successful";
         }
-        Main.showPopup(message);
+        Main.showPopupJustText(message);
     }
 
     public void enterPrivateChat() {
-        if (privateChat.getValue() == null) Main.showPopup("choose a player");
+        if (privateChat.getValue() == null) Main.showPopupJustText("choose a player");
         else {
             new Room(new ArrayList<User>() {{
                 add(User.getLoggedInUser());
@@ -68,7 +68,7 @@ public class ChatRoom implements Initializable {
 
     public void enterRoom() {
         if (rooms.getValue() == null)
-            Main.showPopup("choose a room");
+            Main.showPopupJustText("choose a room");
         else {
             Room.setCurrentRoom(Room.getRoomByName(rooms.getValue()));
         }
@@ -85,7 +85,7 @@ public class ChatRoom implements Initializable {
 
     public void addToRoom() {
         if (playerToRoom.getValue() == null) {
-            Main.showPopup("choose a player");
+            Main.showPopupJustText("choose a player");
             return;
         }
         added.add(this.playerToRoom.getValue());

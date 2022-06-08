@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -15,8 +16,10 @@ import models.User;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class CreateGameMenu implements Initializable {
+    public static int certainX = 5, certainY = 5;
     @FXML
     private ChoiceBox<String> playersNumber;
     @FXML
@@ -37,6 +40,7 @@ public class CreateGameMenu implements Initializable {
         playersNumber.setOnAction(this::checkNumber);
         vbox.getChildren().add(new Label(User.getLoggedInUser().getUsername()));
         players.add(User.getLoggedInUser().getUsername());
+        playersNumber.requestFocus();
     }
 
     private void checkNumber(ActionEvent actionEvent) {
@@ -56,9 +60,20 @@ public class CreateGameMenu implements Initializable {
     public void startGame(MouseEvent mouseEvent) {
         if (numberOfPlayers == players.size()) {
             message.setText("Game Has Started");
+            ArrayList<User> players = new ArrayList<>();
+            for (String player : this.players) {
+                players.add(User.getUserByUsername(player));
+            }
+            GameMenu.getInstance().run(new Scanner(System.in),players);
         }
         else {
             message.setText("You Haven't Add All Users Yet");
+        }
+    }
+
+    public void setPlace(KeyEvent keyEvent) {
+        if (keyEvent.isShiftDown() && keyEvent.isControlDown() && keyEvent.getCode().getName().equals("C")) {
+            GameController.getInstance().setPlace();
         }
     }
 }
