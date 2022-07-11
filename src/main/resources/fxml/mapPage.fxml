@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane fx:id="pane" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MapView">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MapView" onKeyPressed="#move">
     <Button layoutX="679.0" mnemonicParsing="false" onMouseClicked="#research" prefHeight="31.0" prefWidth="78.0"
             text="research"/>
     <Button layoutX="757.0" mnemonicParsing="false" onMouseClicked="#units" text="units"/>

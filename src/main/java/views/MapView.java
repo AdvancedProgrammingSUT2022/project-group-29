@@ -6,7 +6,6 @@ import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -15,20 +14,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import models.*;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class MapView implements Initializable {
     public Pane pane;
+    private static int xMap = 0, yMap = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        showMap(0, 0);
+        showMap(xMap, yMap);
         showBar();
     }
 
@@ -243,5 +241,16 @@ public class MapView implements Initializable {
         } else
             stringBuilder.append("there is no current technology");
         Main.showPopupJustText(String.valueOf(stringBuilder));
+    }
+
+    public void move(KeyEvent keyEvent) {
+        if (keyEvent.getCode().getName().equals("Right") && yMap < 44)
+            showMap(xMap, yMap++);
+        if (keyEvent.getCode().getName().equals("Left") && yMap > 0)
+            showMap(xMap, yMap--);
+        if (keyEvent.getCode().getName().equals("Down") && xMap < 29)
+            showMap(xMap++, yMap);
+        if (keyEvent.getCode().getName().equals("Up") && xMap > 0)
+            showMap(xMap--, yMap);
     }
 }
