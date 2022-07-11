@@ -14,6 +14,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import models.*;
 
 import java.net.URL;
@@ -62,11 +66,17 @@ public class MapView implements Initializable {
         label4.setLayoutX(440);
         label4.setLayoutY(10);
 
+        Circle technologyPic = new Circle(60, 90,50, Color.WHITE);
+        if (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() != null)
+        technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
+                GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
+
         pane.getChildren().add(label);
         pane.getChildren().add(label1);
         pane.getChildren().add(label2);
         pane.getChildren().add(label3);
         pane.getChildren().add(label4);
+        pane.getChildren().add(technologyPic);
     }
 
     private String func() {
@@ -243,6 +253,7 @@ public class MapView implements Initializable {
         Main.showPopupJustText(String.valueOf(stringBuilder));
     }
 
+    // TODO has unknown bug
     public void move(KeyEvent keyEvent) {
         if (keyEvent.getCode().getName().equals("Right") && yMap < 44)
             showMap(xMap, yMap++);

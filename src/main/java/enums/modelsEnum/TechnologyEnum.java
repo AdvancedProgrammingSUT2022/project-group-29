@@ -174,7 +174,7 @@ public enum TechnologyEnum {
         add(TechnologyEnum.SCIENTIFIC_THEORY);
     }}),
 
-    STEAM_POWER("Industrial", "Steam Power", 1680, new ArrayList<TechnologyEnum>() {{
+    STEAM_POWER("Industrial", "Steam_Power", 1680, new ArrayList<TechnologyEnum>() {{
         add(TechnologyEnum.SCIENTIFIC_THEORY);
         add(TechnologyEnum.MILITARY_SCIENCE);
     }}),
