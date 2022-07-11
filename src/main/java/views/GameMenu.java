@@ -322,7 +322,7 @@ public class GameMenu {
         return j;
     }
 
-    private void showInfo(String command) {
+    public void showInfo(String command) {
         String newCommand = command.split(" ")[1];
         if (newCommand.equals("research"))
             showResearch();

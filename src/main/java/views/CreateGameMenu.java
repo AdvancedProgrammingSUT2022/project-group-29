@@ -1,5 +1,6 @@
 package views;
 
+import app.Main;
 import controllers.GameController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,7 +65,9 @@ public class CreateGameMenu implements Initializable {
             for (String player : this.players) {
                 players.add(User.getUserByUsername(player));
             }
-            GameMenu.getInstance().run(new Scanner(System.in),players);
+            //GameMenu.getInstance().run(new Scanner(System.in),players);
+            GameController.getInstance().startGame(players);
+            Main.changeMenu("mapPage");
         }
         else {
             message.setText("You Haven't Add All Users Yet");

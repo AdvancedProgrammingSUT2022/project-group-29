@@ -3,16 +3,19 @@ package app;
 import controllers.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -21,7 +24,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
-        LoginController.getInstance().writeUserInfo();
+        //LoginController.getInstance().writeUserInfo();
     }
 
     @Override
@@ -67,6 +70,7 @@ public class Main extends Application {
     }
 
     public static void showPopupJustText(String text) {
+        Main.getPopup().getContent().clear();
         popup.setX(900);
         popup.setY(150);
         if (popup.getContent().size() == 1)
@@ -77,6 +81,17 @@ public class Main extends Application {
         label.setMinHeight(50);
         label.setText(text);
         popup.getContent().add(label);
+        popup.show(scene.getWindow());
+    }
+
+    public static void showPopup(ArrayList<Node> nodes) {
+        popup.setX(900);
+        popup.setY(150);
+        if (popup.getContent().size() == 1)
+            popup.getContent().remove(0);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(nodes);
+        popup.getContent().add(vBox);
         popup.show(scene.getWindow());
     }
 

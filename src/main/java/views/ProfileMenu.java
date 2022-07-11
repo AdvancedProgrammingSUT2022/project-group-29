@@ -32,9 +32,14 @@ public class ProfileMenu {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("avatar");
         fileChooser.setInitialDirectory(new File("src/main/resources/assets/avatars/"));
+        try {
+
         File file = fileChooser.showOpenDialog(Main.getScene().getWindow());
         User.getLoggedInUser().setAvatar(file.getAbsolutePath());
         ProfileController.getInstance().showInfo();
+        } catch (Exception e) {
+
+        }
 
     }
 
