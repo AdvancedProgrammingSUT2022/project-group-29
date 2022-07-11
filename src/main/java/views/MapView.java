@@ -6,6 +6,7 @@ import controllers.MapController;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import models.*;
 
 import java.net.URL;
@@ -38,6 +38,7 @@ public class MapView implements Initializable {
     private void showMap(int x, int y) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 13; j++) {
+                // terrain
                 ImageView imageView;
                 if (MapController.getInstance().isTerrainVisible(x + i, y + j)) {
                     imageView = new ImageView(new Image(Main.class.getResource("/assets/terrainTexture/" +
@@ -52,23 +53,30 @@ public class MapView implements Initializable {
                 imageView.setFitHeight(120);
                 imageView.setFitWidth(100);
                 pane.getChildren().add(imageView);
-            }
-        }
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 13; j++) {
-                ImageView imageView;
+
+                // feature
+                ImageView imageView1;
                 if (MapController.getInstance().isTerrainVisible(x + i, y + j)) {
                     if (GameController.getInstance().getGame().getMap()[x + i][y + j].getFeature() != null) {
-                        imageView = new ImageView(new Image(Main.class.getResource("/assets/featureTexture/" +
+                        imageView1 = new ImageView(new Image(Main.class.getResource("/assets/featureTexture/" +
                                         GameController.getInstance().getGame().getMap()[x + i][y + j].getFeature().getKind() + ".png")
                                 .toExternalForm()));
-                        imageView.setX(j * 75 + 50);
-                        imageView.setY(i * 120 + 60 + (j % 2) * 60);
-                        imageView.setFitHeight(120);
-                        imageView.setFitWidth(100);
-                        pane.getChildren().add(imageView);
+                        imageView1.setX(j * 75 + 50);
+                        imageView1.setY(i * 120 + 60 + (j % 2) * 60);
+                        imageView1.setFitHeight(120);
+                        imageView1.setFitWidth(100);
+                        pane.getChildren().add(imageView1);
                     }
                 }
+
+                // unit
+
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 13; j++) {
+
             }
         }
     }
@@ -94,7 +102,19 @@ public class MapView implements Initializable {
         if (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() != null)
         technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
                 GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
-
+        technologyPic.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() > 0) {
+                    Label label5 = new Label(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().get(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() - 1).getName());
+                    Main.getPopup().getContent().clear();
+                    VBox vBox = new VBox(label5);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
+            }
+        });
         pane.getChildren().add(label);
         pane.getChildren().add(label1);
         pane.getChildren().add(label2);
