@@ -2,6 +2,7 @@ package views;
 
 import app.Main;
 import controllers.GameController;
+import controllers.MapController;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -37,14 +38,37 @@ public class MapView implements Initializable {
     private void showMap(int x, int y) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 13; j++) {
-                ImageView imageView = new ImageView(new Image(Main.class.getResource("/assets/terrainTexture/" +
-                                GameController.getInstance().getGame().getMap()[x + i][y + j].getTerrain().getKind() + ".png")
-                        .toExternalForm()));
+                ImageView imageView;
+                if (MapController.getInstance().isTerrainVisible(x + i, y + j)) {
+                    imageView = new ImageView(new Image(Main.class.getResource("/assets/terrainTexture/" +
+                                    GameController.getInstance().getGame().getMap()[x + i][y + j].getTerrain().getKind() + ".png")
+                            .toExternalForm()));
+                } else {
+                    imageView = new ImageView(new Image(Main.class.getResource("/assets/terrainTexture/fogofwar.png")
+                            .toExternalForm()));
+                }
                 imageView.setX(j * 75 + 50);
                 imageView.setY(i * 120 + 60 + (j % 2) * 60);
                 imageView.setFitHeight(120);
                 imageView.setFitWidth(100);
                 pane.getChildren().add(imageView);
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 13; j++) {
+                ImageView imageView;
+                if (MapController.getInstance().isTerrainVisible(x + i, y + j)) {
+                    if (GameController.getInstance().getGame().getMap()[x + i][y + j].getFeature() != null) {
+                        imageView = new ImageView(new Image(Main.class.getResource("/assets/featureTexture/" +
+                                        GameController.getInstance().getGame().getMap()[x + i][y + j].getFeature().getKind() + ".png")
+                                .toExternalForm()));
+                        imageView.setX(j * 75 + 50);
+                        imageView.setY(i * 120 + 60 + (j % 2) * 60);
+                        imageView.setFitHeight(120);
+                        imageView.setFitWidth(100);
+                        pane.getChildren().add(imageView);
+                    }
+                }
             }
         }
     }
