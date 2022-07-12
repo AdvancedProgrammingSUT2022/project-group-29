@@ -6,7 +6,6 @@ import controllers.MapController;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -33,6 +32,27 @@ public class MapView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         showMap(xMap, yMap);
         showBar();
+        cheat();
+    }
+
+    private void cheat() {
+        pane.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isControlDown() && event.isShiftDown() && event.getCode().getName().equals("C")) {
+                TextField textField = new TextField();
+                Button button = new Button("ok");
+                VBox vBox = new VBox(textField, button);
+                button.setOnMouseClicked(event1 -> {
+                    if (textField.getText().equals("cheat gold"))
+                        GameController.getInstance().cheatGold(10);
+                    else if (textField.getText().equals("cheat happiness"))
+                        GameController.getInstance().cheatHappiness(10);
+                });
+                vBox.setStyle("-fx-background-color: #da76d6");
+                Main.getPopup().getContent().clear();
+                Main.getPopup().getContent().add(vBox);
+                Main.getPopup().show(Main.getScene().getWindow());
+            }
+        });
     }
 
     private void showMap(int x, int y) {
@@ -67,6 +87,41 @@ public class MapView implements Initializable {
                         imageView1.setFitWidth(100);
                         pane.getChildren().add(imageView1);
                     }
+
+                    // unit
+                    if (GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit() != null &&
+                            GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian() != null) {
+                        ImageView imageView2 = new ImageView(new Image(Main.class.getResource("/assets/Units/" +
+                                GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian().getName() + ".png").toExternalForm()));
+                        ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/Units/" +
+                                GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit().getName() + ".png").toExternalForm()));
+                        VBox box = new VBox(imageView2, imageView3);
+                        box.setLayoutX(j * 75 + 50);
+                        box.setLayoutY(i * 200 + 60 + (j % 2) * 60);
+                        box.setPrefHeight(100);
+                        box.setPrefWidth(90);
+                        pane.getChildren().add(box);
+                    } else if (GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit() != null &&
+                            GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian() == null) {
+                        System.out.println((x + i) + "  " + (y + j));
+                        ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/Units/warrior.png").toExternalForm()));
+                        imageView3.setX(j * 75 + 50);
+                        imageView3.setY(i * 120 + 60 + (j % 2) * 60);
+                        imageView3.setFitHeight(120);
+                        imageView3.setFitWidth(100);
+                        pane.getChildren().add(imageView3);
+                    } else if (GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit() == null &&
+                            GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian() != null) {
+                        System.out.println();
+                        System.out.println((x + i) + " " + (y + j));
+                        ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/Units/" +
+                                GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian().getName() + ".png").toExternalForm()));
+                        imageView3.setX(j * 75 + 50);
+                        imageView3.setY(i * 120 + 60 + (j % 2) * 60);
+                        imageView3.setFitHeight(120);
+                        imageView3.setFitWidth(100);
+                        pane.getChildren().add(imageView3);
+                    }
                 }
 
                 // unit
@@ -98,6 +153,7 @@ public class MapView implements Initializable {
         label4.setLayoutX(440);
         label4.setLayoutY(10);
 
+        // TODO show technology graph
         Circle technologyPic = new Circle(60, 90,50, Color.WHITE);
         if (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() != null)
         technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
@@ -106,7 +162,7 @@ public class MapView implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() > 0) {
-                    Label label5 = new Label(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().get(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() - 1).getName());
+                    Label label5 = new Label("last technology: " + GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().get(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() - 1).getName());
                     Main.getPopup().getContent().clear();
                     VBox vBox = new VBox(label5);
                     vBox.setStyle("-fx-background-color: #da76d6");
