@@ -475,8 +475,8 @@ public class CityController {
             combatUnit.setHasDone(true);
         int attack = combatUnit.getCombatStrength();
         int rangedAttack = combatUnit.getRangedCombatStrength();
-        attack *= game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange();
-        rangedAttack *= game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange();
+        attack = (int) (attack * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + attack);
+        rangedAttack = (int) (rangedAttack * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + rangedAttack);
         if (combatUnit.getCombatType().equals("Siege"))
             rangedAttack += 10;
         if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())

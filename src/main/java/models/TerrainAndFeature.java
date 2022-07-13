@@ -44,4 +44,8 @@ public class TerrainAndFeature {
     public int getFood() {
         return food;
     }
+
+    public int getProduction() {
+        return production;
+    }
 }

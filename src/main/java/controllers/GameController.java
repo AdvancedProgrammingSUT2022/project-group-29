@@ -273,9 +273,8 @@ public class GameController {
                                     .equals(cityTile.getResource().getNeededImprovement().getName()) &&
                                     !cityTile.isNeedRepair()) {
                                 if (cityTile.getResource().getType().equals("Luxury")) {
-                                    if (!cityTile.getResource().getName().equals("Gold"))
-                                        civilization.addLuxuryResource(cityTile.getResource());
-                                    else {
+                                    civilization.addLuxuryResource(cityTile.getResource());
+                                    if (cityTile.getResource().getName().equals("Gold")) {
                                         int amount = 0;
                                         amount += cityTile.getTerrain().getGold();
                                         amount += cityTile.getResource().getGold();

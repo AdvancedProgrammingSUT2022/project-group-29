@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -24,7 +26,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
-        //LoginController.getInstance().writeUserInfo();
+        LoginController.getInstance().writeUserInfo();
     }
 
     @Override
@@ -34,8 +36,7 @@ public class Main extends Application {
 
         Pane root = (Pane) loadFXML("loginPage");
         scene = new Scene(root);
-
-        //MusicController.getInstance().playMusic();
+        playMusic();
 
         makePopup();
 
@@ -43,6 +44,11 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setTitle("civilization");
         stage.show();
+    }
+
+    private void playMusic() {
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/song.mp3").toExternalForm()));
+        mediaPlayer.play();
     }
 
     public static void changeMenu(String name) {

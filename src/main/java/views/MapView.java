@@ -33,6 +33,7 @@ public class MapView implements Initializable {
         showMap(xMap, yMap);
         showBar();
         cheat();
+        select();
     }
 
     private void cheat() {
@@ -122,15 +123,16 @@ public class MapView implements Initializable {
                         imageView3.setFitWidth(100);
                         pane.getChildren().add(imageView3);
                     }
+
+                    // city
+                    for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+                        for (City city : civilization.getCities()) {
+                            if (city.getX() == x + i && city.getY() == y + j) {
+
+                            }
+                        }
+                    }
                 }
-
-                // unit
-
-            }
-        }
-
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 13; j++) {
 
             }
         }
@@ -154,10 +156,10 @@ public class MapView implements Initializable {
         label4.setLayoutY(10);
 
         // TODO show technology graph
-        Circle technologyPic = new Circle(60, 90,50, Color.WHITE);
+        Circle technologyPic = new Circle(60, 90, 50, Color.WHITE);
         if (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() != null)
-        technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
-                GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
+            technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
+                    GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
         technologyPic.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -363,5 +365,46 @@ public class MapView implements Initializable {
             showMap(xMap++, yMap);
         if (keyEvent.getCode().getName().equals("Up") && xMap > 0)
             showMap(xMap--, yMap);
+    }
+
+    public void select() {
+        pane.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isControlDown()) {
+                // tile
+                if (event.getCode().getName().equals("T")) {
+                    TextField textField = new TextField("x");
+                    TextField textField1 = new TextField("y");
+                    Button button = new Button("ok");
+                    button.setOnMouseClicked(event1 -> {
+                        Main.getPopup().getContent().clear();
+                        if (MapController.getInstance().isTerrainVisible(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText()))) {
+                            Label label;
+                            if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource() != null)
+                                label = new Label("resources: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getName()
+                                + "\ntype: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getType());
+                            else
+                                label = new Label("there is no resource in this tile!");
+                            Label label1 = new Label("food: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFood());
+                            Label label2 = new Label("production: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getProduction());
+                            Label label3 = new Label("gold: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getGold());
+                            Label label4 = new Label("movement point: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMovementCost());
+                            Label label5 = new Label("combat modification: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCombatChange());
+                            VBox vBox = new VBox(label, label1, label2, label3, label4, label5);
+                            vBox.setStyle("-fx-background-color: #da76d6");
+                            Main.getPopup().getContent().clear();
+                            Main.getPopup().getContent().add(vBox);
+                            Main.getPopup().show(Main.getScene().getWindow());
+                        } else {
+                            Main.showPopupJustText("this tile is not visible for you!");
+                        }
+                    });
+                    VBox vBox = new VBox(textField, textField1, button);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().clear();
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
+            }
+        });
     }
 }

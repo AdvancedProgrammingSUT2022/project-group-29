@@ -124,7 +124,7 @@ public class Tile {
     }
 
     public int getGold() {
-        return feature.getGold() + terrain.getGold();
+        return (feature == null ? 0 : feature.getGold()) + (terrain == null ? 0 : terrain.getGold());
     }
 
     public boolean isNeedRepair() {
@@ -144,10 +144,14 @@ public class Tile {
     }
 
     public double getCombatChange() {
-        return (feature == null ? 0 : feature.getBattleEffect()) + (terrain == null ? 0 : terrain.getBattleEffect());
+        return (feature == null ? 0 : feature.getBattleEffect()) / 100 + (terrain == null ? 0 : terrain.getBattleEffect() / 100);
     }
 
     public int getFood() {
         return (feature == null ? 0 : feature.getFood()) + (terrain == null ? 0 : terrain.getFood());
+    }
+
+    public int getProduction() {
+        return (feature == null ? 0 : feature.getProduction()) + (terrain == null ? 0 : terrain.getProduction()) + (resource == null ? 0 : resource.getProduction()) + (improvement == null ? 0 : improvement.getProductionChange());
     }
 }
