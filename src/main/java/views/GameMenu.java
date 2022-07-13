@@ -40,8 +40,8 @@ public class GameMenu {
                 showInfo(command);
             else if (command.startsWith("select"))
                 select(command);
-            else if (command.startsWith("unit"))
-                unit(command);
+//            else if (command.startsWith("unit"))
+//                unit(command);
             else if (command.startsWith("map"))
                 map(command);
             else if (command.startsWith("city"))
@@ -459,49 +459,49 @@ public class GameMenu {
         else
             err();
     }
-
-    private void unit(String command) {
-
-        Matcher matcher;
-        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_MOVE)) != null)
-            System.out.println(UnitController.getInstance().moveUnit(matcher));
-        else if (command.equals("unit sleep"))
-            System.out.println(UnitController.getInstance().unitSleep());
-        else if (command.equals("unit alert"))
-            System.out.println(UnitController.getInstance().unitAlert());
-        else if (command.equals("unit fortify heal"))
-            System.out.println(UnitController.getInstance().unitHeal());
-        else if (command.equals("unit fortify"))
-            System.out.println(UnitController.getInstance().unitFortify());
-        else if (command.equals("unit garrison"))
-            System.out.println(UnitController.getInstance().unitGarrison());
-        else if (command.equals("unit setup ranged"))
-            System.out.println(UnitController.getInstance().unitSetupRanged());
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.ATTACK)) != null)
-            System.out.println(GameController.getInstance().combat(matcher));
-        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_FOUND_CITY)) != null)
-            System.out.println(GameController.getInstance().foundCity(matcher));
-        else if (command.equals("unit cancel mission"))
-            System.out.println(GameController.getInstance().cancelMission());
-        else if (command.equals("unit wake"))
-            System.out.println(UnitController.getInstance().unitWake());
-        else if (command.equals("unit build"))
-            unitBuild(command);
-        else if (command.equals("unit remove jungle"))
-            System.out.println(UnitController.getInstance().removeJungle());
-        else if (command.equals("unit remove route"))
-            System.out.println(UnitController.getInstance().removeRoute());
-        else if (command.equals("unit repair"))
-            System.out.println(UnitController.getInstance().repair());
-        else if (command.equals("unit delete"))
-            System.out.println(UnitController.getInstance().deleteUnit());
-        else if (command.equals("unit create route"))
-            System.out.println(UnitController.getInstance().createRoute());
-        else if (command.equals("unit ready siege"))
-            System.out.println(UnitController.getInstance().readySiege());
-        else
-            err();
-    }
+//
+//    private void unit(String command) {
+//
+//        Matcher matcher;
+//        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_MOVE)) != null)
+//            System.out.println(UnitController.getInstance().moveUnit(matcher));
+//        else if (command.equals("unit sleep"))
+//            System.out.println(UnitController.getInstance().unitSleep());
+//        else if (command.equals("unit alert"))
+//            System.out.println(UnitController.getInstance().unitAlert());
+//        else if (command.equals("unit fortify heal"))
+//            System.out.println(UnitController.getInstance().unitHeal());
+//        else if (command.equals("unit fortify"))
+//            System.out.println(UnitController.getInstance().unitFortify());
+//        else if (command.equals("unit garrison"))
+//            System.out.println(UnitController.getInstance().unitGarrison());
+//        else if (command.equals("unit setup ranged"))
+//            System.out.println(UnitController.getInstance().unitSetupRanged());
+//        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.ATTACK)) != null)
+//            System.out.println(GameController.getInstance().combat(matcher));
+//        else if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.UNIT_FOUND_CITY)) != null)
+//            System.out.println(GameController.getInstance().foundCity(matcher));
+//        else if (command.equals("unit cancel mission"))
+//            System.out.println(GameController.getInstance().cancelMission());
+//        else if (command.equals("unit wake"))
+//            System.out.println(UnitController.getInstance().unitWake());
+//        else if (command.equals("unit build"))
+//            unitBuild(command);
+//        else if (command.equals("unit remove jungle"))
+//            System.out.println(UnitController.getInstance().removeJungle());
+//        else if (command.equals("unit remove route"))
+//            System.out.println(UnitController.getInstance().removeRoute());
+//        else if (command.equals("unit repair"))
+//            System.out.println(UnitController.getInstance().repair());
+//        else if (command.equals("unit delete"))
+//            System.out.println(UnitController.getInstance().deleteUnit());
+//        else if (command.equals("unit create route"))
+//            System.out.println(UnitController.getInstance().createRoute());
+//        else if (command.equals("unit ready siege"))
+//            System.out.println(UnitController.getInstance().readySiege());
+//        else
+//            err();
+//    }
 
     private void unitBuild(String command) {
         Matcher matcher;

@@ -196,9 +196,7 @@ public class UnitController {
         }
     }
 
-    public String moveUnit(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
+    public String moveUnit(int x, int y) {
         if (game.getSelectedCombatUnit() != null) {
             if (!game.getSelectedCombatUnit().getState().equals("ready"))
                 return "unit is not ready";
@@ -331,6 +329,7 @@ public class UnitController {
         return "unit deleted successfully";
     }
 
+    // TODO complete
     public String unitGarrison() {
         return null;
     }

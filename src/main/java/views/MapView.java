@@ -3,6 +3,7 @@ package views;
 import app.Main;
 import controllers.GameController;
 import controllers.MapController;
+import controllers.UnitController;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import models.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 
 public class MapView implements Initializable {
     public Pane pane;
@@ -122,6 +124,45 @@ public class MapView implements Initializable {
                         imageView3.setFitHeight(120);
                         imageView3.setFitWidth(100);
                         pane.getChildren().add(imageView3);
+                    }
+
+                    // TODO unit actions
+                    if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+                        Main.getPopup().getContent().clear();
+                        Label label = new Label("choose unit action");
+                        TextField textField = new TextField();
+                        Button button = new Button("ok");
+                        button.setOnMouseClicked(event -> {
+                            if (textField.getText().equals("move")) {
+                                Main.getPopup().getContent().clear();
+                                TextField textFieldX = new TextField("x");
+                                TextField textFieldY = new TextField("y");
+                                Button button1 = new Button("ok");
+                                button1.setOnMouseClicked(event1 ->
+                                        Main.showPopupJustText(UnitController.getInstance().moveUnit(x, y)));
+                                VBox vBox = new VBox(textFieldX, textFieldY, button1);
+                                vBox.setStyle("-fx-background-color: #da76d6");
+                                Main.getPopup().getContent().add(vBox);
+                                Main.getPopup().show(Main.getScene().getWindow());
+                            } else if (textField.getText().equals("sleep"))
+                                Main.showPopupJustText(UnitController.getInstance().unitSleep());
+                            else if (textField.getText().equals("wake"))
+                                Main.showPopupJustText(UnitController.getInstance().unitWake());
+                            else if (textField.getText().equals("alert"))
+                                Main.showPopupJustText(UnitController.getInstance().unitAlert());
+                            else if (textField.getText().equals("garrison"))
+                                Main.showPopupJustText(UnitController.getInstance().unitGarrison());
+                            else if (textField.getText().equals("fortify"))
+                                Main.showPopupJustText(UnitController.getInstance().unitFortify());
+                            else if (textField.getText().equals("setup"))
+                                Main.showPopupJustText(UnitController.getInstance().readySiege());
+                            else if (textField.getText().equals("delete"))
+                                Main.showPopupJustText(UnitController.getInstance().deleteUnit());
+                        });
+                        VBox vBox = new VBox(label, textField, button);
+                        vBox.setStyle("-fx-background-color: #da76d6");
+                        Main.getPopup().getContent().add(vBox);
+                        Main.getPopup().show(Main.getScene().getWindow());
                     }
 
                     // TODO city
@@ -417,13 +458,31 @@ public class MapView implements Initializable {
                         if (!(isXTileValid(Integer.parseInt(textField.getText())) || isYTileValid(Integer.parseInt(textField1.getText()))))
                             Main.showPopupJustText("invalid tile");
                         else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit() != null) {
-                            GameController.getInstance().getGame().setSelectedCombatUnit(GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit());
-                            GameController.getInstance().getGame().setSelectedNonCombatUnit(null);
-                            Main.showPopupJustText("unit " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit().getName() + " selected");
+                            boolean flag = false;
+                            for (MilitaryUnit unit : GameController.getInstance().getGame().getCurrentCivilization().getMilitaryUnits()) {
+                                if (unit.getX() == Integer.parseInt(textField.getText()) && unit.getY() == Integer.parseInt(textField1.getText())) {
+                                    GameController.getInstance().getGame().setSelectedCombatUnit(unit);
+                                    GameController.getInstance().getGame().setSelectedNonCombatUnit(null);
+                                    Main.showPopupJustText("unit " + unit.getName() + " selected");
+                                    showMap(xMap, yMap);
+                                    flag = true;
+                                }
+                            }
+                            if (!flag)
+                                Main.showPopupJustText("unit doesn't belong to you");
                         } else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian() != null) {
-                            GameController.getInstance().getGame().setSelectedNonCombatUnit(GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian());
-                            GameController.getInstance().getGame().setSelectedCombatUnit(null);
-                            Main.showPopupJustText("unit " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian().getName() + " selected");
+                            boolean flag = false;
+                            for (Unit unit : GameController.getInstance().getGame().getCurrentCivilization().getUnits()) {
+                                if (unit.getX() == Integer.parseInt(textField.getText()) && unit.getY() == Integer.parseInt(textField1.getText())) {
+                                    GameController.getInstance().getGame().setSelectedNonCombatUnit(unit);
+                                    GameController.getInstance().getGame().setSelectedCombatUnit(null);
+                                    Main.showPopupJustText("unit " + unit.getName() + " selected");
+                                    showMap(xMap, yMap);
+                                    flag = true;
+                                }
+                            }
+                            if (!flag)
+                                Main.showPopupJustText("unit doesn't belong to you");
                         } else
                             Main.showPopupJustText("there is no unit");
                     });

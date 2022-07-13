@@ -37,7 +37,7 @@ public class Main extends Application {
 
         Pane root = (Pane) loadFXML("loginPage");
         scene = new Scene(root);
-        playMusic();
+//        playMusic();
 
         makePopup();
 
