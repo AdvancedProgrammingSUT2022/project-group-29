@@ -124,7 +124,7 @@ public class MapView implements Initializable {
                         pane.getChildren().add(imageView3);
                     }
 
-                    // city
+                    // TODO city
                     for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
                         for (City city : civilization.getCities()) {
                             if (city.getX() == x + i && city.getY() == y + j) {
@@ -237,6 +237,7 @@ public class MapView implements Initializable {
             System.out.println("error");
     }
 
+    // TODO
     private void showEconomic() {
 
     }
@@ -377,11 +378,13 @@ public class MapView implements Initializable {
                     Button button = new Button("ok");
                     button.setOnMouseClicked(event1 -> {
                         Main.getPopup().getContent().clear();
-                        if (MapController.getInstance().isTerrainVisible(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText()))) {
+                        if (!(isXTileValid(Integer.parseInt(textField.getText())) || isYTileValid(Integer.parseInt(textField1.getText()))))
+                            Main.showPopupJustText("invalid tile");
+                        else if (MapController.getInstance().isTerrainVisible(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText()))) {
                             Label label;
                             if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource() != null)
                                 label = new Label("resources: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getName()
-                                + "\ntype: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getType());
+                                        + "\ntype: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getType());
                             else
                                 label = new Label("there is no resource in this tile!");
                             Label label1 = new Label("food: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFood());
@@ -394,9 +397,35 @@ public class MapView implements Initializable {
                             Main.getPopup().getContent().clear();
                             Main.getPopup().getContent().add(vBox);
                             Main.getPopup().show(Main.getScene().getWindow());
-                        } else {
+                        } else
                             Main.showPopupJustText("this tile is not visible for you!");
-                        }
+                    });
+                    VBox vBox = new VBox(textField, textField1, button);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().clear();
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
+
+                // unit
+                else if (event.getCode().getName().equals("U")) {
+                    TextField textField = new TextField("x");
+                    TextField textField1 = new TextField("y");
+                    Button button = new Button("ok");
+                    button.setOnMouseClicked(event1 -> {
+                        Main.getPopup().getContent().clear();
+                        if (!(isXTileValid(Integer.parseInt(textField.getText())) || isYTileValid(Integer.parseInt(textField1.getText()))))
+                            Main.showPopupJustText("invalid tile");
+                        else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit() != null) {
+                            GameController.getInstance().getGame().setSelectedCombatUnit(GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit());
+                            GameController.getInstance().getGame().setSelectedNonCombatUnit(null);
+                            Main.showPopupJustText("unit " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit().getName() + " selected");
+                        } else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian() != null) {
+                            GameController.getInstance().getGame().setSelectedNonCombatUnit(GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian());
+                            GameController.getInstance().getGame().setSelectedCombatUnit(null);
+                            Main.showPopupJustText("unit " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian().getName() + " selected");
+                        } else
+                            Main.showPopupJustText("there is no unit");
                     });
                     VBox vBox = new VBox(textField, textField1, button);
                     vBox.setStyle("-fx-background-color: #da76d6");
@@ -406,5 +435,13 @@ public class MapView implements Initializable {
                 }
             }
         });
+    }
+
+    public boolean isXTileValid(int x) {
+        return x <= 45 && x >= 0;
+    }
+
+    public boolean isYTileValid(int y) {
+        return y <= 30 && y >= 0;
     }
 }

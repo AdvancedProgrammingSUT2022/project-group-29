@@ -14,6 +14,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +27,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
-        LoginController.getInstance().writeUserInfo();
+        //LoginController.getInstance().writeUserInfo();
     }
 
     @Override
@@ -48,6 +49,7 @@ public class Main extends Application {
 
     private void playMusic() {
         MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/song.mp3").toExternalForm()));
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
         mediaPlayer.play();
     }
 
