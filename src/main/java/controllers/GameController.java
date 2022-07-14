@@ -192,9 +192,9 @@ public class GameController {
         return null;
     }
 
-    public String foundCity(Matcher matcher) {
-        return CityController.getInstance().createCity(matcher);
-    }
+//    public String foundCity(Matcher matcher) {
+//        return CityController.getInstance().createCity(matcher);
+//    }
 
     // TODO complete
     public String cancelMission() {

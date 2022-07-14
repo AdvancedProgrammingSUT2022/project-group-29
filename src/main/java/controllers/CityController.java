@@ -364,12 +364,11 @@ public class CityController {
         return true;
     }
 
-    public String createCity(Matcher matcher) {
+    public String createCity(String name) {
         if (game.getSelectedNonCombatUnit() == null ||
                 !game.getSelectedNonCombatUnit().getName().equals("settler"))
             return "no selected settler unit";
 
-        String name = matcher.group("name");
         int x = game.getSelectedNonCombatUnit().getX();
         int y = game.getSelectedNonCombatUnit().getY();
 
