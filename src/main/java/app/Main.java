@@ -24,7 +24,7 @@ public class Main extends Application {
 
     private static Scene scene;
     private static Popup popup;
-
+    private static final MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/song.mp3").toExternalForm()));
     public static void main(String[] args) {
         launch();
         //LoginController.getInstance().writeUserInfo();
@@ -37,7 +37,7 @@ public class Main extends Application {
 
         Pane root = (Pane) loadFXML("loginPage");
         scene = new Scene(root);
-//        playMusic();
+        playMusic();
 
         makePopup();
 
@@ -47,8 +47,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    private void playMusic() {
-        MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/song.mp3").toExternalForm()));
+    public static void playMusic() {
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
         mediaPlayer.play();
     }
@@ -109,5 +108,9 @@ public class Main extends Application {
 
     public static Popup getPopup() {
         return popup;
+    }
+
+    public static MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 }

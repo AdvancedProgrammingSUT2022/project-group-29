@@ -139,31 +139,41 @@ public class MapView implements Initializable {
                                     // TODO city panel
                                     GameController.getInstance().getGame().setSelectedCity(city);
                                     Label label = new Label("name: " + city.getName());
-                                    Label label1 = new Label("population: " + city.getPopulation());
-                                    Label label2 = new Label("city hp: " + city.getHitPoint());
-                                    Label label3 = new Label("gold: " + city.getGold());
-                                    Label label4 = new Label("military unit: " + (city.getMilitaryUnit() == null ? "nothing" : city.getMilitaryUnit().getName()));
-                                    Label label5 = new Label("non military unit: " + (city.getCivilian() == null ? "nothing" : city.getCivilian().getName()));
-                                    Label label6 = new Label("you can not\ncreate military unit");
+                                    Label label1 = new Label("\npopulation: " + city.getPopulation());
+                                    Label label2 = new Label("\ncity hp: " + city.getHitPoint());
+                                    Label label3 = new Label("\ngold: " + city.getGold());
+                                    Label label4 = new Label("\nmilitary unit: " + (city.getMilitaryUnit() == null ? "nothing" : city.getMilitaryUnit().getName()));
+                                    Label label5 = new Label("\nnon military unit: " + (city.getCivilian() == null ? "nothing" : city.getCivilian().getName()));
+                                    Label label6 = new Label("\nyou can not\ncreate military unit");
                                     TextField textField = new TextField();
                                     textField.setDisable(true);
-                                    Button button = new Button("ok");
+                                    Button button = new Button("\nok");
                                     if (city.getMilitaryUnit() == null) {
                                         textField.setDisable(false);
-                                        label6 = new Label("create unit");
+                                        label6 = new Label("\ncreate unit");
                                         button.setOnMouseClicked(event12 -> Main.showPopupJustText(CityController.getInstance().createUnit(textField.getText())));
                                     }
-                                    Label label7 = new Label("you can not create\nnon military unit");
+                                    Label label7 = new Label("\nyou can not create\nnon military unit");
                                     TextField textField1 = new TextField();
-                                    Button button1 = new Button("ok");
+                                    Button button1 = new Button("\nok");
                                     textField1.setDisable(true);
                                     if (city.getCivilian() == null) {
                                         textField1.setDisable(false);
-                                        label7 = new Label("create unit");
+                                        label7 = new Label("\ncreate unit");
                                         button1.setOnMouseClicked(event13 -> Main.showPopupJustText(CityController.getInstance().createUnit(textField1.getText())));
                                     }
+                                    Label label8 = new Label("\nbuy tile");
+                                    TextField textFieldX = new TextField("x");
+                                    TextField textFieldY = new TextField("y");
+                                    Button button2 = new Button("ok");
+                                    button2.setOnMouseClicked(event14 -> {
+                                        if (textFieldX.getText().matches("\\d+") && textFieldY.getText().matches("\\d+")) {
+                                            Main.showPopupJustText(CityController.getInstance().cityBuyTile(Integer.parseInt(textFieldX.getText()),Integer.parseInt(textFieldY.getText())));
+
+                                        }
+                                    });
                                     Main.getPopup().getContent().clear();
-                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1);
+                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2);;
                                     vBox.setStyle("-fx-background-color: #da76d6");
                                     Main.getPopup().getContent().add(vBox);
                                     Main.getPopup().show(Main.getScene().getWindow());
@@ -212,6 +222,7 @@ public class MapView implements Initializable {
         } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
             Main.getPopup().getContent().clear();
             Label label = new Label("choose unit action");
+            Label label1 = new Label("build <improvement> - build city - clear lands\nbuild road to route - repair");
             TextField textField = new TextField();
             Button button = new Button("ok");
             button.setOnMouseClicked(event -> {
@@ -235,12 +246,12 @@ public class MapView implements Initializable {
                     Main.showPopupJustText(UnitController.getInstance().removeJungle());
                 else if (textField.getText().equals("build road to route"))
                     Main.showPopupJustText(UnitController.getInstance().createRoute());
-                else if (textField.getText().matches("repair \\S+"))
+                else if (textField.getText().matches("repair"))
                     Main.showPopupJustText(UnitController.getInstance().repair());
                 else
                     Main.showPopupJustText("invalid input");
             });
-            VBox vBox = new VBox(label, textField, button);
+            VBox vBox = new VBox(label, label1, textField, button);
             vBox.setStyle("-fx-background-color: #da76d6");
             Main.getPopup().getContent().add(vBox);
             Main.getPopup().show(Main.getScene().getWindow());
@@ -284,17 +295,14 @@ public class MapView implements Initializable {
         if (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() != null)
             technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
                     GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
-        technologyPic.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() > 0) {
-                    Label label5 = new Label("last technology: " + GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().get(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() - 1).getName());
-                    Main.getPopup().getContent().clear();
-                    VBox vBox = new VBox(label5);
-                    vBox.setStyle("-fx-background-color: #da76d6");
-                    Main.getPopup().getContent().add(vBox);
-                    Main.getPopup().show(Main.getScene().getWindow());
-                }
+        technologyPic.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() > 0) {
+                Label label5 = new Label("last technology: " + GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().get(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() - 1).getName());
+                Main.getPopup().getContent().clear();
+                VBox vBox = new VBox(label5);
+                vBox.setStyle("-fx-background-color: #da76d6");
+                Main.getPopup().getContent().add(vBox);
+                Main.getPopup().show(Main.getScene().getWindow());
             }
         });
         pane.getChildren().add(label);
@@ -425,18 +433,15 @@ public class MapView implements Initializable {
         stringBuilder.append("choose a unit or exit").append("\n");
         TextField textField = new TextField("number of unit");
         Button button = new Button("ok");
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (textField.getText().matches("\\d+")) {
-                    String string = textField.getText();
-                    if (Integer.parseInt(string) - 1 < civilization.getMilitaryUnits().size())
-                        showUnit(civilization.getMilitaryUnits().get(Integer.parseInt(string) - 1));
-                    else if (Integer.parseInt(string) - civilization.getMilitaryUnits().size() - 1 < civilization.getUnits().size())
-                        showUnit(civilization.getUnits().get(Integer.parseInt(string) - civilization.getMilitaryUnits().size() - 1));
-                    else
-                        System.out.println("number out of range!");
-                }
+        button.setOnMouseClicked(event -> {
+            if (textField.getText().matches("\\d+")) {
+                String string = textField.getText();
+                if (Integer.parseInt(string) - 1 < civilization.getMilitaryUnits().size())
+                    showUnit(civilization.getMilitaryUnits().get(Integer.parseInt(string) - 1));
+                else if (Integer.parseInt(string) - civilization.getMilitaryUnits().size() - 1 < civilization.getUnits().size())
+                    showUnit(civilization.getUnits().get(Integer.parseInt(string) - civilization.getMilitaryUnits().size() - 1));
+                else
+                    System.out.println("number out of range!");
             }
         });
         VBox vBox = new VBox(new Label(String.valueOf(stringBuilder)), textField, button);
@@ -575,6 +580,43 @@ public class MapView implements Initializable {
                     Main.getPopup().getContent().add(vBox);
                     Main.getPopup().show(Main.getScene().getWindow());
                 }
+
+                // locking citizen
+                else if (event.getCode().getName().equals("L") && !event.isShiftDown()) {
+                    Label label = new Label("locking citizen");
+                    TextField textField = new TextField("x");
+                    TextField textField1 = new TextField("y");
+                    Button button = new Button("ok");
+
+                    button.setOnMouseClicked(event12 -> {
+                        Main.getPopup().getContent().clear();
+                        Main.showPopupJustText(CityController.getInstance().lockingCitizenToTile(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText())));
+                    });
+                    Main.getPopup().getContent().clear();
+                    VBox vBox = new VBox(label, textField, textField1, button);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().clear();
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
+
+                // unlock
+                else if (event.getCode().getName().equals("L")) {
+                    Label label = new Label("unlocking citizen");
+                    TextField textField = new TextField("x");
+                    TextField textField1 = new TextField("y");
+                    Button button = new Button("ok");
+
+                    button.setOnMouseClicked(event12 -> {
+                        Main.getPopup().getContent().clear();
+                        Main.showPopupJustText(CityController.getInstance().removingCitizenFromWork(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText())));
+                    });
+                    VBox vBox = new VBox(label, textField, textField1, button);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().clear();
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
             }
         });
     }
@@ -585,5 +627,37 @@ public class MapView implements Initializable {
 
     public boolean isYTileValid(int y) {
         return y <= 30 && y >= 0;
+    }
+
+    public void setting() {
+        Button button = new Button("mute");
+        button.setOnMouseClicked(event -> {
+            if (button.getText().equals("mute")) button.setText("unmute");
+            else button.setText("mute");
+            Main.getMediaPlayer().setMute(!Main.getMediaPlayer().isMute());
+        });
+        Button button1 = new Button("guide");
+        button1.setOnMouseClicked(event1 -> {
+            Label label = new Label("lock citizen: ctrl + l");
+            Label label1 = new Label("\nunlock citizen: ctrl + shift + l");
+            Label label2 = new Label("\nselect tile: ctrl + t");
+            Label label3 = new Label("\nselect unit: ctrl + u");
+
+            VBox vBox = new VBox(label, label1, label2, label3);
+            vBox.setStyle("-fx-background-color: #da76d6");
+            Main.getPopup().getContent().clear();
+            Main.getPopup().getContent().add(vBox);
+            Main.getPopup().show(Main.getScene().getWindow());
+        });
+
+        VBox vBox = new VBox(button, button1);
+        vBox.setStyle("-fx-background-color: #da76d6");
+        Main.getPopup().getContent().clear();
+        Main.getPopup().getContent().add(vBox);
+        Main.getPopup().show(Main.getScene().getWindow());
+    }
+
+    public void nextTurn() {
+        GameController.getInstance().cheatTurn(1);
     }
 }
