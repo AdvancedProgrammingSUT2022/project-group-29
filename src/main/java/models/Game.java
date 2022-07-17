@@ -74,6 +74,10 @@ public class Game {
         return selectedCity;
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
     public void setCivilizations(ArrayList<Civilization> civilizations) {
         this.civilizations = civilizations;
         this.currentCivilization = civilizations.get(0);
