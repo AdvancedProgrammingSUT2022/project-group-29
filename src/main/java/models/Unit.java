@@ -32,6 +32,8 @@ public class Unit {
         this.neededResource = type.getNeededResource();
         this.x = x;
         this.y = y;
+        this.xEnd = -1;
+        this.yEnd = -1;
     }
 
     public int getX() {

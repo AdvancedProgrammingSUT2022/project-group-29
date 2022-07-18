@@ -18,9 +18,7 @@ public class GameMenuController {
         return instance;
     }
 
-    public String selectCombatUnit(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
+    public String selectCombatUnit(int x, int y) {
         if (x < 0 ||
                 x >= GameController.getInstance().getWIDTH())
             return "invalid x";
@@ -39,9 +37,7 @@ public class GameMenuController {
         return "combat unit doesn't belong to you";
     }
 
-    public String selectNonCombatUnit(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
+    public String selectNonCombatUnit(int x, int y) {
         if (x < 0 ||
                 x >= GameController.getInstance().getWIDTH())
             return "invalid x";

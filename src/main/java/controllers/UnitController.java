@@ -125,8 +125,9 @@ public class UnitController {
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     (militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost() &&
                             !militaryUnit.getName().equals("scout")) ||
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName()))
+                    (GameController.getInstance().getCivilization(x, y) != null &&
+                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName())))
                 return false;
         } else {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
@@ -134,8 +135,9 @@ public class UnitController {
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     (militaryUnit.getMovement() < 1 &&
                             !militaryUnit.getName().equals("scout"))||
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName()))
+                    (GameController.getInstance().getCivilization(x, y) != null &&
+                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName())))
                 return false;
         }
         return true;
@@ -147,16 +149,18 @@ public class UnitController {
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     unit.getMovement() < game.getMap()[x][y].getMovementCost() ||
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName()))
+                    (GameController.getInstance().getCivilization(x, y) != null &&
+                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName())))
                 return false;
         } else {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     unit.getMovement() < 1 ||
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName()))
+                    (GameController.getInstance().getCivilization(x, y) != null &&
+                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+                            game.getCurrentCivilization().LeaderName())))
                 return false;
         }
         return true;
@@ -168,6 +172,7 @@ public class UnitController {
     }
 
     private void changePlaceAfterTurn(Unit unit) {
+        System.out.println(unit.getxEnd() + " " + unit.getyEnd());
         if (unit.getxEnd() != -1)
             changePlace(unit.getxEnd(), unit.getyEnd(), unit);
     }
@@ -224,10 +229,12 @@ public class UnitController {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
-            if (!GameController.getInstance().getCivilization(x, y).LeaderName().equals(
+            if (GameController.getInstance().getCivilization(x, y) != null &&
+                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
                     game.getCurrentCivilization().LeaderName()))
                 return "can not move to enemies tile";
-            if (CityController.getInstance().getCity(x, y).getCivilian() != null)
+            if (CityController.getInstance().getCity(x ,y) != null &&
+                    CityController.getInstance().getCity(x, y).getCivilian() != null)
                 return "there is a non combat unit in that city";
 
             game.getSelectedNonCombatUnit().setHasDone(true);

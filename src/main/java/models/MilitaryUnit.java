@@ -35,6 +35,8 @@ public class MilitaryUnit {
         this.neededTechnology = type.getNeededTechnology();
         this.neededResource = type.getNeededResource();
         this.fullHp = type.getHp();
+        this.xEnd = -1;
+        this.yEnd = -1;
 
         if (type.getCombatType().equals("Siege"))
             this.readySiege = false;
