@@ -1,8 +1,8 @@
 package controllers;
 
 import app.Main;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -11,8 +11,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.*;
 import views.CreateGameMenu;
@@ -22,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -30,6 +27,8 @@ public class GameController {
     private final int LENGTH = 45;
     private final int WIDTH = 30;
     private Game game;
+
+    private AutoSaveThread thread;
 
     private GameController() {
     }
@@ -108,13 +107,17 @@ public class GameController {
         return null;
     }
 
-    public void startGame(ArrayList<User> users) {
+    public void startGame(ArrayList<User> users, boolean autoSave) {
         Tile[][] map = new Tile[WIDTH][LENGTH];
         game = new Game(null, map);
         MapController.getInstance().createMap(map, WIDTH, LENGTH);
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations, users);
         game.setCivilizations(civilizations);
+        if (autoSave)
+            autoSave();
+        //saveGame();
+        //loadGame();
     }
 
     private void createCivilizations(ArrayList<Civilization> civilizations, ArrayList<User> users) {
@@ -375,10 +378,22 @@ public class GameController {
         }
     }
 
+    private void autoSave(){
+        this.thread = new AutoSaveThread(game);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
     public void saveGame() {
         try {
-            FileWriter fileWriter = new FileWriter("game.txt");
-            fileWriter.write(new Gson().toJson(this.game));
+            FileWriter fileWriter = new FileWriter("game.xml");
+            XStream xStream = new XStream();
+            for (int i = 0; i < game.getMap().length; i++) {
+                for (int j = 0; j < game.getMap()[0].length; j++) {
+                    game.getMap()[i][j].setNeighbourTiles(null);
+                }
+            }
+            fileWriter.write(xStream.toXML(game));
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -387,12 +402,12 @@ public class GameController {
 
     public void loadGame() {
         try {
-            String info = new String(Files.readAllBytes(Paths.get("game.json")));
-            this.setGame(new Gson().fromJson(info, new TypeToken<List<Game>>() {
-            }.getType()));
-            if (User.getAllUsers() == null)
-                User.setAllUsers(new ArrayList<>());
-        } catch (IOException e) {
+            String path = new String(Files.readAllBytes(Paths.get("game.xml")));
+            XStream xStream = new XStream();
+            xStream.addPermission(AnyTypePermission.ANY);
+            this.game = (Game) xStream.fromXML(path);
+        }
+            catch (Exception e) {
             e.printStackTrace();
         }
 

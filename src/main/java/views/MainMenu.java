@@ -1,9 +1,10 @@
 package views;
 
 import app.Main;
+import controllers.GameController;
 import controllers.MainController;
 import controllers.ProfileController;
-import javafx.scene.input.MouseEvent;
+import models.User;
 
 public class MainMenu {
 
@@ -26,7 +27,13 @@ public class MainMenu {
         Main.changeMenu("chatRoom");
     }
 
-    public void startGame(MouseEvent mouseEvent) {
+    public void startGame() {
         Main.changeMenu("createGamePage");
+    }
+
+    public void loadGame() {
+        GameController.getInstance().loadGame();
+        if (GameController.getInstance().getGame().getCurrentCivilization().getLeader().getUsername().equals(User.getLoggedInUser().getUsername()))
+            Main.changeMenu("mapPage");
     }
 }

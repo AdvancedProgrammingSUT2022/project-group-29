@@ -539,12 +539,19 @@ public class MapView implements Initializable {
                     Main.getPopup().getContent().add(vBox);
                     Main.getPopup().show(Main.getScene().getWindow());
                 }
+
+                // save
+                else if (event.getCode().getName().equals("S")) {
+                    GameController.getInstance().saveGame();
+                    Main.showPopupJustText("game saved!");
+                }
             }
 
             // unit action
-            if (event.getCode().getName().equals("S")){
+            else if (event.getCode().getName().equals("S") && !event.isShiftDown()) {
                 unitAction();
             }
+
         });
     }
 

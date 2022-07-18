@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ import java.util.Scanner;
 
 public class CreateGameMenu implements Initializable {
     public static int certainX = 5, certainY = 5;
+    public RadioButton radio;
     @FXML
     private ChoiceBox<String> playersNumber;
     @FXML
@@ -66,7 +68,7 @@ public class CreateGameMenu implements Initializable {
                 players.add(User.getUserByUsername(player));
             }
             //GameMenu.getInstance().run(new Scanner(System.in),players);
-            GameController.getInstance().startGame(players);
+            GameController.getInstance().startGame(players, radio.isSelected());
             Main.changeMenu("mapPage");
         }
         else {

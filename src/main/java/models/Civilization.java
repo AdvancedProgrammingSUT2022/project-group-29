@@ -254,5 +254,7 @@ public class Civilization {
         this.remainingTurns = remainingTurns;
     }
 
-
+    public User getLeader() {
+        return Leader;
+    }
 }
