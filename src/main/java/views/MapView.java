@@ -5,11 +5,13 @@ import controllers.*;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -185,10 +187,11 @@ public class MapView implements Initializable {
                 }
             }
         }
-
-        // TODO unit actions
-
+        
         showBar();
+        for (Node child : pane.getChildren()) {
+            System.out.println("child = " + child);
+        }
     }
 
     private void moveUnit() {
@@ -552,6 +555,11 @@ public class MapView implements Initializable {
                 unitAction();
             }
 
+            // close game
+            else if (event.getCode().equals(KeyCode.ESCAPE)) {
+                GameController.getInstance().saveGame();
+                Main.changeMenu("mainPage");
+            }
         });
     }
 
@@ -578,10 +586,17 @@ public class MapView implements Initializable {
                     Main.showPopupJustText(UnitController.getInstance().readySiege());
                 else if (textField.getText().equals("delete"))
                     Main.showPopupJustText(UnitController.getInstance().deleteUnit());
+                else if (textField.getText().equals("attack")) {
+                    unitAttack();
+                }
                 else
                     Main.showPopupJustText("invalid input");
             });
-            VBox vBox = new VBox(label, textField, button);
+            Label label1 = new Label("name: " + GameController.getInstance().getGame().getSelectedCombatUnit().getName()
+                    + "\nhp: " + GameController.getInstance().getGame().getSelectedCombatUnit().getHp() + "\nmelee attack: "
+                    + GameController.getInstance().getGame().getSelectedCombatUnit().getCombatStrength() + "\nrange attack: "
+                    + GameController.getInstance().getGame().getSelectedCombatUnit().getRangedCombatStrength() + "\n");
+            VBox vBox = new VBox(label1, label, textField, button);
             vBox.setStyle("-fx-background-color: #da76d6");
             Main.getPopup().getContent().add(vBox);
             Main.getPopup().show(Main.getScene().getWindow());
@@ -617,11 +632,44 @@ public class MapView implements Initializable {
                 else
                     Main.showPopupJustText("invalid input");
             });
-            VBox vBox = new VBox(label, label1, textField, button);
+            Label label2 = new Label("name: " + GameController.getInstance().getGame().getSelectedNonCombatUnit().getName()
+                    + "\n");
+            VBox vBox = new VBox(label2, label, label1, textField, button);
             vBox.setStyle("-fx-background-color: #da76d6");
             Main.getPopup().getContent().add(vBox);
             Main.getPopup().show(Main.getScene().getWindow());
         }
+    }
+
+    private void unitAttack() {
+        TextField textFieldX = new TextField("x");
+        TextField textFieldY = new TextField("y");
+        Button button = new Button("ok");
+        button.setOnMouseClicked(event -> {
+            if (textFieldX.getText().matches("\\d+") && textFieldY.getText().matches("\\d+")) {
+                String s = (GameController.getInstance().combat(Integer.parseInt(textFieldX.getText()), Integer.parseInt(textFieldY.getText())));
+                if (s.equals("you are not in war with this civilization")) {
+                    Label label = new Label("you are not in war with this civilization");
+                    Button button1 = new Button("start war");
+                    button1.setOnMouseClicked(event1 -> {
+                        GameController.getInstance().startWar(Integer.parseInt(textFieldX.getText()), Integer.parseInt(textFieldY.getText()));
+                        Main.showPopupJustText("war started!");
+                    });
+                    VBox vBox = new VBox(label, button1);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().clear();
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
+            }
+            else
+                Main.showPopupJustText("invalid input!");
+        });
+        VBox vBox = new VBox(textFieldX, textFieldY, button);
+        vBox.setStyle("-fx-background-color: #da76d6");
+        Main.getPopup().getContent().clear();
+        Main.getPopup().getContent().add(vBox);
+        Main.getPopup().show(Main.getScene().getWindow());
     }
 
     public boolean isXTileValid(int x) {

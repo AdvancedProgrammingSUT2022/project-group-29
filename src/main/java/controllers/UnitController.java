@@ -2,11 +2,11 @@ package controllers;
 
 import enums.modelsEnum.ImprovementsEnum;
 import enums.modelsEnum.MilitaryUnitsEnum;
-import enums.modelsEnum.TechnologyEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
 
-import java.util.regex.Matcher;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class UnitController {
     private static UnitController instance = null;
@@ -38,6 +38,7 @@ public class UnitController {
                 militaryUnit.setyEnd(-1);
                 return;
             }
+            checkRuins(militaryUnit.getX(), militaryUnit.getY());
         }
     }
 
@@ -69,6 +70,34 @@ public class UnitController {
         militaryUnit.setY(militaryUnit.getY() + 1);
     }
 
+    private String checkRuins(int x, int y) {
+        ArrayList<Tile> ruins = game.getRuins();
+        for (Tile ruin : ruins) {
+            if (x == ruin.getX() && y == ruin.getY()) {
+                Random random = new Random();
+                int rand = random.nextInt(3);
+                switch (rand) {
+                    case 0:
+                        game.getCurrentCivilization().setGold(game.getCurrentCivilization().getGold() + 50);
+                        return "this tile was a ruin and you got 50 gold";
+                    case 1:
+                        game.getCurrentCivilization().getCapital().setPopulation
+                                (game.getCurrentCivilization().getCapital().getPopulation() + 1);
+                        return "this tile was a ruin and 1 person added tp your population";
+                    case 2:
+                        Technology technology = new Technology(Technology.getAllTechnologies().get(random.nextInt(Technology.getAllTechnologies().size())));
+                        game.getCurrentCivilization().addTechnology(technology);
+                        return "this tile was a ruin and  you got " + technology.getName() + " technology";
+                }
+
+                game.getMap()[x][y].setDiscoveredRuin(true);
+                ruins.remove(ruin);
+                break;
+            }
+        }
+        return null;
+    }
+
     public void changePlace(int x, int y, Unit unit) {
         unit.setxEnd(x);
         unit.setyEnd(y);
@@ -86,6 +115,7 @@ public class UnitController {
                 unit.setyEnd(-1);
                 return;
             }
+            checkRuins(unit.getX(), unit.getY());
         }
     }
 
@@ -119,6 +149,8 @@ public class UnitController {
 
 
     private boolean movePossible(int x, int y, MilitaryUnit militaryUnit) {
+        if (isZoc(x, y))
+            return false;
         if (!game.getMap()[x][y].isHasRoute()) {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
@@ -126,32 +158,34 @@ public class UnitController {
                     (militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost() &&
                             !militaryUnit.getName().equals("scout")) ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                                    game.getCurrentCivilization().leaderName())))
                 return false;
         } else {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     (militaryUnit.getMovement() < 1 &&
-                            !militaryUnit.getName().equals("scout"))||
+                            !militaryUnit.getName().equals("scout")) ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                                    game.getCurrentCivilization().leaderName())))
                 return false;
         }
         return true;
     }
 
     private boolean movePossible(int x, int y, Unit unit) {
+        if (isZoc(x, y))
+            return false;
         if (!game.getMap()[x][y].isHasRoute()) {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     unit.getMovement() < game.getMap()[x][y].getMovementCost() ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                                    game.getCurrentCivilization().leaderName())))
                 return false;
         } else {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
@@ -159,11 +193,28 @@ public class UnitController {
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     unit.getMovement() < 1 ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                                    game.getCurrentCivilization().leaderName())))
                 return false;
         }
         return true;
+    }
+
+    private boolean isZoc(int x, int y) {
+        for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+            if (!civilization.getLeader().getUsername().equals(GameController.getInstance().getGame().getCurrentCivilization().getLeader().getUsername())) {
+                for (int i = x - 1; i <= x + 1; i++) {
+                    for (int j = y - 1; j <= y + 1; j++) {
+                        for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                            if (militaryUnit.getX() == i && militaryUnit.getY() == j) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void changePlaceAfterTurn(MilitaryUnit militaryUnit) {
@@ -211,8 +262,8 @@ public class UnitController {
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
             if (GameController.getInstance().getCivilization(x, y) != null &&
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                    game.getCurrentCivilization().LeaderName()))
+                    !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                            game.getCurrentCivilization().leaderName()))
                 return "can not move to enemies tile";
             if (CityController.getInstance().getCity(x, y) != null &&
                     CityController.getInstance().getCity(x, y).getMilitaryUnit() != null)
@@ -230,10 +281,10 @@ public class UnitController {
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
             if (GameController.getInstance().getCivilization(x, y) != null &&
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                    game.getCurrentCivilization().LeaderName()))
+                    !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                            game.getCurrentCivilization().leaderName()))
                 return "can not move to enemies tile";
-            if (CityController.getInstance().getCity(x ,y) != null &&
+            if (CityController.getInstance().getCity(x, y) != null &&
                     CityController.getInstance().getCity(x, y).getCivilian() != null)
                 return "there is a non combat unit in that city";
 
@@ -458,8 +509,65 @@ public class UnitController {
         return false;
     }
 
-    public String combat(MilitaryUnit militaryUnit, MilitaryUnit selectedCombatUnit) {
-        return null;
+    public String combat(MilitaryUnit enemyUnit) {
+        MilitaryUnit combatUnit = GameController.getInstance().getGame().getSelectedCombatUnit();
+        if (!combatUnit.getState().equals("ready"))
+            return "unit is not ready";
+        if (combatUnit.isHasDone())
+            return "unit has done its work";
+        if (!combatUnit.isReadySiege())
+            return "siege unit is not set";
+        if (combatUnit.getRange() == 0) {
+            if ((enemyUnit.getY() - combatUnit.getY()) * (enemyUnit.getY() - combatUnit.getY()) +
+                    (enemyUnit.getX() - combatUnit.getX()) * (enemyUnit.getX() - combatUnit.getX()) > 1)
+                return "out of range";
+        } else {
+            if ((enemyUnit.getY() - combatUnit.getY()) * (enemyUnit.getY() - combatUnit.getY()) +
+                    (enemyUnit.getX() - combatUnit.getX()) * (enemyUnit.getX() - combatUnit.getX())
+                    > combatUnit.getRange() * combatUnit.getRange())
+                return "position is not in range";
+        }
+
+        unitAttackUnit(combatUnit, enemyUnit);
+        return "successful";
+    }
+
+    private void unitAttackUnit(MilitaryUnit combatUnit, MilitaryUnit enemyUnit) {
+        if (!(combatUnit.getName().equals("HorseMan") || combatUnit.getName().equals("Knight") ||
+                combatUnit.getName().equals("Cavalry")) || combatUnit.getName().equals("Lancer") ||
+                combatUnit.getName().equals("Tank"))
+            combatUnit.setHasDone(true);
+
+        int x = enemyUnit.getX();
+        int y = enemyUnit.getY();
+        int attack = (int) (combatUnit.getCombatStrength() * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + combatUnit.getCombatStrength());
+        int rangedAttack = (int) (combatUnit.getRangedCombatStrength() * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + combatUnit.getRangedCombatStrength());
+        if ((combatUnit.getName().equals("Spearman") || combatUnit.getName().equals("Pikeman")) && enemyUnit.getCombatType().equals("Mounted"))
+            attack *= 2;
+        if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
+                + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
+            if (attack >= enemyUnit.getHp())
+                destroyUnit(enemyUnit);
+            else
+                enemyUnit.setHp(enemyUnit.getHp() - attack);
+        } else {
+            if (rangedAttack >= enemyUnit.getHp())
+                destroyUnit(enemyUnit);
+            else
+                enemyUnit.setHp(enemyUnit.getHp() - rangedAttack);
+        }
+    }
+
+    private void destroyUnit(MilitaryUnit enemyUnit) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                if (militaryUnit.getX() == enemyUnit.getX() && militaryUnit.getY() == enemyUnit.getY()) {
+                    civilization.getMilitaryUnits().remove(militaryUnit);
+                    civilization.addToNotifications("military unit " + enemyUnit.getName() + " destroyed :(");
+                    return;
+                }
+            }
+        }
     }
 
 

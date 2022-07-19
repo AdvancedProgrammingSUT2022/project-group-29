@@ -469,10 +469,17 @@ public class CityController {
             return "unit has done its work";
         if (!combatUnit.isReadySiege())
             return "siege unit is not set";
-        if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
-                (x - combatUnit.getX()) * (x - combatUnit.getX()) >
-                combatUnit.getRange() * combatUnit.getRange())
-            return "position is not in range";
+        if (combatUnit.getRange() == 0) {
+            if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
+                    (x - combatUnit.getX()) * (x - combatUnit.getX()) > 1)
+                return "out of range";
+        }
+        else {
+            if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
+                    (x - combatUnit.getX()) * (x - combatUnit.getX()) >
+                    combatUnit.getRange() * combatUnit.getRange())
+                return "position is not in range";
+        }
         unitAttackCity(city, combatUnit, x, y);
         return "attacked successfully";
     }
@@ -490,10 +497,17 @@ public class CityController {
             rangedAttack += 10;
         if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
                 + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
-            if (attack >= city.getHitPoint())
-                destroyCity(city);
-            else
-                city.setHitPoint(city.getHitPoint() - attack);
+            if (city.getMilitaryUnit() == null) {
+                if (attack >= city.getHitPoint())
+                    takeCity(city);
+                else
+                    city.setHitPoint(city.getHitPoint() - attack);
+            } else {
+                if (attack >= city.getHitPoint())
+                    destroyCity(city);
+                else
+                    city.setHitPoint(city.getHitPoint() - attack);
+            }
         } else {
             if (city.getMilitaryUnit() == null) {
                 if (rangedAttack >= city.getHitPoint())
@@ -513,18 +527,19 @@ public class CityController {
 
     private void takeCity(City city) {
         for (Civilization civilization : game.getCivilizations()) {
-            for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
-                if (militaryUnit.getX() == game.getSelectedCombatUnit().getX() &&
-                        militaryUnit.getY() == game.getSelectedCombatUnit().getY()) {
+            for (City civilizationCity : civilization.getCities()) {
+                if (city.getName().equals(civilizationCity.getName())) {
                     civilization.decreaseHappiness(5);
                     destroyCitySettler(city);
+                    game.getCurrentCivilization().getCities().add(city);
+                    game.getCurrentCivilization().decreaseHappiness(5);
+                    civilization.getCities().remove(civilizationCity);
+                    civilization.addToNotifications("city " + city.getName() + " captured :(");
+                    game.getCurrentCivilization().addToNotifications("city " + city.getName() + "captured :)");
                     break;
                 }
             }
         }
-        GameController.getInstance().getCivilization(game.getSelectedCombatUnit().getX(), game.getSelectedCombatUnit().getY()).addCity(city);
-        GameController.getInstance().getCivilization(game.getSelectedCombatUnit().getX(), game.getSelectedCombatUnit().getY()).decreaseHappiness(1);
-        destroyCity(city);
     }
 
     private void destroyCitySettler(City city) {

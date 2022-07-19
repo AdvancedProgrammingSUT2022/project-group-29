@@ -28,5 +28,6 @@
          <Font size="24.0" />
       </font>
    </Button>
-   <RadioButton layoutX="657.0" layoutY="78.0" mnemonicParsing="false" text="auto save" fx:id="radio" />
+   <RadioButton fx:id="radio" layoutX="657.0" layoutY="78.0" mnemonicParsing="false" text="auto save" />
+   <Button layoutX="961.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#back" text="back" />
 </Pane>

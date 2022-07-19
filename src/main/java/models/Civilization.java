@@ -17,9 +17,6 @@ public class Civilization {
     private City capital;
     private int happiness, gold, science;
     private final ArrayList<Technology> technologies = new ArrayList<>();
-    {
-        technologies.add(new Technology(TechnologyEnum.ENGINEERING));
-    }
     private String color;
     private Technology currentTechnology = null;
     private ArrayList<String> notifications = new ArrayList<>();
@@ -55,7 +52,7 @@ public class Civilization {
         return cities;
     }
 
-    public String LeaderName() {
+    public String leaderName() {
         return this.Leader.getUsername();
     }
 
