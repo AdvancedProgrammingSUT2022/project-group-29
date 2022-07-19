@@ -21,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Matcher;
 
 public class GameController {
     private static GameController instance = null;
@@ -162,12 +161,34 @@ public class GameController {
         if (!CityController.getInstance().isYTileValid(y))
             return "y position is not valid";
         if ((city = CityController.getInstance().getCity(x, y)) != null) {
-            game.getSelectedCombatUnit().setHasDone(true);
-            return CityController.getInstance().combat(city, game.getSelectedCombatUnit(), x, y);
+            Civilization civilization = null;
+            for (Civilization civilization1 : game.getCivilizations()) {
+                for (City civilization1City : civilization1.getCities()) {
+                    if (civilization1City.getName().equals(city.getName())) {
+                        civilization = civilization1;
+                        break;
+                    }
+                }
+            }
+            if (game.getWar().get(game.getCurrentCivilization().leaderName()).equals(civilization.leaderName()))
+                return CityController.getInstance().combat(city, game.getSelectedCombatUnit(), x, y);
+            else
+                return "you are not in war with this civilization";
         }
         if ((enemyMilitaryUnit = game.getMap()[x][y].getMilitaryUnit()) != null) {
-            game.getSelectedCombatUnit().setHasDone(true);
-            return UnitController.getInstance().combat(enemyMilitaryUnit);
+            Civilization civilization = null;
+            for (Civilization civilization1 : game.getCivilizations()) {
+                for (MilitaryUnit militaryUnit : civilization1.getMilitaryUnits()) {
+                    if (militaryUnit.getX() == enemyMilitaryUnit.getX() && militaryUnit.getY() == enemyMilitaryUnit.getY()) {
+                        civilization = civilization1;
+                        break;
+                    }
+                }
+            }
+            if (game.getWar().get(game.getCurrentCivilization().leaderName()).equals(civilization.leaderName()))
+                return UnitController.getInstance().combat(enemyMilitaryUnit);
+            else
+                return "you are not in war with this civilization";
         }
         return "combat is not possible";
     }
@@ -448,5 +469,41 @@ public class GameController {
         Main.getPopup().getContent().add(vBox);
         Main.getPopup().show(Main.getScene().getWindow());
 
+    }
+
+    public void startWar(int x, int y) {
+        City city;
+        MilitaryUnit enemyMilitaryUnit;
+        if ((city = CityController.getInstance().getCity(x, y)) != null) {
+            Civilization civilization = null;
+            for (Civilization civilization1 : game.getCivilizations()) {
+                for (City civilization1City : civilization1.getCities()) {
+                    if (civilization1City.getName().equals(city.getName())) {
+                        civilization = civilization1;
+                        break;
+                    }
+                }
+            }
+            startWar(civilization);
+        }
+        if ((enemyMilitaryUnit = game.getMap()[x][y].getMilitaryUnit()) != null) {
+            Civilization civilization = null;
+            for (Civilization civilization1 : game.getCivilizations()) {
+                for (MilitaryUnit militaryUnit : civilization1.getMilitaryUnits()) {
+                    if (militaryUnit.getX() == enemyMilitaryUnit.getX() && militaryUnit.getY() == enemyMilitaryUnit.getY()) {
+                        civilization = civilization1;
+                        break;
+                    }
+                }
+            }
+            startWar(civilization);
+        }
+    }
+
+    private void startWar(Civilization civilization) {
+        game.getWar().put(game.getCurrentCivilization().leaderName(), civilization.leaderName());
+        game.getWar().put(civilization.leaderName(), game.getCurrentCivilization().leaderName());
+        game.getCurrentCivilization().addToNotifications("you start war with " + civilization.leaderName());
+        civilization.addToNotifications("civilization " + game.getCurrentCivilization().leaderName() + " started war against you");
     }
 }

@@ -5,6 +5,7 @@ import controllers.GameController;
 import controllers.UnitController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game {
     private int year = 1000;
@@ -15,6 +16,7 @@ public class Game {
     private MilitaryUnit selectedCombatUnit = null;
     private Unit selectedNonCombatUnit = null;
     private City selectedCity = null;
+    private final HashMap<String, String> war = new HashMap<>();
 
     public Game(ArrayList<Civilization> civilizations, Tile[][] map) {
         this.civilizations = civilizations;
@@ -119,5 +121,9 @@ public class Game {
         this.civilizations = civilizations;
         this.currentCivilization = civilizations.get(0);
         giveColor();
+    }
+
+    public HashMap<String, String> getWar() {
+        return war;
     }
 }

@@ -125,8 +125,8 @@ public class UnitController {
                     (militaryUnit.getMovement() < game.getMap()[x][y].getMovementCost() &&
                             !militaryUnit.getName().equals("scout")) ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                            game.getCurrentCivilization().leaderName())))
                 return false;
         } else {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
@@ -135,8 +135,8 @@ public class UnitController {
                     (militaryUnit.getMovement() < 1 &&
                             !militaryUnit.getName().equals("scout"))||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                            game.getCurrentCivilization().leaderName())))
                 return false;
         }
         return true;
@@ -151,8 +151,8 @@ public class UnitController {
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     unit.getMovement() < game.getMap()[x][y].getMovementCost() ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                            game.getCurrentCivilization().leaderName())))
                 return false;
         } else {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
@@ -160,8 +160,8 @@ public class UnitController {
                     game.getMap()[x][y].getMilitaryUnit() != null ||
                     unit.getMovement() < 1 ||
                     (GameController.getInstance().getCivilization(x, y) != null &&
-                            !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                            game.getCurrentCivilization().LeaderName())))
+                            !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                            game.getCurrentCivilization().leaderName())))
                 return false;
         }
         return true;
@@ -229,8 +229,8 @@ public class UnitController {
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
             if (GameController.getInstance().getCivilization(x, y) != null &&
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                    game.getCurrentCivilization().LeaderName()))
+                    !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                    game.getCurrentCivilization().leaderName()))
                 return "can not move to enemies tile";
             if (CityController.getInstance().getCity(x, y) != null &&
                     CityController.getInstance().getCity(x, y).getMilitaryUnit() != null)
@@ -248,8 +248,8 @@ public class UnitController {
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean"))
                 return "can not move to mountain or ocean";
             if (GameController.getInstance().getCivilization(x, y) != null &&
-                    !GameController.getInstance().getCivilization(x, y).LeaderName().equals(
-                    game.getCurrentCivilization().LeaderName()))
+                    !GameController.getInstance().getCivilization(x, y).leaderName().equals(
+                    game.getCurrentCivilization().leaderName()))
                 return "can not move to enemies tile";
             if (CityController.getInstance().getCity(x ,y) != null &&
                     CityController.getInstance().getCity(x, y).getCivilian() != null)
