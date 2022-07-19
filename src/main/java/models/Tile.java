@@ -18,6 +18,8 @@ public class Tile {
     private int value = 1;
     private boolean needRepair = false;
 
+    private boolean discoveredRuin = false;
+
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
@@ -153,5 +155,13 @@ public class Tile {
 
     public int getProduction() {
         return (feature == null ? 0 : feature.getProduction()) + (terrain == null ? 0 : terrain.getProduction()) + (resource == null ? 0 : resource.getProduction()) + (improvement == null ? 0 : improvement.getProductionChange());
+    }
+
+    public boolean isDiscoveredRuin() {
+        return discoveredRuin;
+    }
+
+    public void setDiscoveredRuin(boolean discoveredRuin) {
+        this.discoveredRuin = discoveredRuin;
     }
 }

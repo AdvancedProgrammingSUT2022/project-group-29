@@ -5,6 +5,7 @@ import controllers.GameController;
 import controllers.UnitController;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
     private int year = 1000;
@@ -15,11 +16,14 @@ public class Game {
     private MilitaryUnit selectedCombatUnit = null;
     private Unit selectedNonCombatUnit = null;
     private City selectedCity = null;
+    private ArrayList<Tile> ruins;
 
     public Game(ArrayList<Civilization> civilizations, Tile[][] map) {
         this.civilizations = civilizations;
         this.map = map;
         this.turn = 0;
+        this.ruins = new ArrayList<>();
+        this.addRuins();
     }
 
     public void nextTurn() {
@@ -119,5 +123,18 @@ public class Game {
         this.civilizations = civilizations;
         this.currentCivilization = civilizations.get(0);
         giveColor();
+    }
+
+    public ArrayList<Tile> getRuins() {
+        return ruins;
+    }
+
+    private void addRuins() {
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            int rand = random.nextInt(map.length);
+            int rand2 = random.nextInt(map[0].length);
+            ruins.add(map[rand][rand2]);
+        }
     }
 }
