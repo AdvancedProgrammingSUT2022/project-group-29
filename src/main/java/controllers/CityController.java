@@ -288,6 +288,16 @@ public class CityController {
         }
         return "first select a city!";
     }
+    public String cityShowDiplomaticInformation() {
+        //TODO: complete
+        Game game = GameController.getInstance().getGame();
+        ArrayList<Civilization> enemyCivilizations = new ArrayList<>();
+        ArrayList<Civilization> friendlyCivilizations = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        if (game.getCurrentCivilization() == null)
+            return "there is not any civilization";
+        return "";
+    }
 
     public String cityAttack(int x, int y) {
         City selectedCity = game.getSelectedCity();

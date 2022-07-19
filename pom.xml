@@ -65,6 +65,7 @@
             <artifactId>xstream</artifactId>
             <version>1.4.19</version>
         </dependency>
+
     </dependencies>
 
 
