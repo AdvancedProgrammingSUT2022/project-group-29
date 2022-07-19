@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -27,8 +28,6 @@ public class GameController {
     private final int LENGTH = 45;
     private final int WIDTH = 30;
     private Game game;
-
-    private AutoSaveThread thread;
 
     private GameController() {
     }
@@ -151,9 +150,7 @@ public class GameController {
         return game;
     }
 
-    public String combat(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
+    public String combat(int x, int y) {
         City city;
         MilitaryUnit enemyMilitaryUnit;
         if (game.getSelectedCombatUnit() == null)
@@ -170,7 +167,7 @@ public class GameController {
         }
         if ((enemyMilitaryUnit = game.getMap()[x][y].getMilitaryUnit()) != null) {
             game.getSelectedCombatUnit().setHasDone(true);
-            return UnitController.getInstance().combat(enemyMilitaryUnit, game.getSelectedCombatUnit());
+            return UnitController.getInstance().combat(enemyMilitaryUnit);
         }
         return "combat is not possible";
     }
@@ -378,8 +375,17 @@ public class GameController {
         }
     }
 
-    private void autoSave(){
-        this.thread = new AutoSaveThread(game);
+    private void autoSave() {
+        Thread thread = new Thread(() -> {
+            long time = new Date().getTime();
+
+            while (true) {
+                if (new Date().getTime() > 60000 + time) {
+                    GameController.getInstance().saveGame();
+                    time = new Date().getTime();
+                }
+            }
+        });
         thread.setDaemon(true);
         thread.start();
     }
@@ -406,8 +412,7 @@ public class GameController {
             XStream xStream = new XStream();
             xStream.addPermission(AnyTypePermission.ANY);
             this.game = (Game) xStream.fromXML(path);
-        }
-            catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

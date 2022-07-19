@@ -95,4 +95,8 @@ public class User {
         }
         return null;
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

@@ -2,11 +2,8 @@ package controllers;
 
 import enums.modelsEnum.ImprovementsEnum;
 import enums.modelsEnum.MilitaryUnitsEnum;
-import enums.modelsEnum.TechnologyEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
-
-import java.util.regex.Matcher;
 
 public class UnitController {
     private static UnitController instance = null;
@@ -119,6 +116,8 @@ public class UnitController {
 
 
     private boolean movePossible(int x, int y, MilitaryUnit militaryUnit) {
+        if (isZoc(x, y))
+            return false;
         if (!game.getMap()[x][y].isHasRoute()) {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
@@ -144,6 +143,8 @@ public class UnitController {
     }
 
     private boolean movePossible(int x, int y, Unit unit) {
+        if (isZoc(x, y))
+            return false;
         if (!game.getMap()[x][y].isHasRoute()) {
             if (game.getMap()[x][y].getTerrain().getKind().equals("mountain") ||
                     game.getMap()[x][y].getTerrain().getKind().equals("ocean") ||
@@ -164,6 +165,23 @@ public class UnitController {
                 return false;
         }
         return true;
+    }
+
+    private boolean isZoc(int x, int y) {
+        for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+            if (!civilization.getLeader().getUsername().equals(GameController.getInstance().getGame().getCurrentCivilization().getLeader().getUsername())) {
+                for (int i = x - 1; i <= x + 1; i++) {
+                    for (int j = y - 1; j <= y + 1; j++) {
+                        for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                            if (militaryUnit.getX() == i && militaryUnit.getY() == j) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void changePlaceAfterTurn(MilitaryUnit militaryUnit) {
@@ -458,8 +476,66 @@ public class UnitController {
         return false;
     }
 
-    public String combat(MilitaryUnit militaryUnit, MilitaryUnit selectedCombatUnit) {
-        return null;
+    public String combat(MilitaryUnit enemyUnit) {
+        MilitaryUnit combatUnit = GameController.getInstance().getGame().getSelectedCombatUnit();
+        if (!combatUnit.getState().equals("ready"))
+            return "unit is not ready";
+        if (combatUnit.isHasDone())
+            return "unit has done its work";
+        if (!combatUnit.isReadySiege())
+            return "siege unit is not set";
+        if (combatUnit.getRange() == 0) {
+            if ((enemyUnit.getY() - combatUnit.getY()) * (enemyUnit.getY() - combatUnit.getY()) +
+                    (enemyUnit.getX() - combatUnit.getX()) * (enemyUnit.getX() - combatUnit.getX()) > 1)
+                return "out of range";
+        }
+        else {
+            if ((enemyUnit.getY() - combatUnit.getY()) * (enemyUnit.getY() - combatUnit.getY()) +
+                    (enemyUnit.getX() - combatUnit.getX()) * (enemyUnit.getX() - combatUnit.getX())
+                    > combatUnit.getRange() * combatUnit.getRange())
+                return "position is not in range";
+        }
+
+        unitAttackUnit(combatUnit, enemyUnit);
+        return "successful";
+    }
+
+    private void unitAttackUnit(MilitaryUnit combatUnit, MilitaryUnit enemyUnit) {
+        if (!(combatUnit.getName().equals("HorseMan") || combatUnit.getName().equals("Knight") ||
+                combatUnit.getName().equals("Cavalry")) || combatUnit.getName().equals("Lancer") ||
+                combatUnit.getName().equals("Tank"))
+            combatUnit.setHasDone(true);
+
+        int x = enemyUnit.getX();
+        int y = enemyUnit.getY();
+        int attack = (int) (combatUnit.getCombatStrength() * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + combatUnit.getCombatStrength());
+        int rangedAttack = (int) (combatUnit.getRangedCombatStrength() * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + combatUnit.getRangedCombatStrength());
+        if ((combatUnit.getName().equals("Spearman") || combatUnit.getName().equals("Pikeman"))&& enemyUnit.getCombatType().equals("Mounted"))
+            attack *= 2;
+        if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
+                + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
+            if (attack >= enemyUnit.getHp())
+                destroyUnit(enemyUnit);
+            else
+                enemyUnit.setHp(enemyUnit.getHp() - attack);
+        } else {
+            if (rangedAttack >= enemyUnit.getHp())
+                destroyUnit(enemyUnit);
+            else
+                enemyUnit.setHp(enemyUnit.getHp() - rangedAttack);
+        }
+    }
+
+    private void destroyUnit(MilitaryUnit enemyUnit) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
+                if (militaryUnit.getX() == enemyUnit.getX() && militaryUnit.getY() == enemyUnit.getY()) {
+                    civilization.getMilitaryUnits().remove(militaryUnit);
+                    civilization.addToNotifications("military unit " + enemyUnit.getName() + " destroyed :(");
+                    return;
+                }
+            }
+        }
     }
 
 
