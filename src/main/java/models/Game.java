@@ -30,6 +30,8 @@ public class Game {
 
     public void nextTurn() {
         year += 50;
+        GameController.getInstance().maintenanceGold();
+        GameController.getInstance().updateCanBuild();
         UnitController.getInstance().changePlaceAfterTurnAllUnits();
         UnitController.getInstance().healAfterTurn();
         currentCivilization.increaseScience(3 + currentCivilization.calculatePopulation());
@@ -42,7 +44,6 @@ public class Game {
 
         checkWinner();
     }
-
     private void checkWinner() {
         if (currentCivilization.getCities().size() == 0) {
             int size = 0;

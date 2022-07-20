@@ -471,6 +471,7 @@ public class GameController {
 
     }
 
+
     public void startWar(int x, int y) {
         City city;
         MilitaryUnit enemyMilitaryUnit;
@@ -506,4 +507,47 @@ public class GameController {
         game.getCurrentCivilization().addToNotifications("you start war with " + civilization.leaderName());
         civilization.addToNotifications("civilization " + game.getCurrentCivilization().leaderName() + " started war against you");
     }
+
+    public void maintenanceGold() {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                int cost  = 0;
+                for (Building building : city.getBuildings()) {
+                    cost += building.getMaintenance();
+                }
+                city.setGold(city.getGold() - cost);
+            }
+        }
+    }
+
+    public void updateCanBuild() {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                for (Building building : city.getCanTBuild()) {
+                    if (isExistNeededBuilding(building,city) && isExistNeededTechnology(building,civilization)) {
+                        city.getCanBuild().add(building);
+                        city.getCanTBuild().remove(building);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isExistNeededTechnology(Building building,Civilization civilization) {
+        for (Technology technology : civilization.getTechnologies()) {
+            if (technology.getName().equals(building.getNeededTechnology().getName()))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean isExistNeededBuilding(Building building,City city) {
+        for (Building cityBuilding : city.getBuildings()) {
+            if (building.getNeededBuilding().getName().equals(cityBuilding.getName()))
+                return true;
+        }
+        return false;
+    }
+
+
 }

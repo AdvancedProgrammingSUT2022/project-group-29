@@ -1,10 +1,7 @@
 package models;
 
 import controllers.GameController;
-import enums.modelsEnum.ImprovementsEnum;
-import enums.modelsEnum.MilitaryUnitsEnum;
-import enums.modelsEnum.TechnologyEnum;
-import enums.modelsEnum.nonCombatUnitsEnum;
+import enums.modelsEnum.*;
 
 import java.util.ArrayList;
 
