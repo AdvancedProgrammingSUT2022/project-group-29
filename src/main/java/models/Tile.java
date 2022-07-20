@@ -17,8 +17,8 @@ public class Tile {
     private Improvement improvement;
     private int value = 1;
     private boolean needRepair = false;
-
     private boolean discoveredRuin = false;
+    private Building building = null;
 
     public Tile(int x, int y) {
         this.x = x;
@@ -163,5 +163,13 @@ public class Tile {
 
     public void setDiscoveredRuin(boolean discoveredRuin) {
         this.discoveredRuin = discoveredRuin;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

@@ -1,10 +1,7 @@
 package models;
 
 import controllers.GameController;
-import enums.modelsEnum.ImprovementsEnum;
-import enums.modelsEnum.MilitaryUnitsEnum;
-import enums.modelsEnum.TechnologyEnum;
-import enums.modelsEnum.nonCombatUnitsEnum;
+import enums.modelsEnum.*;
 
 import java.util.ArrayList;
 
@@ -17,6 +14,8 @@ public class Civilization {
     private City capital;
     private int happiness, gold, science;
     private final ArrayList<Technology> technologies = new ArrayList<>();
+    private final ArrayList<Civilization> civilizationsInWar = new ArrayList<>();
+
     private String color;
     private Technology currentTechnology = null;
     private ArrayList<String> notifications = new ArrayList<>();
@@ -79,7 +78,6 @@ public class Civilization {
     public String getName() {
         return name;
     }
-
 
     public Technology getCurrentTechnology() {
         return currentTechnology;
@@ -254,4 +252,9 @@ public class Civilization {
     public User getLeader() {
         return Leader;
     }
+
+    public ArrayList<Civilization> getCivilizationsInWar() {
+        return civilizationsInWar;
+    }
+
 }

@@ -1,8 +1,10 @@
 package models;
 
 import controllers.GameController;
+import enums.modelsEnum.BuildingsEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class City {
     private int allFood = 0;
@@ -21,6 +23,12 @@ public class City {
     private ArrayList<Tile> cityTiles = new ArrayList<>();
     private int citizen;
     private ArrayList<Resource> allResources = new ArrayList<>();
+
+    private ArrayList<Building> canBuild = new ArrayList<>();
+
+    private ArrayList<Building> canTBuild = new ArrayList<>();
+
+    private ArrayList<Building> buildings = new ArrayList<>();
 
     public City(String name, Civilization civilization, int x, int y) {
         this.name = name;
@@ -41,6 +49,7 @@ public class City {
         }
         this.citizen = 1;
         this.science = 0;
+        initCanBuild();
     }
 
     public void setName(String name) {
@@ -171,5 +180,38 @@ public class City {
 
     public void setAllFood(int allFood) {
         this.allFood = allFood;
+    }
+
+    private void initCanBuild() {
+        List<BuildingsEnum> buildings = Building.getAllBuildings();
+
+        for (BuildingsEnum building : buildings) {
+            if (building.getNeededBuilding() == null && haveTech(new Building(building)))
+                canBuild.add(new Building(building));
+            canTBuild.add(new Building(building));
+        }
+    }
+
+    private boolean haveTech(Building building) {
+        Technology tech = building.getNeededTechnology();
+        if (tech == null)
+            return true;
+        for (Technology technology : civilization.getTechnologies()) {
+            if (tech.getName().equals(technology.getName()))
+                return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Building> getCanBuild() {
+        return canBuild;
+    }
+
+    public ArrayList<Building> getCanTBuild() {
+        return canTBuild;
+    }
+
+    public ArrayList<Building> getBuildings() {
+        return buildings;
     }
 }

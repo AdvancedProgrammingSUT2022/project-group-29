@@ -171,6 +171,31 @@ public class CityController {
             return "unit name is invalid";
     }
 
+    public String createBuilding(Building building,City city) {
+        for (Building build : city.getCanTBuild()) {
+            if (build.getName().equals(building.getName()))
+                return "you can't build this building";
+        }
+        if (building.getCost() > city.getGold())
+            return "not enough Gold";
+
+        city.setGold(city.getGold() - building.getCost());
+        city.getBuildings().add(building);
+
+        for (Tile cityTile : city.getCityTiles()) {
+            if (cityTile.getBuilding() == null) {
+                cityTile.setBuilding(building);
+                break;
+            }
+        }
+        buildingEffect(building,city);
+        return "building built";
+    }
+
+    private void buildingEffect(Building building,City city) {
+        //TODO ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    }
+
     private void addCivilianToCity(Unit civilianUnit, City selectedCity, int gold) {
         selectedCity.setCivilian(civilianUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
@@ -261,14 +286,18 @@ public class CityController {
         return "first select a city!";
     }
     public String cityShowDiplomaticInformation() {
-        //TODO: complete
         Game game = GameController.getInstance().getGame();
-        ArrayList<Civilization> enemyCivilizations = new ArrayList<>();
-        ArrayList<Civilization> friendlyCivilizations = new ArrayList<>();
+        ArrayList<Civilization> enemyCivilizations = game.getCurrentCivilization().getCivilizationsInWar();
         StringBuilder sb = new StringBuilder();
         if (game.getCurrentCivilization() == null)
             return "there is not any civilization";
-        return "";
+        if (enemyCivilizations.size() == 0)
+            return "there is not any enemyCivilizations";
+        sb.append("Civilizations In war with::  \\n");
+        for (Civilization enemy : enemyCivilizations){
+            sb.append(enemy.getName() + "\n");
+        }
+        return sb.toString();
     }
 
     public String cityAttack(int x, int y) {
@@ -385,7 +414,6 @@ public class CityController {
                 game.setSelectedNonCombatUnit(null);
                 return;
             }
-
         }
     }
 
@@ -544,37 +572,4 @@ public class CityController {
         }
     }
 
-    //TODO add buy unit to queue
-    /*
-    public String buyUnit(String unitName) {
-        if ((selectedCity = game.getSelectedCity()) == null)
-            return "no selected city";
-        else if ((militaryUnitEnum = UnitController.getInstance().isExistMilitaryUnits(unitName)) != null) {
-            if ((gold = selectedCity.getGold()) < militaryUnitEnum.getCost() / 5)
-                return "gold is not enough";
-            else if (selectedCity.getMilitaryUnit() != null)
-                return "a military unit exist in city";
-            civilization = selectedCity.getCivilization();
-            militaryUnit = new MilitaryUnit(militaryUnitEnum, 0, 0);
-            for (Technology technology : civilization.getTechnologies()) {
-                if (!technology.getName().equals(militaryUnit.getNeededTechnology().getName()))
-                    return "do not have needed technology";
-            }
-            if (!doesCityHaveNeededResources(selectedCity, militaryUnit))
-                return "do not have needed resources";
-            else
-                addMilitaryUnitToCity();
-            return "unit created successfully in city";
-        } else if ((nonCombatUnitsEnum = UnitController.getInstance().isExistNonCombatUnits(unitName)) != null) {
-            if ((gold = selectedCity.getGold()) < nonCombatUnitsEnum.getCost() / 5)
-                return "gold is not enough";
-            else if (selectedCity.getCivilian() != null)
-                return "a civilian unit exist in city";
-            else
-                addCivilianToCity();
-            return "unit created successfully in city";
-        } else
-            return "unit name is invalid";
-    }
-*/
 }
