@@ -199,6 +199,31 @@ public class CityController {
             return "unit name is invalid";
     }
 
+    public String createBuilding(Building building,City city) {
+        for (Building build : city.getCanTBuild()) {
+            if (build.getName().equals(building.getName()))
+                return "you can't build this building";
+        }
+        if (building.getCost() > city.getGold())
+            return "not enough Gold";
+
+        city.setGold(city.getGold() - building.getCost());
+        city.getBuildings().add(building);
+
+        for (Tile cityTile : city.getCityTiles()) {
+            if (cityTile.getBuilding() == null) {
+                cityTile.setBuilding(building);
+                break;
+            }
+        }
+        buildingEffect(building,city);
+        return "building built";
+    }
+
+    private void buildingEffect(Building building,City city) {
+        //TODO ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    }
+
     private void addCivilianToCity(Unit civilianUnit, City selectedCity, int gold) {
         selectedCity.setCivilian(civilianUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
@@ -591,4 +616,5 @@ public class CityController {
             return "unit name is invalid";
     }
 */
+
 }
