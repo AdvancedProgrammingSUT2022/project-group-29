@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 public class MapView implements Initializable {
     public Pane pane;
     private static int xMap = 0, yMap = 0;
+    private static final Game game = GameController.getInstance().getGame();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,7 +64,7 @@ public class MapView implements Initializable {
                 ImageView imageView;
                 if (MapController.getInstance().isTerrainVisible(x + i, y + j)) {
                     imageView = new ImageView(new Image(Main.class.getResource("/assets/terrainTexture/" +
-                                    GameController.getInstance().getGame().getMap()[x + i][y + j].getTerrain().getKind() + ".png")
+                                    game.getMap()[x + i][y + j].getTerrain().getKind() + ".png")
                             .toExternalForm()));
                 } else {
                     imageView = new ImageView(new Image(Main.class.getResource("/assets/terrainTexture/fogofwar.png")
@@ -75,12 +76,12 @@ public class MapView implements Initializable {
                 imageView.setFitWidth(100);
                 pane.getChildren().add(imageView);
 
-                // feature
-                ImageView imageView1;
                 if (MapController.getInstance().isTerrainVisible(x + i, y + j)) {
-                    if (GameController.getInstance().getGame().getMap()[x + i][y + j].getFeature() != null) {
-                        imageView1 = new ImageView(new Image(Main.class.getResource("/assets/featureTexture/" +
-                                        GameController.getInstance().getGame().getMap()[x + i][y + j].getFeature().getKind() + ".png")
+
+                    // feature
+                    if (game.getMap()[x + i][y + j].getFeature() != null) {
+                        ImageView imageView1 = new ImageView(new Image(Main.class.getResource("/assets/featureTexture/" +
+                                        game.getMap()[x + i][y + j].getFeature().getKind() + ".png")
                                 .toExternalForm()));
                         imageView1.setX(j * 75 + 50);
                         imageView1.setY(i * 120 + 60 + (j % 2) * 60);
@@ -89,13 +90,30 @@ public class MapView implements Initializable {
                         pane.getChildren().add(imageView1);
                     }
 
+                    // ruin
+                    for (Tile ruin : game.getRuins()) {
+                        if (ruin.getX() == x + i
+                                && ruin.getY() == y + j) {
+                            ImageView imageView1;
+                            if (ruin.isDiscoveredRuin())
+                                imageView1 = new ImageView(new Image(Main.class.getResource("/assets/ruin.png").toExternalForm()));
+                            else
+                                imageView1 = new ImageView(new Image(Main.class.getResource("/assets/ruin1.png").toExternalForm()));
+                            imageView1.setX(j * 75 + 50);
+                            imageView1.setY(i * 120 + 60 + (j % 2) * 60);
+                            imageView1.setFitHeight(60);
+                            imageView1.setFitWidth(60);
+                            pane.getChildren().add(imageView1);
+                        }
+                    }
+
                     // unit
-                    if (GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit() != null &&
-                            GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian() != null) {
+                    if (game.getMap()[x + i][y + j].getMilitaryUnit() != null &&
+                            game.getMap()[x + i][y + j].getCivilian() != null) {
                         ImageView imageView2 = new ImageView(new Image(Main.class.getResource("/assets/Units/" +
-                                GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian().getName() + ".png").toExternalForm()));
+                                game.getMap()[x + i][y + j].getCivilian().getName() + ".png").toExternalForm()));
                         ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/Units/" +
-                                GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit().getName() + ".png").toExternalForm()));
+                                game.getMap()[x + i][y + j].getMilitaryUnit().getName() + ".png").toExternalForm()));
                         imageView2.setFitWidth(50);
                         imageView2.setFitHeight(40);
                         imageView3.setFitWidth(50);
@@ -104,18 +122,18 @@ public class MapView implements Initializable {
                         imageView2.setY(i * 120 + 60 + (j % 2) * 60 - 20);
                         imageView2.setX(j * 75 + 50);
                         imageView2.setY(i * 120 + 60 + (j % 2) * 60 + 20);
-                    } else if (GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit() != null &&
-                            GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian() == null) {
+                    } else if (game.getMap()[x + i][y + j].getMilitaryUnit() != null &&
+                            game.getMap()[x + i][y + j].getCivilian() == null) {
                         ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/Units/warrior.png").toExternalForm()));
                         imageView3.setX(j * 75 + 50);
                         imageView3.setY(i * 120 + 60 + (j % 2) * 60);
                         imageView3.setFitHeight(120);
                         imageView3.setFitWidth(100);
                         pane.getChildren().add(imageView3);
-                    } else if (GameController.getInstance().getGame().getMap()[x + i][y + j].getMilitaryUnit() == null &&
-                            GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian() != null) {
+                    } else if (game.getMap()[x + i][y + j].getMilitaryUnit() == null &&
+                            game.getMap()[x + i][y + j].getCivilian() != null) {
                         ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/Units/" +
-                                GameController.getInstance().getGame().getMap()[x + i][y + j].getCivilian().getName() + ".png").toExternalForm()));
+                                game.getMap()[x + i][y + j].getCivilian().getName() + ".png").toExternalForm()));
                         imageView3.setX(j * 75 + 50);
                         imageView3.setY(i * 120 + 60 + (j % 2) * 60);
                         imageView3.setFitHeight(120);
@@ -125,7 +143,7 @@ public class MapView implements Initializable {
 
                     // TODO city
                     outer:
-                    for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+                    for (Civilization civilization : game.getCivilizations()) {
                         for (City city : civilization.getCities()) {
                             if (city.getX() == x + i && city.getY() == y + j) {
                                 ImageView imageView2 = new ImageView(new Image(Main.class.getResource("/assets/city.png").toExternalForm()));
@@ -135,7 +153,7 @@ public class MapView implements Initializable {
                                 imageView2.setFitWidth(70);
                                 imageView2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                                     // TODO city panel
-                                    GameController.getInstance().getGame().setSelectedCity(city);
+                                    game.setSelectedCity(city);
                                     Label label = new Label("name: " + city.getName());
                                     Label label1 = new Label("\npopulation: " + city.getPopulation());
                                     Label label2 = new Label("\ncity hp: " + city.getHitPoint());
@@ -187,7 +205,7 @@ public class MapView implements Initializable {
                 }
             }
         }
-        
+
         showBar();
         for (Node child : pane.getChildren()) {
             System.out.println("child = " + child);
@@ -208,30 +226,30 @@ public class MapView implements Initializable {
     }
 
     private void showBar() {
-        Label label = new Label("gold: " + GameController.getInstance().getGame().getCurrentCivilization().getGold());
+        Label label = new Label("gold: " + game.getCurrentCivilization().getGold());
         label.setLayoutX(10);
         label.setLayoutY(10);
-        Label label1 = new Label("happiness: " + GameController.getInstance().getGame().getCurrentCivilization().getHappiness());
+        Label label1 = new Label("happiness: " + game.getCurrentCivilization().getHappiness());
         label1.setLayoutX(70);
         label1.setLayoutY(10);
-        Label label2 = new Label("science: " + GameController.getInstance().getGame().getCurrentCivilization().getScience());
+        Label label2 = new Label("science: " + game.getCurrentCivilization().getScience());
         label2.setLayoutX(165);
         label2.setLayoutY(10);
-        Label label3 = new Label("current technology: " + (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() == null ? "nothing" : GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology()));
+        Label label3 = new Label("current technology: " + (game.getCurrentCivilization().getCurrentTechnology() == null ? "nothing" : game.getCurrentCivilization().getCurrentTechnology()));
         label3.setLayoutX(240);
         label3.setLayoutY(10);
         Label label4 = new Label("selected unit: " + func());
         label4.setLayoutX(440);
         label4.setLayoutY(10);
 
-        // TODO show technology graph
+        // TODO show technology tree
         Circle technologyPic = new Circle(60, 90, 50, Color.WHITE);
-        if (GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology() != null)
+        if (game.getCurrentCivilization().getCurrentTechnology() != null)
             technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
-                    GameController.getInstance().getGame().getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
+                    game.getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
         technologyPic.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() > 0) {
-                Label label5 = new Label("last technology: " + GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().get(GameController.getInstance().getGame().getCurrentCivilization().getTechnologies().size() - 1).getName());
+            if (game.getCurrentCivilization().getTechnologies().size() > 0) {
+                Label label5 = new Label("last technology: " + game.getCurrentCivilization().getTechnologies().get(game.getCurrentCivilization().getTechnologies().size() - 1).getName());
                 Main.getPopup().getContent().clear();
                 VBox vBox = new VBox(label5);
                 vBox.setStyle("-fx-background-color: #da76d6");
@@ -248,10 +266,10 @@ public class MapView implements Initializable {
     }
 
     private String func() {
-        if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null)
-            return GameController.getInstance().getGame().getSelectedNonCombatUnit().getName();
-        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null)
-            return GameController.getInstance().getGame().getSelectedCombatUnit().getName();
+        if (game.getSelectedNonCombatUnit() != null)
+            return game.getSelectedNonCombatUnit().getName();
+        if (game.getSelectedCombatUnit() != null)
+            return game.getSelectedCombatUnit().getName();
         return "nothing";
     }
 
@@ -312,7 +330,7 @@ public class MapView implements Initializable {
 
     private void showNotifications() {
         StringBuilder stringBuilder = new StringBuilder();
-        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        Civilization civilization = game.getCurrentCivilization();
         for (String notification : civilization.getNotifications())
             stringBuilder.append(notification).append("\n");
         Main.showPopupJustText(String.valueOf(stringBuilder));
@@ -320,10 +338,10 @@ public class MapView implements Initializable {
 
     private void showDemographics() {
         StringBuilder stringBuilder = new StringBuilder();
-        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        Civilization civilization = game.getCurrentCivilization();
         stringBuilder.append("population: ").append(civilization.calculatePopulation()).append("\ngold: ").append(civilization.getGold()).append("\nnumber of combat units: ").append(civilization.getMilitaryUnits().size()).append("\nhappiness: ").append(civilization.getHappiness());
         int population = 1, numberOfCombatUnits = 1, gold = 1;
-        ArrayList<Civilization> arrayList = GameController.getInstance().getGame().getCivilizations();
+        ArrayList<Civilization> arrayList = game.getCivilizations();
         for (Civilization value : arrayList) {
             if (value.getGold() > civilization.getGold())
                 gold++;
@@ -341,7 +359,7 @@ public class MapView implements Initializable {
 
     private void showCities() {
         StringBuilder stringBuilder = new StringBuilder();
-        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        Civilization civilization = game.getCurrentCivilization();
         stringBuilder.append("capital: ").append(civilization.getCapital() != null ? civilization.getCapital().getName() : " no capital").append("\n");
         for (City city : civilization.getCities()) {
             stringBuilder.append(city.getName()).append("\n");
@@ -353,7 +371,7 @@ public class MapView implements Initializable {
     private void showUnits() {
         Main.getPopup().getContent().clear();
         StringBuilder stringBuilder = new StringBuilder();
-        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        Civilization civilization = game.getCurrentCivilization();
         stringBuilder.append("all units:").append("\n");
         for (MilitaryUnit militaryUnit : civilization.getMilitaryUnits()) {
             stringBuilder.append(militaryUnit.toString()).append("\n");
@@ -398,7 +416,7 @@ public class MapView implements Initializable {
 
     private void showResearch() {
         StringBuilder stringBuilder = new StringBuilder();
-        Civilization civilization = GameController.getInstance().getGame().getCurrentCivilization();
+        Civilization civilization = game.getCurrentCivilization();
         stringBuilder.append("discovered technologies: " + (civilization.getTechnologies().size() == 0 ? "nothing" : "")).append("\n");
         for (Technology technology : civilization.getTechnologies()) {
             stringBuilder.append(technology.getName()).append("\n");
@@ -444,16 +462,16 @@ public class MapView implements Initializable {
                         else if (MapController.getInstance().isTerrainVisible(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText()))) {
                             Label label = new Label("there is no resource in this tile!");
                             ;
-                            if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource() != null)
-                                label = new Label("resources: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getName()
-                                        + "\ntype: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getType());
-                            Label label1 = new Label("food: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFood());
-                            Label label2 = new Label("production: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getProduction());
-                            Label label3 = new Label("gold: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getGold());
-                            Label label4 = new Label("movement point: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMovementCost());
-                            Label label5 = new Label("combat modification: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCombatChange());
-                            Label label6 = new Label("terrain: " + GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getTerrain().getKind());
-                            Label label7 = new Label("feature: " + (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFeature() == null ? "nothing" : GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFeature().getKind()));
+                            if (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource() != null)
+                                label = new Label("resources: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getName()
+                                        + "\ntype: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getType());
+                            Label label1 = new Label("food: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFood());
+                            Label label2 = new Label("production: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getProduction());
+                            Label label3 = new Label("gold: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getGold());
+                            Label label4 = new Label("movement point: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMovementCost());
+                            Label label5 = new Label("combat modification: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCombatChange());
+                            Label label6 = new Label("terrain: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getTerrain().getKind());
+                            Label label7 = new Label("feature: " + (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFeature() == null ? "nothing" : game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFeature().getKind()));
                             VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, label7);
                             vBox.setStyle("-fx-background-color: #da76d6");
                             Main.getPopup().getContent().clear();
@@ -478,8 +496,8 @@ public class MapView implements Initializable {
                         Main.getPopup().getContent().clear();
                         if (!(isXTileValid(Integer.parseInt(textField.getText())) || isYTileValid(Integer.parseInt(textField1.getText()))))
                             Main.showPopupJustText("invalid tile");
-                        else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit() != null
-                                && GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian() != null) {
+                        else if (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit() != null
+                                && game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian() != null) {
                             Label label = new Label("select military or nonmilitary");
                             Button button1 = new Button("military");
                             Button button2 = new Button("nonmilitary");
@@ -490,10 +508,10 @@ public class MapView implements Initializable {
                             Main.getPopup().getContent().clear();
                             Main.getPopup().getContent().add(vBox);
                             Main.getPopup().show(Main.getScene().getWindow());
-                        } else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit() != null) {
+                        } else if (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getMilitaryUnit() != null) {
                             Main.showPopupJustText(GameMenuController.getInstance().selectCombatUnit(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText())));
                             showMap(xMap, yMap);
-                        } else if (GameController.getInstance().getGame().getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian() != null) {
+                        } else if (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCivilian() != null) {
                             Main.showPopupJustText(GameMenuController.getInstance().selectNonCombatUnit(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText())));
                             showMap(xMap, yMap);
                         } else
@@ -564,7 +582,7 @@ public class MapView implements Initializable {
     }
 
     private void unitAction() {
-        if (GameController.getInstance().getGame().getSelectedCombatUnit() != null) {
+        if (game.getSelectedCombatUnit() != null) {
             Main.getPopup().getContent().clear();
             Label label = new Label("choose unit action");
             TextField textField = new TextField();
@@ -588,19 +606,18 @@ public class MapView implements Initializable {
                     Main.showPopupJustText(UnitController.getInstance().deleteUnit());
                 else if (textField.getText().equals("attack")) {
                     unitAttack();
-                }
-                else
+                } else
                     Main.showPopupJustText("invalid input");
             });
-            Label label1 = new Label("name: " + GameController.getInstance().getGame().getSelectedCombatUnit().getName()
-                    + "\nhp: " + GameController.getInstance().getGame().getSelectedCombatUnit().getHp() + "\nmelee attack: "
-                    + GameController.getInstance().getGame().getSelectedCombatUnit().getCombatStrength() + "\nrange attack: "
-                    + GameController.getInstance().getGame().getSelectedCombatUnit().getRangedCombatStrength() + "\n");
+            Label label1 = new Label("name: " + game.getSelectedCombatUnit().getName()
+                    + "\nhp: " + game.getSelectedCombatUnit().getHp() + "\nmelee attack: "
+                    + game.getSelectedCombatUnit().getCombatStrength() + "\nrange attack: "
+                    + game.getSelectedCombatUnit().getRangedCombatStrength() + "\n");
             VBox vBox = new VBox(label1, label, textField, button);
             vBox.setStyle("-fx-background-color: #da76d6");
             Main.getPopup().getContent().add(vBox);
             Main.getPopup().show(Main.getScene().getWindow());
-        } else if (GameController.getInstance().getGame().getSelectedNonCombatUnit() != null) {
+        } else if (game.getSelectedNonCombatUnit() != null) {
             Main.getPopup().getContent().clear();
             Label label = new Label("choose unit action");
             Label label1 = new Label("build <improvement> - build city - clear lands\nbuild road to route - repair - move");
@@ -632,7 +649,7 @@ public class MapView implements Initializable {
                 else
                     Main.showPopupJustText("invalid input");
             });
-            Label label2 = new Label("name: " + GameController.getInstance().getGame().getSelectedNonCombatUnit().getName()
+            Label label2 = new Label("name: " + game.getSelectedNonCombatUnit().getName()
                     + "\n");
             VBox vBox = new VBox(label2, label, label1, textField, button);
             vBox.setStyle("-fx-background-color: #da76d6");
@@ -661,8 +678,7 @@ public class MapView implements Initializable {
                     Main.getPopup().getContent().add(vBox);
                     Main.getPopup().show(Main.getScene().getWindow());
                 }
-            }
-            else
+            } else
                 Main.showPopupJustText("invalid input!");
         });
         VBox vBox = new VBox(textFieldX, textFieldY, button);

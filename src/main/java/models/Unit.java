@@ -4,14 +4,9 @@ import enums.modelsEnum.nonCombatUnitsEnum;
 
 public class Unit {
     private final String name;
-    private final int combatStrength;
-    private final int rangedCombatStrength;
-    private final int range;
-    private final Technology neededTechnology;
-    private final Resource neededResource;
+    private int hp = 10;
     private int x, y;
     private int cost;
-    private String type;
     private int movement;
     private final int maxMovement;
     private String combatType;
@@ -25,11 +20,7 @@ public class Unit {
         this.movement = type.getMovement();
         this.maxMovement = type.getMovement();
         this.combatType = type.getCombatType();
-        this.combatStrength = type.getCombatStrength();
-        this.rangedCombatStrength = type.getRangedCombatStrength();
-        this.range = type.getRange();
-        this.neededTechnology = type.getNeededTechnology();
-        this.neededResource = type.getNeededResource();
+
         this.x = x;
         this.y = y;
         this.xEnd = -1;
@@ -98,6 +89,14 @@ public class Unit {
 
     public void setHasDone(boolean hasDone) {
         this.hasDone = hasDone;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     @Override

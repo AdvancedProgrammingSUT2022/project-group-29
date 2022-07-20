@@ -25,7 +25,6 @@ public class Game {
         this.map = map;
         this.turn = 0;
         this.ruins = new ArrayList<>();
-        this.addRuins();
     }
 
     public void nextTurn() {
@@ -134,11 +133,17 @@ public class Game {
         return ruins;
     }
 
-    private void addRuins() {
+    public void addRuins() {
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
             int rand = random.nextInt(map.length);
             int rand2 = random.nextInt(map[0].length);
+            for (Tile ruin : ruins) {
+                while (ruin.getX() == rand && ruin.getY() == rand2){
+                    rand = random.nextInt(map.length);
+                    rand2 = random.nextInt(map[0].length);
+                }
+            }
             ruins.add(map[rand][rand2]);
         }
     }

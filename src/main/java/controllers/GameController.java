@@ -109,6 +109,7 @@ public class GameController {
         Tile[][] map = new Tile[WIDTH][LENGTH];
         game = new Game(null, map);
         MapController.getInstance().createMap(map, WIDTH, LENGTH);
+        game.addRuins();
         ArrayList<Civilization> civilizations = new ArrayList<>();
         createCivilizations(civilizations, users);
         game.setCivilizations(civilizations);
@@ -152,6 +153,7 @@ public class GameController {
     public String combat(int x, int y) {
         City city;
         MilitaryUnit enemyMilitaryUnit;
+        Unit enemyUnit;
         if (game.getSelectedCombatUnit() == null)
             return "no selected combat unit";
         if (!game.getSelectedCombatUnit().getState().equals("ready"))
@@ -174,8 +176,7 @@ public class GameController {
                 return CityController.getInstance().combat(city, game.getSelectedCombatUnit(), x, y);
             else
                 return "you are not in war with this civilization";
-        }
-        if ((enemyMilitaryUnit = game.getMap()[x][y].getMilitaryUnit()) != null) {
+        } else if ((enemyMilitaryUnit = game.getMap()[x][y].getMilitaryUnit()) != null) {
             Civilization civilization = null;
             for (Civilization civilization1 : game.getCivilizations()) {
                 for (MilitaryUnit militaryUnit : civilization1.getMilitaryUnits()) {
@@ -187,6 +188,20 @@ public class GameController {
             }
             if (game.getWar().get(game.getCurrentCivilization().leaderName()).equals(civilization.leaderName()))
                 return UnitController.getInstance().combat(enemyMilitaryUnit);
+            else
+                return "you are not in war with this civilization";
+        } else if ((enemyUnit = game.getMap()[x][y].getCivilian()) != null) {
+            Civilization civilization = null;
+            for (Civilization civilization1 : game.getCivilizations()) {
+                for (Unit unit : civilization1.getUnits()) {
+                    if (unit.getX() == enemyUnit.getX() && unit.getY() == enemyUnit.getY()) {
+                        civilization = civilization1;
+                        break;
+                    }
+                }
+            }
+            if (game.getWar().get(game.getCurrentCivilization().leaderName()).equals(civilization.leaderName()))
+                return UnitController.getInstance().combat(enemyUnit);
             else
                 return "you are not in war with this civilization";
         }

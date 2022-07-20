@@ -1,5 +1,6 @@
 package controllers;
 
+import app.Main;
 import enums.modelsEnum.ImprovementsEnum;
 import enums.modelsEnum.MilitaryUnitsEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
@@ -70,32 +71,32 @@ public class UnitController {
         militaryUnit.setY(militaryUnit.getY() + 1);
     }
 
-    private String checkRuins(int x, int y) {
+    private void checkRuins(int x, int y) {
         ArrayList<Tile> ruins = game.getRuins();
         for (Tile ruin : ruins) {
             if (x == ruin.getX() && y == ruin.getY()) {
                 Random random = new Random();
                 int rand = random.nextInt(3);
-                switch (rand) {
-                    case 0:
-                        game.getCurrentCivilization().setGold(game.getCurrentCivilization().getGold() + 50);
-                        return "this tile was a ruin and you got 50 gold";
-                    case 1:
-                        game.getCurrentCivilization().getCapital().setPopulation
-                                (game.getCurrentCivilization().getCapital().getPopulation() + 1);
-                        return "this tile was a ruin and 1 person added tp your population";
-                    case 2:
-                        Technology technology = new Technology(Technology.getAllTechnologies().get(random.nextInt(Technology.getAllTechnologies().size())));
-                        game.getCurrentCivilization().addTechnology(technology);
-                        return "this tile was a ruin and  you got " + technology.getName() + " technology";
+                if (rand == 0) {
+                    game.getCurrentCivilization().setGold(game.getCurrentCivilization().getGold() + 50);
+                    game.getCurrentCivilization().addToNotifications("this tile was a ruin and you got 50 gold");
+                    Main.showPopupJustText("this tile was a ruin and you got 50 gold");
+                } else if (rand == 1) {
+                    game.getCurrentCivilization().getCapital().setPopulation
+                            (game.getCurrentCivilization().getCapital().getPopulation() + 1);
+                    game.getCurrentCivilization().addToNotifications("this tile was a ruin and 1 person added to your population");
+                    Main.showPopupJustText("this tile was a ruin and 1 person added to your population");
+                } else {
+                    Technology technology = new Technology(Technology.getAllTechnologies().get(random.nextInt(Technology.getAllTechnologies().size())));
+                    game.getCurrentCivilization().addTechnology(technology);
+                    game.getCurrentCivilization().addToNotifications("this tile was a ruin and you got " + technology.getName() + " technology");
+                    Main.showPopupJustText("this tile was a ruin and you got " + technology.getName() + " technology");
                 }
-
-                game.getMap()[x][y].setDiscoveredRuin(true);
-                ruins.remove(ruin);
-                break;
             }
+            game.getMap()[x][y].setDiscoveredRuin(true);
+            ruins.remove(ruin);
+            break;
         }
-        return null;
     }
 
     public void changePlace(int x, int y, Unit unit) {
@@ -599,5 +600,64 @@ public class UnitController {
         militaryUnit.setHasDone(true);
         militaryUnit.setReadySiege(true);
         return "siege set";
+    }
+
+    public String combat(Unit enemyUnit) {
+        MilitaryUnit combatUnit = GameController.getInstance().getGame().getSelectedCombatUnit();
+        if (!combatUnit.getState().equals("ready"))
+            return "unit is not ready";
+        if (combatUnit.isHasDone())
+            return "unit has done its work";
+        if (!combatUnit.isReadySiege())
+            return "siege unit is not set";
+        if (combatUnit.getRange() == 0) {
+            if ((enemyUnit.getY() - combatUnit.getY()) * (enemyUnit.getY() - combatUnit.getY()) +
+                    (enemyUnit.getX() - combatUnit.getX()) * (enemyUnit.getX() - combatUnit.getX()) > 1)
+                return "out of range";
+        } else {
+            if ((enemyUnit.getY() - combatUnit.getY()) * (enemyUnit.getY() - combatUnit.getY()) +
+                    (enemyUnit.getX() - combatUnit.getX()) * (enemyUnit.getX() - combatUnit.getX())
+                    > combatUnit.getRange() * combatUnit.getRange())
+                return "position is not in range";
+        }
+
+        unitAttackUnit(combatUnit, enemyUnit);
+        return "successful";
+    }
+
+    private void unitAttackUnit(MilitaryUnit combatUnit, Unit enemyUnit) {
+        if (!(combatUnit.getName().equals("HorseMan") || combatUnit.getName().equals("Knight") ||
+                combatUnit.getName().equals("Cavalry")) || combatUnit.getName().equals("Lancer") ||
+                combatUnit.getName().equals("Tank"))
+            combatUnit.setHasDone(true);
+
+        int x = enemyUnit.getX();
+        int y = enemyUnit.getY();
+        int attack = (int) (combatUnit.getCombatStrength() * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + combatUnit.getCombatStrength());
+        int rangedAttack = (int) (combatUnit.getRangedCombatStrength() * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + combatUnit.getRangedCombatStrength());
+        if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
+                + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
+            if (attack >= enemyUnit.getHp())
+                destroyUnit(enemyUnit);
+            else
+                enemyUnit.setHp(enemyUnit.getHp() - attack);
+        } else {
+            if (rangedAttack >= enemyUnit.getHp())
+                destroyUnit(enemyUnit);
+            else
+                enemyUnit.setHp(enemyUnit.getHp() - rangedAttack);
+        }
+    }
+
+    private void destroyUnit(Unit enemyUnit) {
+        for (Civilization civilization : game.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (unit.getX() == enemyUnit.getX() && unit.getY() == enemyUnit.getY()) {
+                    civilization.getUnits().remove(unit);
+                    game.getCurrentCivilization().getUnits().add(unit);
+                    break;
+                }
+            }
+        }
     }
 }
