@@ -186,13 +186,19 @@ public class MapView implements Initializable {
                                     TextField textFieldY = new TextField("y");
                                     Button button2 = new Button("ok");
                                     button2.setOnMouseClicked(event14 -> {
-                                        if (textFieldX.getText().matches("\\d+") && textFieldY.getText().matches("\\d+")) {
+                                        if (textFieldX.getText().matches("\\d+") && textFieldY.getText().matches("\\d+"))
                                             Main.showPopupJustText(CityController.getInstance().cityBuyTile(Integer.parseInt(textFieldX.getText()), Integer.parseInt(textFieldY.getText())));
-
-                                        }
+                                    });
+                                    Label label9 = new Label("attack");
+                                    TextField textFieldX1 = new TextField("x");
+                                    TextField textFieldY1 = new TextField("y");
+                                    Button button3 = new Button("ok");
+                                    button3.setOnMouseClicked(event1 -> {
+                                        if (textFieldX.getText().matches("\\d+") && textFieldY.getText().matches("\\d+"))
+                                            Main.showPopupJustText(CityController.getInstance().cityAttack(Integer.parseInt(textFieldX.getText()), Integer.parseInt(textFieldY.getText())));
                                     });
                                     Main.getPopup().getContent().clear();
-                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2);
+                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2, textFieldX1, textFieldY1, button3);
                                     ;
                                     vBox.setStyle("-fx-background-color: #da76d6");
                                     Main.getPopup().getContent().add(vBox);

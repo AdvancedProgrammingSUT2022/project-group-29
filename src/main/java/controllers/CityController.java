@@ -134,34 +134,6 @@ public class CityController {
         }
     }
 
-    private static String construction(String name) {
-        return "";
-    }
-
-    private static String changeConstruction(String name) {
-        return "";
-    }
-
-    private static String destroyingCities(String name) {
-        return "";
-    }
-
-    private static String appendCity(String name) {
-        return "";
-    }
-
-    private static String warCityAndUnit(String name) {
-        return "";
-    }
-
-    private static String hpWarCityAndUnit(String name) {
-        return "";
-    }
-
-    private static String defenceCity(String name) {
-        return "";
-    }
-
     public String createUnit(String unitName) {
         City selectedCity;
         MilitaryUnitsEnum militaryUnitEnum;
@@ -287,6 +259,16 @@ public class CityController {
                     "hitPoint: " + selectedCity.getHitPoint();
         }
         return "first select a city!";
+    }
+    public String cityShowDiplomaticInformation() {
+        //TODO: complete
+        Game game = GameController.getInstance().getGame();
+        ArrayList<Civilization> enemyCivilizations = new ArrayList<>();
+        ArrayList<Civilization> friendlyCivilizations = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        if (game.getCurrentCivilization() == null)
+            return "there is not any civilization";
+        return "";
     }
 
     public String cityAttack(int x, int y) {
@@ -485,6 +467,10 @@ public class CityController {
         rangedAttack = (int) (rangedAttack * game.getMap()[combatUnit.getX()][combatUnit.getY()].getCombatChange() + rangedAttack);
         if (combatUnit.getCombatType().equals("Siege"))
             rangedAttack += 10;
+        if (game.getMap()[city.getX()][city.getY()].getTerrain().getKind().equals("hills")) {
+            attack /= 2;
+            rangedAttack /= 2;
+        }
         if (1 == (y - combatUnit.getY()) * (y - combatUnit.getY())
                 + (x - combatUnit.getX()) * (x - combatUnit.getX())) {
             if (city.getMilitaryUnit() == null) {

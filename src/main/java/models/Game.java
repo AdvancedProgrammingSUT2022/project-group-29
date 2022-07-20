@@ -52,8 +52,7 @@ public class Game {
             if (size == 0 ) {
                 loose();
             }
-        }
-        if (year == 2050) {
+        } else if (year == 2050) {
             Civilization winner = civilizations.get(0);
             for (Civilization civilization : civilizations)
                 civilization.getLeader().setScore(civilization.getLeader().getScore() + civilization.getHappiness() / 20);
@@ -61,6 +60,9 @@ public class Game {
                 if (civilization.getHappiness() > winner.getHappiness())
                     winner = civilization;
             Main.showPopupJustText("winner is: " + winner.getLeader().getNickname());
+            Main.changeMenu("mainPage");
+        } else if (civilizations.size() == 1) {
+            Main.showPopupJustText("winner is: " + civilizations.get(0).getLeader().getNickname());
             Main.changeMenu("mainPage");
         }
     }
