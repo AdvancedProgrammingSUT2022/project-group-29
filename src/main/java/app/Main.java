@@ -57,7 +57,7 @@ public class Main extends Application {
         scene.setRoot(root);
     }
 
-    private static Parent loadFXML(String name) {
+    public static Parent loadFXML(String name) {
         try {
             URL address = new URL(Main.class.getResource("/fxml/" + name + ".fxml").toString());
             return FXMLLoader.load(address);
@@ -88,17 +88,6 @@ public class Main extends Application {
         label.setMinHeight(50);
         label.setText(text);
         popup.getContent().add(label);
-        popup.show(scene.getWindow());
-    }
-
-    public static void showPopup(ArrayList<Node> nodes) {
-        popup.setX(900);
-        popup.setY(150);
-        if (popup.getContent().size() == 1)
-            popup.getContent().remove(0);
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(nodes);
-        popup.getContent().add(vBox);
         popup.show(scene.getWindow());
     }
 

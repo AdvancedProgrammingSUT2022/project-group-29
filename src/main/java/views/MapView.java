@@ -6,8 +6,10 @@ import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import models.*;
 
 import java.net.URL;
@@ -207,9 +210,6 @@ public class MapView implements Initializable {
         }
 
         showBar();
-        for (Node child : pane.getChildren()) {
-            System.out.println("child = " + child);
-        }
     }
 
     private void moveUnit() {
@@ -242,20 +242,63 @@ public class MapView implements Initializable {
         label4.setLayoutX(440);
         label4.setLayoutY(10);
 
-        // TODO show technology tree
         Circle technologyPic = new Circle(60, 90, 50, Color.WHITE);
         if (game.getCurrentCivilization().getCurrentTechnology() != null)
             technologyPic.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" +
                     game.getCurrentCivilization().getCurrentTechnology().getName() + ".png").toExternalForm())));
         technologyPic.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (game.getCurrentCivilization().getTechnologies().size() > 0) {
-                Label label5 = new Label("last technology: " + game.getCurrentCivilization().getTechnologies().get(game.getCurrentCivilization().getTechnologies().size() - 1).getName());
-                Main.getPopup().getContent().clear();
-                VBox vBox = new VBox(label5);
-                vBox.setStyle("-fx-background-color: #da76d6");
-                Main.getPopup().getContent().add(vBox);
-                Main.getPopup().show(Main.getScene().getWindow());
+//            if (game.getCurrentCivilization().getTechnologies().size() > 0) {
+//                Label label5 = new Label("last technology: " + game.getCurrentCivilization().getTechnologies().get(game.getCurrentCivilization().getTechnologies().size() - 1).getName() + "\n");
+//            }
+            VBox vBox = new VBox();
+            Button button = new Button("tech tree");
+            button.setOnMouseClicked(event13 -> {
+                Stage stage = new Stage();
+                ScrollPane scrollPane = (ScrollPane) Main.loadFXML("techPage");
+                stage.setScene(new Scene(scrollPane));
+                stage.show();
+            });
+            ArrayList<Label> labels = new ArrayList<>();
+            for (Technology technology : game.getCurrentCivilization().getAvailableTechnology()) {
+                Label label6 = new Label(technology.getName());
+                labels.add(label6);
+                label6.addEventHandler(MouseEvent.MOUSE_ENTERED, event1 -> {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    ArrayList<Technology> technologies = new ArrayList<>();
+                    for (TechnologyEnum allTechnology : Technology.getAllTechnologies()) {
+                        for (Technology neededTechnology : allTechnology.getNeededTechnologies()) {
+                            if (neededTechnology.getName().equals(technology.getName())) {
+                                technologies.add(new Technology(allTechnology));
+                                break;
+                            }
+                        }
+                    }
+                    for (Technology technology1 : technologies) {
+                        stringBuilder.append(technology1.getName()).append("\n");
+                    }
+                    Label label7 = new Label("\ntype: " + technology.getType() + "\nneeded for:\n" + stringBuilder);
+                    vBox.getChildren().add(label7);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().clear();
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                });
+                label6.addEventHandler(MouseEvent.MOUSE_CLICKED, event12 -> {
+                    if (event12.getClickCount() == 2) {
+                        if (game.getCurrentCivilization().getCurrentTechnology() == null)
+                            Main.showPopupJustText(GameController.getInstance().technologyStudy(technology.getName()));
+                        else
+                            Main.showPopupJustText(GameController.getInstance().technologyChange(technology.getName()));
+                    }
+                });
             }
+
+            Main.getPopup().getContent().clear();
+            vBox.getChildren().add(button);
+            vBox.getChildren().addAll(labels);
+            vBox.setStyle("-fx-background-color: #da76d6");
+            Main.getPopup().getContent().add(vBox);
+            Main.getPopup().show(Main.getScene().getWindow());
         });
         pane.getChildren().add(label);
         pane.getChildren().add(label1);

@@ -260,7 +260,7 @@ public class GameController {
         game.getCurrentCivilization().setCurrentTechnology(technology);
         game.getCurrentCivilization().addTechnology(technology);
         game.getCurrentCivilization().decreaseScience(technology.getCost());
-        game.getCurrentCivilization().setRemainingTurns(20 / game.getCurrentCivilization().getHappiness());
+        game.getCurrentCivilization().setRemainingTurns(40 / game.getCurrentCivilization().getHappiness());
         return "technology buy successfully";
     }
 
@@ -276,10 +276,12 @@ public class GameController {
             return "don not have access to this technology";
         if (game.getCurrentCivilization().getCurrentTechnology() == null)
             return "no need to change";
+        if (game.getCurrentCivilization().getScience() < technology.getCost())
+            return "science is ont enough";
         game.getCurrentCivilization().setCurrentTechnology(technology);
         game.getCurrentCivilization().addTechnology(technology);
         game.getCurrentCivilization().decreaseScience(technology.getCost());
-        game.getCurrentCivilization().setRemainingTurns(20 / game.getCurrentCivilization().getHappiness());
+        game.getCurrentCivilization().setRemainingTurns(40 / game.getCurrentCivilization().getHappiness());
         return "technology change successfully";
     }
 
