@@ -193,7 +193,102 @@ public class CityController {
     }
 
     private void buildingEffect(Building building,City city) {
-        //TODO ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        switch (building.getName()) {
+            case "Barracks":
+            case "Military Academy":
+            case "Armory":
+                for (MilitaryUnit militaryUnit : city.getCivilization().getMilitaryUnits()) {
+                    if (!militaryUnit.getCombatType().equals("Mounted"))
+                        militaryUnit.setHp(militaryUnit.getHp() + 15);
+                }
+                break;
+            case "Granary":
+            case "Water Mill":
+                city.setFood(city.getFood() + 2);
+                break;
+            case "Library":
+                city.setScience(city.getScience() + city.getCitizen() / 2);
+                break;
+            case "Walls":
+                city.setCombatStrength(city.getCombatStrength() + 5);
+                break;
+            case "Burial Tomb":
+                city.setHappiness(city.getHappiness() + 2);
+                break;
+            case "Circus":
+                city.setHappiness(city.getHappiness() + 3);
+                break;
+            case "Colosseum":
+            case "Theater":
+                city.setHappiness(city.getHappiness() + 4);
+                break;
+            case "Courthouse":
+                city.setHappiness(city.getHappiness() + 8);
+                break;
+            case "Stable":
+                for (MilitaryUnit militaryUnit : city.getCivilization().getMilitaryUnits()) {
+                    if (militaryUnit.getCombatType().equals("Mounted"))
+                        militaryUnit.setCombatStrength((int) (1.25 * militaryUnit.getCombatStrength()));
+                }
+                break;
+            case "Castle":
+                city.setCombatStrength(city.getCombatStrength() + 7.5);
+                break;
+            case "Forge":
+                for (MilitaryUnit militaryUnit : city.getCivilization().getMilitaryUnits()) {
+                    if (!militaryUnit.getCombatType().equals("Mounted"))
+                        militaryUnit.setCombatStrength((int) (1.15 * militaryUnit.getCombatStrength()));
+                }
+                break;
+            case "Market":
+            case "Bank":
+                city.setGold((int) (city.getGold() * 1.25));
+                break;
+            case "Mint":
+                int a = 0;
+                for (Tile cityTile : city.getCityTiles()) {
+                    if (cityTile.getTerrain().getGold() > 0)
+                        a++;
+                }
+                city.setGold(city.getGold() + a * 3);
+                break;
+            case "University":
+                city.setScience((int) (city.getScience() * 1.5) + city.getCitizen() * 2);
+                break;
+            case "Workshop":
+                for (Building cityBuilding : city.getBuildings()) {
+                    cityBuilding.setMaintenance((int) (cityBuilding.getMaintenance() * 0.75));
+                }
+                break;
+            case "Public School":
+                city.setScience((int) (city.getScience() * 1.5));
+                break;
+            case "Satrap's Court":
+                city.setHappiness(city.getHappiness() + 2);
+                city.setGold((int) (city.getGold() * 1.25));
+                break;
+            case "Windmill":
+                city.setProduction((int) (city.getProduction() * 1.15));
+                break;
+            case "Arsenal":
+                for (MilitaryUnit militaryUnit : city.getCivilization().getMilitaryUnits()) {
+                    if (!militaryUnit.getCombatType().equals("Mounted"))
+                        militaryUnit.setCombatStrength((int) (militaryUnit.getCombatStrength() *  1.2));
+                }
+                break;
+            case "Factory":
+                city.setProduction((int) (city.getProduction() * 1.5));
+                break;
+            case "Hospital" :
+                city.setAllFood(city.getAllFood() * 2);
+                break;
+            case "Military Base":
+                city.setCombatStrength(city.getCombatStrength() + 12);
+                break;
+            case "Stock Exchange":
+                city.setGold((int) (city.getGold() * 1.33));
+                break;
+        }
     }
 
     private void addCivilianToCity(Unit civilianUnit, City selectedCity, int gold) {

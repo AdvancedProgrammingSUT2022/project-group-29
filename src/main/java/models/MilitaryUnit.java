@@ -154,4 +154,8 @@ public class MilitaryUnit {
     public String getCombatType() {
         return combatType;
     }
+
+    public void setCombatStrength(int combatStrength) {
+        this.combatStrength = combatStrength;
+    }
 }
