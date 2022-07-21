@@ -295,6 +295,7 @@ public class CityController {
         selectedCity.setCivilian(civilianUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
         game.getCurrentCivilization().addCivilianToCity(civilianUnit);
+        game.getMap()[civilianUnit.getX()][civilianUnit.getY()].setCivilian(civilianUnit);
     }
 
     private void addMilitaryUnitToCity(MilitaryUnit militaryUnit, City selectedCity, int gold) {
@@ -302,6 +303,7 @@ public class CityController {
         selectedCity.setMilitaryUnit(militaryUnit);
         selectedCity.setGold(selectedCity.getGold() - gold);
         game.getCurrentCivilization().addMilitaryUnit(militaryUnit);
+        game.getMap()[militaryUnit.getX()][militaryUnit.getHp()].setMilitaryUnit(militaryUnit);
     }
 
     private boolean doesCityHaveNeededResources(City selectedCity, MilitaryUnit militaryUnit) {

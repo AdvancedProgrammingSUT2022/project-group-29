@@ -144,6 +144,16 @@ public class MapView implements Initializable {
                         pane.getChildren().add(imageView3);
                     }
 
+                    // building
+                    if (game.getMap()[x + i][y + j].getBuilding() != null) {
+                        ImageView imageView3 = new ImageView(new Image(Main.class.getResource("/assets/BuildingIcons/" + game.getMap()[x + i][y + j].getBuilding().getName() + ".png").toExternalForm()));
+                        imageView3.setX(j * 75 + 50);
+                        imageView3.setY(i * 120 + 60 + (j % 2) * 60);
+                        imageView3.setFitHeight(60);
+                        imageView3.setFitWidth(70);
+                        pane.getChildren().add(imageView3);
+                    }
+
                     // TODO city
                     outer:
                     for (Civilization civilization : game.getCivilizations()) {
@@ -197,9 +207,37 @@ public class MapView implements Initializable {
                                         if (textFieldX.getText().matches("\\d+") && textFieldY.getText().matches("\\d+"))
                                             Main.showPopupJustText(CityController.getInstance().cityAttack(Integer.parseInt(textFieldX.getText()), Integer.parseInt(textFieldY.getText())));
                                     });
+                                    Label label10 = new Label("create building");
+                                    label10.addEventHandler(MouseEvent.MOUSE_CLICKED, event16 -> {
+                                        ArrayList<Label> labels = new ArrayList<>();
+                                        for (Building building : city.getCanBuild()) {
+                                            Label label11 = new Label(building.getName());
+                                            labels.add(label11);
+                                            label11.addEventHandler(MouseEvent.MOUSE_CLICKED, event15 -> {
+                                                Label label12 = new Label("\nneeded tech: " + (building.getNeededTechnology() != null ? building.getNeededTechnology().getName(): "nothing")
+                                                 + "\ncost: " + building.getCost() + "\nMaintenance: " + building.getMaintenance());
+                                                Button button4 = new Button("build");
+                                                button4.setOnMouseClicked(event17 -> {
+                                                    Main.getPopup().getContent().clear();
+                                                    Main.showPopupJustText(CityController.getInstance().createBuilding(building, city));
+                                                });
+                                                Main.getPopup().getContent().clear();
+                                                VBox vBox = new VBox();
+                                                vBox.getChildren().addAll(label12, button4);
+                                                vBox.setStyle("-fx-background-color: #da76d6");
+                                                Main.getPopup().getContent().add(vBox);
+                                                Main.getPopup().show(Main.getScene().getWindow());
+                                            });
+                                        }
+                                        Main.getPopup().getContent().clear();
+                                        VBox vBox = new VBox();
+                                        vBox.getChildren().addAll(labels);
+                                        vBox.setStyle("-fx-background-color: #da76d6");
+                                        Main.getPopup().getContent().add(vBox);
+                                        Main.getPopup().show(Main.getScene().getWindow());
+                                    });
                                     Main.getPopup().getContent().clear();
-                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2, textFieldX1, textFieldY1, button3);
-                                    ;
+                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2, label9, textFieldX1, textFieldY1, button3, label10);
                                     vBox.setStyle("-fx-background-color: #da76d6");
                                     Main.getPopup().getContent().add(vBox);
                                     Main.getPopup().show(Main.getScene().getWindow());

@@ -23,7 +23,6 @@ public class TechTree implements Initializable {
             if (child.getClass().equals(VBox.class)) {
                 Label label = (Label) ((VBox) child).getChildren().get(0);
                 Circle circle = (Circle) ((VBox) child).getChildren().get(1);
-                System.out.println(label.getText());
                 circle.setFill(new ImagePattern(new Image(Main.class.getResource("/assets/technology/" + label.getText() + ".png").toExternalForm())));
             }
         }
