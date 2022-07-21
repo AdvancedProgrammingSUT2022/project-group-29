@@ -214,4 +214,24 @@ public class City {
     public ArrayList<Building> getBuildings() {
         return buildings;
     }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public void setScience(int science) {
+        this.science = science;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public void setCombatStrength(double combatStrength) {
+        this.combatStrength = combatStrength;
+    }
+
+    public void setProduction(int production) {
+        this.production = production;
+    }
 }

@@ -45,4 +45,8 @@ public class Building {
     public static List<BuildingsEnum> getAllBuildings() {
         return allBuildings;
     }
+
+    public void setMaintenance(int maintenance) {
+        this.maintenance = maintenance;
+    }
 }
