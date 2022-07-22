@@ -115,7 +115,7 @@ public class GameController {
         game.setCivilizations(civilizations);
         if (autoSave)
             autoSave();
-        //saveGame();
+//        saveGame();
         //loadGame();
     }
 

@@ -6,6 +6,8 @@ import models.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 
@@ -171,7 +173,7 @@ public class CityController {
             return "unit name is invalid";
     }
 
-    public String createBuilding(Building building,City city) {
+    public String createBuilding(Building building, City city) {
         for (Building build : city.getCanTBuild()) {
             if (build.getName().equals(building.getName()))
                 return "you can't build this building";
@@ -188,11 +190,11 @@ public class CityController {
                 break;
             }
         }
-        buildingEffect(building,city);
+        buildingEffect(building, city);
         return "building built";
     }
 
-    private void buildingEffect(Building building,City city) {
+    private void buildingEffect(Building building, City city) {
         switch (building.getName()) {
             case "Barracks":
             case "Military Academy":
@@ -273,13 +275,13 @@ public class CityController {
             case "Arsenal":
                 for (MilitaryUnit militaryUnit : city.getCivilization().getMilitaryUnits()) {
                     if (!militaryUnit.getCombatType().equals("Mounted"))
-                        militaryUnit.setCombatStrength((int) (militaryUnit.getCombatStrength() *  1.2));
+                        militaryUnit.setCombatStrength((int) (militaryUnit.getCombatStrength() * 1.2));
                 }
                 break;
             case "Factory":
                 city.setProduction((int) (city.getProduction() * 1.5));
                 break;
-            case "Hospital" :
+            case "Hospital":
                 city.setAllFood(city.getAllFood() * 2);
                 break;
             case "Military Base":
@@ -382,19 +384,26 @@ public class CityController {
         }
         return "first select a city!";
     }
-    public String cityShowDiplomaticInformation() {
+
+    public String cityShowDiplomaticInWar() {
         Game game = GameController.getInstance().getGame();
-        ArrayList<Civilization> enemyCivilizations = game.getCurrentCivilization().getCivilizationsInWar();
-        StringBuilder sb = new StringBuilder();
+        HashMap<String, String> enemyCivilizations = game.getWar();
         if (game.getCurrentCivilization() == null)
             return "there is not any civilization";
         if (enemyCivilizations.size() == 0)
             return "there is not any enemyCivilizations";
-        sb.append("Civilizations In war with::  \\n");
-        for (Civilization enemy : enemyCivilizations){
-            sb.append(enemy.getName() + "\n");
-        }
-        return sb.toString();
+        return enemyCivilizations.get(game.getCurrentCivilization().leaderName());
+    }
+    public String cityShowDiplomaticFriends() {
+        Game game = GameController.getInstance().getGame();
+        HashMap<String, String> Friendship = game.getFriendship();
+        if (game.getCurrentCivilization() == null)
+            return "there is not any civilization";
+        if (Friendship.size() == 0)
+            return "there is not any enemyCivilizations";
+        if(Friendship.get(game.getCurrentCivilization().leaderName()) == null)
+            return "do not have any friends";
+        return Friendship.get(game.getCurrentCivilization().leaderName());
     }
 
     public String cityAttack(int x, int y) {
@@ -570,8 +579,7 @@ public class CityController {
             if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
                     (x - combatUnit.getX()) * (x - combatUnit.getX()) > 1)
                 return "out of range";
-        }
-        else {
+        } else {
             if ((y - combatUnit.getY()) * (y - combatUnit.getY()) +
                     (x - combatUnit.getX()) * (x - combatUnit.getX()) >
                     combatUnit.getRange() * combatUnit.getRange())

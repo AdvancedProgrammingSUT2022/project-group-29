@@ -18,6 +18,7 @@ public class Game {
     private Unit selectedNonCombatUnit = null;
     private City selectedCity = null;
     private final HashMap<String, String> war = new HashMap<>();
+    private final HashMap<String, String> friendship = new HashMap<>();
     private ArrayList<Tile> ruins;
 
     public Game(ArrayList<Civilization> civilizations, Tile[][] map) {
@@ -132,6 +133,11 @@ public class Game {
     public HashMap<String, String> getWar() {
         return war;
     }
+
+    public HashMap<String, String> getFriendship() {
+        return friendship;
+    }
+
     public ArrayList<Tile> getRuins() {
         return ruins;
     }
