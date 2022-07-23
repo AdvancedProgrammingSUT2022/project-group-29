@@ -2,6 +2,7 @@ package models;
 
 import controllers.GameController;
 import enums.modelsEnum.*;
+import models.diplomacy.Trade;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class Civilization {
     private int happiness, gold, science;
     private final ArrayList<Technology> technologies = new ArrayList<>();
     private final ArrayList<Civilization> civilizationsInWar = new ArrayList<>();
+    private final ArrayList<Trade> allTrades = new ArrayList<>();
 
     private String color;
     private Technology currentTechnology = null;
@@ -228,6 +230,9 @@ public class Civilization {
     public void addLuxuryResource(Resource resource) {
         this.luxuryResources.add(resource);
     }
+    public void removeLuxuryResource(Resource resource) {
+        this.luxuryResources.remove(resource);
+    }
 
     public boolean hasLuxuryResource(Resource resource) {
         for (Resource luxuryResource : this.luxuryResources) {
@@ -255,6 +260,17 @@ public class Civilization {
 
     public ArrayList<Civilization> getCivilizationsInWar() {
         return civilizationsInWar;
+    }
+
+    public ArrayList<Trade> getAllTrades() {
+        return allTrades;
+    }
+
+    public void addToTrade(Trade trade) {
+        allTrades.add(trade);
+    }
+    public void removeTrade(Trade trade) {
+        allTrades.remove(trade);
     }
 
 }

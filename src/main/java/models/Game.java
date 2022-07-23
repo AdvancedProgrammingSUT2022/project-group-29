@@ -44,6 +44,7 @@ public class Game {
 
         checkWinner();
     }
+
     private void checkWinner() {
         if (currentCivilization.getCities().size() == 0) {
             int size = 0;
@@ -51,7 +52,7 @@ public class Game {
                 if (unit.getName().equals("settler"))
                     size++;
             }
-            if (size == 0 ) {
+            if (size == 0) {
                 loose();
             }
         } else if (year == 2050) {
@@ -148,12 +149,20 @@ public class Game {
             int rand = random.nextInt(map.length);
             int rand2 = random.nextInt(map[0].length);
             for (Tile ruin : ruins) {
-                while (ruin.getX() == rand && ruin.getY() == rand2){
+                while (ruin.getX() == rand && ruin.getY() == rand2) {
                     rand = random.nextInt(map.length);
                     rand2 = random.nextInt(map[0].length);
                 }
             }
             ruins.add(map[rand][rand2]);
         }
+    }
+
+    public Civilization getCivilizationByName(String name) {
+        for (Civilization c : civilizations) {
+            if (c.getName().equals(name))
+                return c;
+        }
+        return null;
     }
 }
