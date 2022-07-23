@@ -405,6 +405,20 @@ public class CityController {
             return "do not have any friends";
         return Friendship.get(game.getCurrentCivilization().leaderName());
     }
+     public String declareWar(String guestName){
+         Game game = GameController.getInstance().getGame();
+         String hostName = game.getCurrentCivilization().leaderName();
+         game.getWar().put(hostName, guestName);
+         game.getWar().put(guestName, hostName);
+         return "added To war";
+     }
+     public String peace(String guestName){
+         Game game = GameController.getInstance().getGame();
+         String hostName = game.getCurrentCivilization().leaderName();
+         game.getFriendship().put(hostName, guestName);
+         game.getFriendship().put(guestName, hostName);
+         return "added To Friend";
+     }
 
     public String createTrade(String guestName, String type, int suggestedGold, String resourceName) {
         Game game = GameController.getInstance().getGame();
