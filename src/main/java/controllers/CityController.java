@@ -415,41 +415,57 @@ public class CityController {
      public String peace(String guestName){
          Game game = GameController.getInstance().getGame();
          String hostName = game.getCurrentCivilization().leaderName();
-         game.getFriendship().put(hostName, guestName);
-         game.getFriendship().put(guestName, hostName);
+         game.getWar().remove(hostName);
+         game.getWar().remove(guestName);
          return "added To Friend";
      }
 
     public String createTrade(String guestName, String type, int suggestedGold, String resourceName) {
         Game game = GameController.getInstance().getGame();
         String hostName = game.getCurrentCivilization().leaderName();
+        if (ResourceEnum.getResourceByName(resourceName) == null)
+            return "no resource with this name";
         Trade trade = new Trade(hostName, guestName, type, suggestedGold, resourceName);
         sendTrade(trade, guestName);
         return "trade created";
     }
 
-    private String sendTrade(Trade trade, String guestName) {
+    private void sendTrade(Trade trade, String guestName) {
         Game game = GameController.getInstance().getGame();
         Civilization guest = game.getCivilizationByName(guestName);
         guest.addToTrade(trade);
-        return "Trade Send";
     }
 
-    private String acceptTrade(Trade trade) {
+    public String acceptTrade(int id) {
+        Trade trade = null;
         Game game = GameController.getInstance().getGame();
         Civilization civ = game.getCurrentCivilization();
+        for (Trade allTrade : civ.getAllTrades()) {
+            if (allTrade.getId() == id) {
+                trade = allTrade;
+                break;
+            }
+        }
         Civilization guest = game.getCivilizationByName(trade.getGuestName());
-        civ.removeTrade(trade);
+        civ.removeTrade(id);
         civ.setGold(civ.getGold() - trade.getSuggestedGold());
         guest.setGold(guest.getGold() + trade.getSuggestedGold());
         civ.addLuxuryResource(ResourceEnum.getResourceByName(trade.getResourceName()));
         guest.removeLuxuryResource(ResourceEnum.getResourceByName(trade.getResourceName()));
         return "accept Trade!";
     }
-    private String rejectTrade(Trade trade) {
+
+    public String rejectTrade(int id) {
+        Trade trade = null;
         Game game = GameController.getInstance().getGame();
         Civilization civ = game.getCurrentCivilization();
-        civ.removeTrade(trade);
+        for (Trade allTrade : civ.getAllTrades()) {
+            if (allTrade.getId() == id) {
+                trade = allTrade;
+                break;
+            }
+        }
+        civ.removeTrade(id);
         return "reject Trade!";
     }
 

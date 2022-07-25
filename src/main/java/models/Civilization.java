@@ -269,8 +269,13 @@ public class Civilization {
     public void addToTrade(Trade trade) {
         allTrades.add(trade);
     }
-    public void removeTrade(Trade trade) {
-        allTrades.remove(trade);
+    public void removeTrade(int id) {
+        for (Trade trade : allTrades) {
+            if (trade.getId() == id) {
+                allTrades.remove(trade);
+                return;
+            }
+        }
     }
 
 }

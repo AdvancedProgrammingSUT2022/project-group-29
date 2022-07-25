@@ -5,12 +5,8 @@ import controllers.*;
 import enums.modelsEnum.TechnologyEnum;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -23,9 +19,11 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.*;
+import models.diplomacy.Trade;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MapView implements Initializable {
@@ -408,7 +406,61 @@ public class MapView implements Initializable {
 
     // TODO
     private void showEconomic() {
+        Label label = new Label("declare war");
+        ArrayList<String> strings = new ArrayList<>();
+        for (Civilization civilization : game.getCivilizations()) {
+            if (!civilization.leaderName().equals(game.getCurrentCivilization().leaderName()))
+                strings.add(civilization.leaderName());
+        }
+        ChoiceBox<String> choiceBox = new ChoiceBox<>();
+        choiceBox.getItems().addAll(strings);
+        Button button = new Button("ok");
+        button.setOnMouseClicked(event -> Main.showPopupJustText(CityController.getInstance().declareWar(choiceBox.getValue())));
+        Label label1 = new Label("\npeace");
+        Button button1 = new Button("ok");
+        if (game.getWar().get(game.getCurrentCivilization().leaderName()) == null) {
+            label1.setText(label1.getText() + " you are not in war");
+            button1.setDisable(true);
+        } else {
+            label1.setText(label1.getText() + " with " + game.getWar().get(game.getCurrentCivilization().leaderName()));
+            button1.setDisable(false);
+            button1.setOnMouseClicked(event -> CityController.getInstance().peace(game.getCurrentCivilization().leaderName()));
+        }
+        Label label2 = new Label("\nsend trade");
+        ChoiceBox<String> choiceBox1 = new ChoiceBox<>();
+        choiceBox1.getItems().addAll(strings);
+        TextField resource = new TextField("\nresource name");
+        TextField gold = new TextField("\nsuggested gold");
+        Button button2 = new Button("ok");
+        button2.setOnMouseClicked(event -> {
+            if (choiceBox1.getValue() != null && gold.getText().matches("\\d+"))
+                Main.showPopupJustText(CityController.getInstance().createTrade(choiceBox1.getValue(), "", Integer.parseInt(gold.getText()), resource.getText()));
+            else
+                Main.showPopupJustText("something went wrong");
+        });
+        Label label3 = new Label("\ntrade offers");
+        ChoiceBox<String> choiceBox2 = new ChoiceBox<>();
+        ArrayList<String> strings1 = new ArrayList<>();
+        for (Trade trade : game.getCurrentCivilization().getAllTrades()) {
+            strings1.add("id: " + trade.getId() + " resource asked: " + trade.getResourceName() + "\nciv name: " + trade.getGuestName() + " money offered: " + trade.getSuggestedGold());
+        }
+        choiceBox2.getItems().addAll(strings1);
+        Button accept = new Button("accept");
+        Button reject = new Button("reject");
+        accept.setOnMouseClicked(event -> {
+            if (choiceBox2.getValue() != null)
+                CityController.getInstance().acceptTrade(Integer.parseInt(choiceBox2.getValue().split(" ")[1]));
+        });
+        reject.setOnMouseClicked(event -> {
+            if (choiceBox2.getValue() != null)
+                CityController.getInstance().rejectTrade(Integer.parseInt(choiceBox2.getValue().split(" ")[1]));
+        });
 
+        Main.getPopup().getContent().clear();
+        VBox vBox = new VBox(label, choiceBox, button, label1, button1, label2, choiceBox1, resource, gold, button2, label3, choiceBox2, accept, reject);
+        vBox.setStyle("-fx-background-color: #da76d6");
+        Main.getPopup().getContent().add(vBox);
+        Main.getPopup().show(Main.getScene().getWindow());
     }
 
     private void showMilitary() {
@@ -548,7 +600,7 @@ public class MapView implements Initializable {
                             Main.showPopupJustText("invalid tile");
                         else if (MapController.getInstance().isTerrainVisible(Integer.parseInt(textField.getText()), Integer.parseInt(textField1.getText()))) {
                             Label label = new Label("there is no resource in this tile!");
-                            ;
+
                             if (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource() != null)
                                 label = new Label("resources: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getName()
                                         + "\ntype: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getResource().getType());
@@ -788,7 +840,7 @@ public class MapView implements Initializable {
         button.setOnMouseClicked(event -> {
             if (button.getText().equals("mute")) button.setText("unmute");
             else button.setText("mute");
-//            Main.getMediaPlayer().setMute(!Main.getMediaPlayer().isMute());
+            Main.getMediaPlayer().setMute(!Main.getMediaPlayer().isMute());
         });
         Button button1 = new Button("guide");
         button1.setOnMouseClicked(event1 -> {

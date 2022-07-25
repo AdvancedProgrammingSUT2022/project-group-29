@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 //import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ public class Main extends Application {
 
     private static Scene scene;
     private static Popup popup;
-//    private static final MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/avatars/song.mp3").toExternalForm()));
+    private static final MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/avatars/song.mp3").toExternalForm()));
     public static void main(String[] args) {
         launch();
         //LoginController.getInstance().writeUserInfo();
@@ -47,8 +48,8 @@ public class Main extends Application {
     }
 
     public static void playMusic() {
-//        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
-//        mediaPlayer.play();
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+        mediaPlayer.play();
     }
 
     public static void changeMenu(String name) {
@@ -98,7 +99,7 @@ public class Main extends Application {
         return popup;
     }
 
-//    public static MediaPlayer getMediaPlayer() {
-//        return mediaPlayer;
-//    }
+    public static MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
 }

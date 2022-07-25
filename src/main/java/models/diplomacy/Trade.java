@@ -1,18 +1,22 @@
 package models.diplomacy;
 
 public class Trade {
-    String hostName;
-    String guestName;
-    String type;
-    int suggestedGold;
-    String resourceName;
+    private String hostName;
+    private String guestName;
+    private String type;
+    private int suggestedGold;
+    private String resourceName;
+    private int id;
+    private static int count = 1;
 
     public Trade(String hostName, String guestName, String type, int suggestedGold, String resourceName) {
+        id = count;
         this.hostName = hostName;
         this.guestName = guestName;
         this.type = type;
         this.suggestedGold = suggestedGold;
         this.resourceName = resourceName;
+        count++;
     }
 
     public String getHostName() {
@@ -53,6 +57,10 @@ public class Trade {
 
     public void setResourceName(String resourceName) {
         this.resourceName = resourceName;
+    }
+
+    public int getId() {
+        return id;
     }
 }
 
