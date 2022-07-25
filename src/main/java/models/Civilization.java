@@ -17,6 +17,7 @@ public class Civilization {
     private final ArrayList<Technology> technologies = new ArrayList<>();
     private final ArrayList<Civilization> civilizationsInWar = new ArrayList<>();
     private final ArrayList<Trade> allTrades = new ArrayList<>();
+    private ArrayList<String> messages = new ArrayList<>();
 
     private String color;
     private Technology currentTechnology = null;
@@ -278,4 +279,7 @@ public class Civilization {
         }
     }
 
+    public ArrayList<String> getMessages() {
+        return messages;
+    }
 }

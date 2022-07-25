@@ -212,8 +212,8 @@ public class MapView implements Initializable {
                                             Label label11 = new Label(building.getName());
                                             labels.add(label11);
                                             label11.addEventHandler(MouseEvent.MOUSE_CLICKED, event15 -> {
-                                                Label label12 = new Label("\nneeded tech: " + (building.getNeededTechnology() != null ? building.getNeededTechnology().getName(): "nothing")
-                                                 + "\ncost: " + building.getCost() + "\nMaintenance: " + building.getMaintenance());
+                                                Label label12 = new Label("\nneeded tech: " + (building.getNeededTechnology() != null ? building.getNeededTechnology().getName() : "nothing")
+                                                        + "\ncost: " + building.getCost() + "\nMaintenance: " + building.getMaintenance());
                                                 Button button4 = new Button("build");
                                                 button4.setOnMouseClicked(event17 -> {
                                                     Main.getPopup().getContent().clear();
@@ -404,7 +404,6 @@ public class MapView implements Initializable {
             showEconomic();
     }
 
-    // TODO
     private void showEconomic() {
         Label label = new Label("declare war");
         ArrayList<String> strings = new ArrayList<>();
@@ -455,9 +454,48 @@ public class MapView implements Initializable {
             if (choiceBox2.getValue() != null)
                 CityController.getInstance().rejectTrade(Integer.parseInt(choiceBox2.getValue().split(" ")[1]));
         });
+        Button button3 = new Button("enter chat");
+        button3.setOnMouseClicked(event -> {
+            Label label4 = new Label("choose civ to chat");
+            ChoiceBox<String> choiceBox3 = new ChoiceBox<>();
+            choiceBox3.getItems().addAll(strings);
+            TextField textField = new TextField("text");
+            Button button4 = new Button("send");
+            button4.setOnMouseClicked(event1 -> {
+                if (choiceBox3.getValue() != null && !choiceBox3.getValue().matches(".*-.*")) {
+                    game.getCivilizationByName(choiceBox3.getValue()).getMessages().add(game.getCurrentCivilization().leaderName() + "-" + textField.getText());
+                    textField.setText("");
+                } else Main.showPopupJustText("invalid format");
+            });
+            Button button5 = new Button("view messages from: ");
+            ChoiceBox<String> choiceBox4 = new ChoiceBox<>();
+            choiceBox4.getItems().addAll(strings);
+            button5.setOnMouseClicked(event12 -> {
+                if (choiceBox4.getValue() != null) {
+                    ArrayList<String> messages = new ArrayList<>();
+                    for (String message : game.getCurrentCivilization().getMessages())
+                        if (message.split("-")[0].equals(choiceBox4.getValue()))
+                            messages.add(message);
+                    Label label5 = new Label("\n");
+                    for (String message : messages) {
+                        label5.setText(label5.getText() + message + "\n");
+                    }
+                    Main.getPopup().getContent().clear();
+                    VBox vBox = new VBox(label5);
+                    vBox.setStyle("-fx-background-color: #da76d6");
+                    Main.getPopup().getContent().add(vBox);
+                    Main.getPopup().show(Main.getScene().getWindow());
+                }
+            });
+            Main.getPopup().getContent().clear();
+            VBox vBox = new VBox(label4, choiceBox3, textField, button4, button5, choiceBox4);
+            vBox.setStyle("-fx-background-color: #da76d6");
+            Main.getPopup().getContent().add(vBox);
+            Main.getPopup().show(Main.getScene().getWindow());
+        });
 
         Main.getPopup().getContent().clear();
-        VBox vBox = new VBox(label, choiceBox, button, label1, button1, label2, choiceBox1, resource, gold, button2, label3, choiceBox2, accept, reject);
+        VBox vBox = new VBox(label, choiceBox, button, label1, button1, label2, choiceBox1, resource, gold, button2, label3, choiceBox2, accept, reject, button3);
         vBox.setStyle("-fx-background-color: #da76d6");
         Main.getPopup().getContent().add(vBox);
         Main.getPopup().show(Main.getScene().getWindow());
@@ -835,7 +873,7 @@ public class MapView implements Initializable {
         return y <= 30 && y >= 0;
     }
 
-    public void setting() {
+    public synchronized void setting() {
         Button button = new Button("mute");
         button.setOnMouseClicked(event -> {
             if (button.getText().equals("mute")) button.setText("unmute");
@@ -854,6 +892,20 @@ public class MapView implements Initializable {
             Main.getPopup().getContent().clear();
             Main.getPopup().getContent().add(vBox);
             Main.getPopup().show(Main.getScene().getWindow());
+        });
+        Button button2 = new Button("auto save: on");
+        button2.setOnMouseClicked(event -> {
+            if (button2.getText().endsWith("on")) {
+                button2.setText("auto save: off");
+                GameController.getInstance().getThread().notify();
+            } else {
+                button2.setText("auto save: on");
+                try {
+                    GameController.getInstance().getThread().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         VBox vBox = new VBox(button, button1);

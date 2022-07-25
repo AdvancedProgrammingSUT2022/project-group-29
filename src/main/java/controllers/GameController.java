@@ -27,6 +27,7 @@ public class GameController {
     private final int LENGTH = 45;
     private final int WIDTH = 30;
     private Game game;
+    private AutoSaveThread thread;
 
     private GameController() {
     }
@@ -414,16 +415,7 @@ public class GameController {
     }
 
     private void autoSave() {
-        Thread thread = new Thread(() -> {
-            long time = new Date().getTime();
-
-            while (true) {
-                if (new Date().getTime() > 60000 + time) {
-                    GameController.getInstance().saveGame();
-                    time = new Date().getTime();
-                }
-            }
-        });
+        this.thread = new AutoSaveThread(game);
         thread.setDaemon(true);
         thread.start();
     }
@@ -566,5 +558,7 @@ public class GameController {
         return false;
     }
 
-
+    public AutoSaveThread getThread() {
+        return thread;
+    }
 }
