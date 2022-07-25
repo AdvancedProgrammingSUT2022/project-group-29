@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
     private String username;
@@ -8,9 +9,8 @@ public class User {
     private String nickname;
     private String avatar;
     private long lastWin;
-    private static User loggedInUser = null;
     private static ArrayList<User> allUsers = new ArrayList<>();
-
+    private static HashMap<String, User> hash = new HashMap<>();
     private int score;
 
     private Civilization civilization = null;
@@ -19,12 +19,8 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
-        this.avatar = "src/main/resources/assets/avatars/avatar" + (allUsers.size() % 4 + 1) + ".png";
+//        this.avatar = "src/main/resources/assets/avatars/avatar" + (allUsers.size() % 4 + 1) + ".png";
         allUsers.add(this);
-    }
-
-    public static User getLoggedInUser() {
-        return loggedInUser;
     }
 
     public static ArrayList<User> getAllUsers() {
@@ -49,9 +45,6 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
-    public static void setLoggedInUser(User loggedInUser) {
-        User.loggedInUser = loggedInUser;
     }
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
@@ -98,5 +91,9 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public static HashMap<String, User> getHash() {
+        return hash;
     }
 }

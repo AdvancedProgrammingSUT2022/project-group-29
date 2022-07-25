@@ -8,9 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import models.User;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -68,12 +66,6 @@ public class CreateGameMenu implements Initializable {
         }
         else {
             message.setText("You Haven't Add All Users Yet");
-        }
-    }
-
-    public void setPlace(KeyEvent keyEvent) {
-        if (keyEvent.isShiftDown() && keyEvent.isControlDown() && keyEvent.getCode().getName().equals("C")) {
-            GameController.getInstance().setPlace();
         }
     }
 

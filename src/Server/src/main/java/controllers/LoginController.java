@@ -38,14 +38,13 @@ public class LoginController {
         return "user created successfully!";
     }
 
-    public String loginUser(String username, String password) {
-
+    public String loginUser(String username, String password, String hash) {
         User user;
         if ((user = MainController.getInstance().isExistUsername(username)) == null)
             return "Username and password didn’t match!";
         if (!user.getPassword().equals(password))
             return "Username and password didn’t match!";
-        User.setLoggedInUser(user);
+        User.getHash().put(hash, user);
         return "user logged in successfully!";
     }
 

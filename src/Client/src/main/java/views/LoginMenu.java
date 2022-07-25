@@ -18,12 +18,12 @@ public class LoginMenu {
     }
 
     public void register() {
-        String message = LoginController.getInstance().createUser(username.getText(), password.getText(), nickname.getText());
+        String message = NetworkController.createUser(username.getText(), password.getText(), nickname.getText());
         Main.showPopupJustText(message);
     }
 
     public void enterMainMenu() {
-        String message = LoginController.getInstance().enterMenu();
+        String message = NetworkController.enterMenu();
         Main.showPopupJustText(message);
         if (message.equals("successful"))
             Main.changeMenu("mainPage");

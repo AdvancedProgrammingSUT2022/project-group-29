@@ -1,19 +1,19 @@
 package views;
 
 import app.Main;
-import models.User;
+import controllers.NetworkController;
 
 public class MainMenu {
 
     public void logout() {
-        String message = MainController.getInstance().logoutUser();
+        String message = NetworkController.logoutUser();
         Main.changeMenu("loginPage");
         Main.showPopupJustText(message);
     }
 
     public void profile() {
         Main.changeMenu("profilePage");
-        ProfileController.getInstance().showInfo();
+        NetworkController.profilePage();
     }
 
     public void scoreBoard() {
@@ -26,11 +26,5 @@ public class MainMenu {
 
     public void startGame() {
         Main.changeMenu("createGamePage");
-    }
-
-    public void loadGame() {
-        GameController.getInstance().loadGame();
-        if (GameController.getInstance().getGame().getCurrentCivilization().getLeader().getUsername().equals(User.getLoggedInUser().getUsername()))
-            Main.changeMenu("mapPage");
     }
 }
