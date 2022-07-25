@@ -1,15 +1,14 @@
 package controllers;
 
 import enums.modelsEnum.MilitaryUnitsEnum;
+import enums.modelsEnum.ResourceEnum;
 import enums.modelsEnum.nonCombatUnitsEnum;
 import models.*;
+import models.diplomacy.Trade;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-
 
 public class CityController {
     private static CityController instance = null;
@@ -394,6 +393,7 @@ public class CityController {
             return "there is not any enemyCivilizations";
         return enemyCivilizations.get(game.getCurrentCivilization().leaderName());
     }
+
     public String cityShowDiplomaticFriends() {
         Game game = GameController.getInstance().getGame();
         HashMap<String, String> Friendship = game.getFriendship();
@@ -401,9 +401,56 @@ public class CityController {
             return "there is not any civilization";
         if (Friendship.size() == 0)
             return "there is not any enemyCivilizations";
-        if(Friendship.get(game.getCurrentCivilization().leaderName()) == null)
+        if (Friendship.get(game.getCurrentCivilization().leaderName()) == null)
             return "do not have any friends";
         return Friendship.get(game.getCurrentCivilization().leaderName());
+    }
+     public String declareWar(String guestName){
+         Game game = GameController.getInstance().getGame();
+         String hostName = game.getCurrentCivilization().leaderName();
+         game.getWar().put(hostName, guestName);
+         game.getWar().put(guestName, hostName);
+         return "added To war";
+     }
+     public String peace(String guestName){
+         Game game = GameController.getInstance().getGame();
+         String hostName = game.getCurrentCivilization().leaderName();
+         game.getFriendship().put(hostName, guestName);
+         game.getFriendship().put(guestName, hostName);
+         return "added To Friend";
+     }
+
+    public String createTrade(String guestName, String type, int suggestedGold, String resourceName) {
+        Game game = GameController.getInstance().getGame();
+        String hostName = game.getCurrentCivilization().leaderName();
+        Trade trade = new Trade(hostName, guestName, type, suggestedGold, resourceName);
+        sendTrade(trade, guestName);
+        return "trade created";
+    }
+
+    private String sendTrade(Trade trade, String guestName) {
+        Game game = GameController.getInstance().getGame();
+        Civilization guest = game.getCivilizationByName(guestName);
+        guest.addToTrade(trade);
+        return "Trade Send";
+    }
+
+    private String acceptTrade(Trade trade) {
+        Game game = GameController.getInstance().getGame();
+        Civilization civ = game.getCurrentCivilization();
+        Civilization guest = game.getCivilizationByName(trade.getGuestName());
+        civ.removeTrade(trade);
+        civ.setGold(civ.getGold() - trade.getSuggestedGold());
+        guest.setGold(guest.getGold() + trade.getSuggestedGold());
+        civ.addLuxuryResource(ResourceEnum.getResourceByName(trade.getResourceName()));
+        guest.removeLuxuryResource(ResourceEnum.getResourceByName(trade.getResourceName()));
+        return "accept Trade!";
+    }
+    private String rejectTrade(Trade trade) {
+        Game game = GameController.getInstance().getGame();
+        Civilization civ = game.getCurrentCivilization();
+        civ.removeTrade(trade);
+        return "reject Trade!";
     }
 
     public String cityAttack(int x, int y) {

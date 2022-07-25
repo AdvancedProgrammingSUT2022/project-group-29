@@ -1,6 +1,7 @@
 package enums.modelsEnum;
 
 import models.Improvement;
+import models.Resource;
 import models.Technology;
 
 public enum ResourceEnum {
@@ -74,5 +75,13 @@ public enum ResourceEnum {
 
     public Technology getNeededTechnology() {
         return neededTechnology;
+    }
+
+    public static Resource getResourceByName(String name) {
+        for (ResourceEnum r : ResourceEnum.values()) {
+            if (r.getName().equals(name))
+                return new Resource(r);
+        }
+        return null;
     }
 }
