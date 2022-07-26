@@ -9,17 +9,18 @@ public class User {
     private String nickname;
     private String avatar;
     private long lastWin;
+    private long lastVisit;
     private static ArrayList<User> allUsers = new ArrayList<>();
     private static HashMap<String, User> hash = new HashMap<>();
     private int score;
 
-    private Civilization civilization = null;
+    //private Civilization civilization = null;
 
     public User(String username, String password, String nickname) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
-//        this.avatar = "src/main/resources/assets/avatars/avatar" + (allUsers.size() % 4 + 1) + ".png";
+        this.avatar = "src/main/resources/assets/avatars/avatar" + (allUsers.size() % 4 + 1) + ".png";
         allUsers.add(this);
     }
 
@@ -36,9 +37,9 @@ public class User {
         return password;
     }
 
-    public Civilization getCivilization() {
+    /*public Civilization getCivilization() {
         return civilization;
-    }
+    }*/
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
@@ -46,12 +47,15 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    /*
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
     }
+    */
     public static void setAllUsers(ArrayList<User> allUsers) {
         User.allUsers = allUsers;
     }
+
 
     public int getScore() {
         return score;
@@ -96,4 +100,13 @@ public class User {
     public static HashMap<String, User> getHash() {
         return hash;
     }
+
+    public long getLastVisit() {
+        return lastVisit;
+    }
+
+    public void setLastVisit(long lastVisit) {
+        this.lastVisit = lastVisit;
+    }
+
 }

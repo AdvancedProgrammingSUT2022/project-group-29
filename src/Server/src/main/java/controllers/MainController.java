@@ -1,11 +1,9 @@
 package controllers;
 
-import enums.MainMenuCommands;
+import app.Main;
+import models.Response;
 import models.User;
-
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainController {
     private static MainController instance = null;
@@ -19,44 +17,38 @@ public class MainController {
         return instance;
     }
 
-    public String logoutUser() {
-        User.setLoggedInUser(null);
-        return "user logged out successfully!";
+    public Response logout(String hash,SocketController socketController) {
+        socketController.setUser(null);
+        User.getHash().remove(hash);
+        return new Response(1,"user logged out successfully!");
     }
 
-    public String enterMenu(Matcher matcher) {
-        String menuName = matcher.group("menuName");
-        if (menuName.equals("Profile Menu"))
-            return "";
-        else
-            return "menu navigation is not possible";
-    }
+    public Response showScoreBoard(String hash) {
+        ArrayList<User> sortedUser = new ArrayList<>(User.getAllUsers());
+        sortedUser.sort((o1, o2) -> {
+            if (o1.getScore() > o2.getScore()) return -1;
+            if (o1.getLastVisit() > o2.getLastVisit()) return -1;
 
-    public int checkIsValidPlayGame(String command) {
-        int count = MainMenuCommands.countMatches(command);
-        if (count < 2)
-            return -1;
-        for (int i = 1; i <= count; i++) {
-            Matcher matcher = Pattern.compile("-(p|-player)" + i + " (?<username>\\S+)").matcher(command);
-            if (!matcher.find())
-                return -1;
-        }
-        return count;
-    }
+            return o1.getNickname().compareTo(o2.getNickname());
+        });
 
-    public ArrayList<User> checkIsValidUsername(int count,String command) {
-        ArrayList<User> users = new ArrayList<>();
-        User user;
-        for (int i = 1; i <= count; i++) {
-            Matcher matcher = Pattern.compile("-(p|-player)" + i + " (?<username>\\S+)").matcher(command);
-            if (matcher.find()) {
-                String username = matcher.group("username");
-                if ((user = isExistUsername(username)) == null)
-                    return null;
-                users.add(user);
+        StringBuilder str = new StringBuilder();
+        str.append(sortedUser.size()).append("-");
+        outer:
+        for (User user : sortedUser) {
+            if (User.getHash().get(hash).equals(user))
+                user.setLastVisit(System.currentTimeMillis());
+            str.append(user.getAvatar()).append("-").append(user.getNickname()).append("-");
+            str.append(user.getScore()).append("-");
+            for (SocketController socketController : Main.getSockets()) {
+                if (socketController.getUser().equals(user)) {
+                    str.append("online").append("-");
+                    continue outer;
+                }
             }
+            str.append(user.getLastVisit()).append("-");
         }
-        return users;
+        return new Response(1,String.valueOf(str));
     }
 
     public User isExistUsername(String username) {

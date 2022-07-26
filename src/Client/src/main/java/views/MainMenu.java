@@ -2,29 +2,27 @@ package views;
 
 import app.Main;
 import controllers.NetworkController;
+import models.Response;
 
 public class MainMenu {
 
     public void logout() {
-        String message = NetworkController.logoutUser();
+        Response response = NetworkController.getInstance().logoutUser();
         Main.changeMenu("loginPage");
-        Main.showPopupJustText(message);
+        Main.showPopupJustText(response.getMessage());
     }
 
     public void profile() {
         Main.changeMenu("profilePage");
-        NetworkController.profilePage();
     }
 
     public void scoreBoard() {
         Main.changeMenu("scoreBoardPage");
     }
 
-    public void chatRoom() {
-        Main.changeMenu("chatRoom");
-    }
-
     public void startGame() {
         Main.changeMenu("createGamePage");
     }
+
+
 }

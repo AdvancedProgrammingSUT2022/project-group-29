@@ -12,5 +12,5 @@ public class Data {
         return instance;
     }
 
-    public String hash;
+    public String hash = "";
 }

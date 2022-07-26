@@ -2,8 +2,8 @@ package controllers;
 
 import app.Main;
 import com.google.gson.Gson;
-import models.Data;
-import models.Request;
+import models.*;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +12,18 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class NetworkController {
+
+    private static NetworkController instance = null;
+
+    public static NetworkController getInstance() {
+        if (instance == null)
+            instance = new NetworkController();
+        return instance;
+    }
+
+    private NetworkController() {
+    }
+
     private static Socket socket;
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
@@ -27,80 +39,97 @@ public class NetworkController {
         }
     }
 
-    public static String loginUser(String username, String password) {
+    private Response send(Request request) {
+        try {
+            dataOutputStream.writeUTF(new Gson().toJson(request));
+            dataOutputStream.flush();
+
+            String message = dataInputStream.readUTF();
+            return new Gson().fromJson(message,Response.class);
+
+        } catch (IOException e) {
+            System.out.println("Disconnected From Server");
+            System.exit(0);
+        }
+        return null;
+    }
+
+
+    public String loginUser(String username, String password) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("username", username);
         hashMap.put("password", password);
         Request request = new Request("login", hashMap);
-        String response = null;
-        try {
-            dataOutputStream.writeUTF(new Gson().toJson(request));
-            dataOutputStream.flush();
-            response = dataInputStream.readUTF();
-            if (response.startsWith("user "))
-                Data.getInstance().hash = response.split("-")[1];
-        } catch (IOException e) {
-            e.printStackTrace();
+        Response response = send(request);
+        if (response.getStatus_code() == 1) {
+            Data.getInstance().hash = response.getMessage().split("-")[1];
+            response.setMessage(response.getMessage().split("-")[0]);
         }
-        return response;
+        return response.getMessage();
     }
 
-    public static String createUser(String username, String password, String nickname) {
+    public String createUser(String username, String password, String nickname) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("username", username);
         hashMap.put("password", password);
         hashMap.put("nickname", nickname);
         Request request = new Request("createUser", hashMap);
-        String response = null;
-        try {
-            dataOutputStream.writeUTF(new Gson().toJson(request));
-            dataOutputStream.flush();
-            response = dataInputStream.readUTF();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
+        Response response = send(request);
+        return response.getMessage();
     }
 
-    public static String enterMenu() {
+    public Response enterMenu() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("hash", Data.getInstance().hash);
         Request request = new Request("enter", hashMap);
-        String response = null;
-        try {
-            dataOutputStream.writeUTF(new Gson().toJson(request));
-            dataOutputStream.flush();
-            response = dataInputStream.readUTF();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
+        return send(request);
     }
 
-    public static String logoutUser() {
+
+    public Response logoutUser() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("hash", Data.getInstance().hash);
         Request request = new Request("logout", hashMap);
-        String response = null;
-        try {
-            dataOutputStream.writeUTF(new Gson().toJson(request));
-            dataOutputStream.flush();
-            response = dataInputStream.readUTF();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
+        Data.getInstance().hash = "";
+        return send(request);
     }
 
-    public static void profilePage() {
+    public Response ScoreBoard() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("scoreBoard", hashMap);
+        return send(request);
+    }
+
+    public Response profilePage() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("hash", Data.getInstance().hash);
         Request request = new Request("profile", hashMap);
-        try {
-            dataOutputStream.writeUTF(new Gson().toJson(request));
-            dataOutputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return send(request);
+    }
+
+    public Response changeUsername(String username) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("user",username);
+        Request request = new Request("username", hashMap);
+        return send(request);
+    }
+
+    public Response changePassword(String password) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("pass",password);
+        Request request = new Request("pass", hashMap);
+        return send(request);
+    }
+
+    public Response changeAvatar(String path) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("path",path);
+        Request request = new Request("avatar", hashMap);
+        return send(request);
     }
 }
+

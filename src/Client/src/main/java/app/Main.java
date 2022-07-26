@@ -19,18 +19,17 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Main extends Application {
-
     private static Scene scene;
     private static Popup popup;
     private static final MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/avatars/song.mp3").toExternalForm()));
     private static final int serverPort = 8000;
+
+    private static String lastPage;
     public static void main(String[] args) {
         if (NetworkController.connect())
             launch();
-        else {
-            System.out.println("bad");
-        }
-        //LoginController.getInstance().writeUserInfo();
+        else
+            System.out.println("Can not Connect to Server");
     }
 
     @Override
@@ -56,6 +55,7 @@ public class Main extends Application {
     }
 
     public static void changeMenu(String name) {
+        lastPage = name;
         Parent root = loadFXML(name);
         scene.setRoot(root);
     }
@@ -108,5 +108,9 @@ public class Main extends Application {
 
     public static int getServerPort() {
         return serverPort;
+    }
+
+    public static String getLastPage() {
+        return lastPage;
     }
 }

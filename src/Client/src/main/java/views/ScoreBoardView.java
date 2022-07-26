@@ -1,65 +1,79 @@
 package views;
 
 import app.Main;
+import com.google.gson.Gson;
+import controllers.NetworkController;
+import controllers.UpdateThread;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import models.User;
+import models.Response;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ScoreBoardView implements Initializable {
-    public Pane pane;
+
+    public AnchorPane mainPane;
+    public UpdateThread updateThread = new UpdateThread();
+    {
+        updateThread.start();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<User> sortedUser = new ArrayList<>(User.getAllUsers());
-        sortedUser.sort((o1, o2) -> {
-            if (o1.getScore() > o2.getScore()) return -1;
-            if (o1.getLastWin() > o2.getLastWin()) return -1;
-
-            return o1.getNickname().compareTo(o2.getNickname());
-        });
-
-        int i = 1;
-        for (User user : sortedUser) {
-            Pane pane = (Pane) this.pane.getChildren().get(i - 1);
-
-
-            InputStream inputStream = null;
+        Response response = NetworkController.getInstance().ScoreBoard();
+        String[] strings = response.getMessage().split("-");
+        int i = 0;
+        for (int j = 0; j < Integer.parseInt(strings[0]); j++) {
+            VBox vBox = new VBox();
+            Rectangle rectangle = new Rectangle(100, 100);
+            InputStream inputStream;
             try {
-                inputStream = new FileInputStream(user.getAvatar());
+                inputStream = new FileInputStream(strings[4*i + 1]);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
-
             Image image = new Image(inputStream);
-            Rectangle rectangle = (Rectangle) pane.getChildren().get(1);
             rectangle.setFill(new ImagePattern(image));
-
-            Label label = (Label) pane.getChildren().get(0);
-            label.setText(i + "");
-
-            Label label1 = (Label) pane.getChildren().get(2);
-            label1.setText(user.getNickname());
-
-            Label label2 = (Label) pane.getChildren().get(3);
-            label2.setText(String.valueOf(user.getScore()));
+            Label label = new Label("nickname: " + strings[4*i + 2]);
+            Label label1 = new Label("\nscore: " + strings[4*i + 3]);
+            Label label2;
+            if (strings[4*i + 4].equals("online")) {
+                label2 = new Label("\nlast visit: " + "online");
+            }
+            else {
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+                Date resultdate = new Date(Long.parseLong(strings[4 * i + 4]));
+                label2 = new Label("\nlast visit: " + sdf.format(resultdate));
+            }
+            vBox.getChildren().add(rectangle);
+            vBox.getChildren().add(label);
+            vBox.getChildren().add(label1);
+            vBox.getChildren().add(label2);
+            mainPane.getChildren().add(vBox);
+            vBox.setLayoutY(i * 250);
+            vBox.setLayoutX(540);
             i++;
         }
+
     }
 
     public void back() {
         Main.changeMenu("mainPage");
+    }
+
+    public void refresh(MouseEvent mouseEvent) {
+        Main.changeMenu("scoreBoardPage");
     }
 }
