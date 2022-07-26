@@ -57,31 +57,30 @@ public class CreateGameMenu implements Initializable {
     }
 
     public void addPlayer() {
-        String user = username.getValue();
-        Label label1 = new Label(user);
-        invites.getChildren().add(label1);
-        Response response = NetworkController.getInstance().addPlayer(username.getValue());
-        message.setText(response.getMessage());
-        if (response.getStatus_code() == 1) {
-            Label label = new Label(user);
-            vbox.getChildren().add(label);
+        if (playersNumber.getValue().charAt(0) - 48 > vbox.getChildren().size()) {
+            String user = username.getValue();
+            Label label1 = new Label(user);
+            invites.getChildren().add(label1);
+            Response response = NetworkController.getInstance().addPlayer(username.getValue());
+            message.setText(response.getMessage());
+            if (response.getStatus_code() == 1) {
+                Label label = new Label(user);
+                vbox.getChildren().add(label);
+            }
         }
+        else
+            message.setText("Capacity is full");
     }
 
 
     public void startGame() {
-        /*if (numberOfPlayers == players.size()) {
+        if (playersNumber.getValue().charAt(0) - 48 == vbox.getChildren().size()) {
+            Response response = NetworkController.getInstance().startGame();
             message.setText("Game Has Started");
-            ArrayList<User> players = new ArrayList<>();
-            for (String player : this.players) {
-                players.add(User.getUserByUsername(player));
-            }
-            GameController.getInstance().startGame(players, radio.isSelected());
-            Main.changeMenu("mapPage");
         }
         else {
             message.setText("You Haven't Add All Users Yet");
-        }*/
+        }
     }
 
     public void setPlace(KeyEvent keyEvent) {

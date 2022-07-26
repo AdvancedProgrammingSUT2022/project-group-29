@@ -29,6 +29,7 @@ public class GameController {
     //private Game game;
     //private AutoSaveThread thread;
     private ArrayList<User> players = new ArrayList<>();
+    private ArrayList<SocketController> socketControllers = new ArrayList<>();
 
     private GameController() {
     }
@@ -44,6 +45,16 @@ public class GameController {
         User user = User.getHash().get(hash);
         players.add(user);
         StringBuilder str = new StringBuilder();
+        for (SocketController socket : Main.getSockets()) {
+            if (socket.getUser().equals(user)) {
+                for (SocketController socketController : Main.getSockets()) {
+                    if (socketController.getStatus() == socket.getStatus() + 1) {
+                        socketControllers.add(socket);
+                        socketControllers.add(socketController);
+                    }
+                }
+            }
+        }
         str.append(user.getUsername()).append("-");
         for (SocketController socket : Main.getSockets()) {
             if (!socket.getUpdater() && socket.getUser() != null && !socket.getUser().equals(user)) {
@@ -71,8 +82,11 @@ public class GameController {
                             String message = socketController.getDataInputStream().readUTF();
                             Response response = new Gson().fromJson(message, Response.class);
                             response.setMessage(socket.getUser().getUsername() + " " + response.getMessage());
-                            if (response.getStatus_code() == 1)
+                            if (response.getStatus_code() == 1) {
                                 players.add(socket.getUser());
+                                socketControllers.add(socket);
+                                socketControllers.add(socketController);
+                            }
                             return response;
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -87,49 +101,9 @@ public class GameController {
 
 
     /*
-    public void removeUserFromGame(String username, ArrayList<String> players, VBox vbox, Label message) {
-        if (username.equals(User.getLoggedInUser().getUsername())) {
-            message.setText("Error | You Can't Remove Yourself");
-            return;
-        }
 
-        for (String player : players) {
-            if (player.equals(username)) {
-                message.setText("Success | User Removed");
-                players.remove(player);
-                removeLabel(vbox, username);
-                return;
-            }
-        }
-        message.setText("Error | You Haven't Add This User Yet");
-    }
 
-    public void checkNumberOfUsers(ArrayList<String> players, int numberOfPlayers, int number, Label message, ChoiceBox<String> playersNumber) {
-        if (players.size() > number) {
-            message.setText("Error | You Should Remove Some Users");
-            playersNumber.setValue(numberOfPlayers + " Players");
-        }
-    }
 
-    /*private void removeLabel(VBox vbox, String username) {
-        for (Node child : vbox.getChildren()) {
-            Label label = (Label) child;
-
-            if (label.getText().equals(username)) {
-                vbox.getChildren().remove(child);
-                return;
-            }
-        }
-    }
-
-    private User isExistUsername(String username) {
-        ArrayList<User> users = User.getAllUsers();
-        for (User user : users) {
-            if (user.getUsername().equals(username))
-                return user;
-        }
-        return null;
-    }
 
     public void startGame(ArrayList<User> users, boolean autoSave) {
         Tile[][] map = new Tile[WIDTH][LENGTH];

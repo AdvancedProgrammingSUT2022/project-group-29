@@ -73,6 +73,8 @@ public class SocketController extends Thread {
                             break;
                         case "add":
                             response = GameController.getInstance().addUserToGame(request.getParams().get("user"));
+                        case "start":
+                            //response = GameController.getInstance().startGame();
 
                     }
                     dataOutputStream.writeUTF(new Gson().toJson(response));

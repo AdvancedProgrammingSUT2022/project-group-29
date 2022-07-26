@@ -151,5 +151,12 @@ public class NetworkController {
         Request request = new Request("add", hashMap);
         return send(request);
     }
+
+    public Response startGame() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("start", hashMap);
+        return send(request);
+    }
 }
 
