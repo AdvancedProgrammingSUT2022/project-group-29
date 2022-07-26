@@ -24,15 +24,20 @@ public class NetworkController {
     private NetworkController() {
     }
 
+
+    private static GetMessageFromServerThread update;
     private static Socket socket;
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
+
 
     public static boolean connect() {
         try {
             socket = new Socket("localhost", Main.getServerPort());
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            update = new GetMessageFromServerThread();
+            update.start();
             return true;
         } catch (IOException e) {
             return false;
@@ -129,6 +134,21 @@ public class NetworkController {
         hashMap.put("hash", Data.getInstance().hash);
         hashMap.put("path",path);
         Request request = new Request("avatar", hashMap);
+        return send(request);
+    }
+
+    public Response getName() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("name", hashMap);
+        return send(request);
+    }
+
+    public Response addPlayer(String username) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("user",username);
+        Request request = new Request("add", hashMap);
         return send(request);
     }
 }

@@ -41,7 +41,7 @@ public class MainController {
             str.append(user.getAvatar()).append("-").append(user.getNickname()).append("-");
             str.append(user.getScore()).append("-");
             for (SocketController socketController : Main.getSockets()) {
-                if (socketController.getUser().equals(user)) {
+                if (!socketController.getUpdater() && socketController.getUser().equals(user)) {
                     str.append("online").append("-");
                     continue outer;
                 }

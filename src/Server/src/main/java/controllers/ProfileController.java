@@ -10,8 +10,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import models.Response;
 import models.User;
-
-import javax.jws.soap.SOAPBinding;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

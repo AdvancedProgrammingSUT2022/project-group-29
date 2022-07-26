@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="720" prefWidth="1080" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="views.AcceptGameMenu"
+      style="-fx-background-image: url(/assets/Backgrounds/img_1.png); -fx-background-size: 1080 720">
+    <Label text="do you want to join a new Game?!" style="-fx-font-size: 50" layoutX="150" layoutY="200"/>
+    <Button text="accept" style="-fx-font-size: 15" onMouseClicked="#accept" layoutX="200" layoutY="400" prefWidth="200" prefHeight="100" />
+    <Button text="reject" style="-fx-font-size: 15" onMouseClicked="#reject" layoutX="600" layoutY="400" prefWidth="200" prefHeight="100"/>
+    <Label style="-fx-font-size: 20" layoutX="380" layoutY="600" fx:id="message"/>
+
+</Pane>

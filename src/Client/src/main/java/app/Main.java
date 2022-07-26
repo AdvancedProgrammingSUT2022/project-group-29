@@ -28,8 +28,10 @@ public class Main extends Application {
     public static void main(String[] args) {
         if (NetworkController.connect())
             launch();
-        else
+        else {
             System.out.println("Can not Connect to Server");
+            System.exit(0);
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package controllers;
 
 import app.Main;
 import com.google.gson.Gson;
-import controllers.LoginController;
 import models.Request;
 import models.Response;
 import models.User;
@@ -11,64 +10,88 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class SocketController extends Thread {
-    Socket socket;
-    User user = null;
-    DataInputStream dataInputStream;
-    DataOutputStream dataOutputStream;
+    private static int state = 0;
+    private Socket socket;
+    private User user = null;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+    private Boolean isUpdater;
+    private int status;
 
     public SocketController(Socket socket) throws IOException {
         this.socket = socket;
         this.dataInputStream = new DataInputStream(socket.getInputStream());
         this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        this.status = state;
+        if (state % 2 == 0)
+            isUpdater = false;
+        else
+            isUpdater = true;
+        state++;
     }
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                String json = dataInputStream.readUTF();
-                Request request = new Gson().fromJson(json, Request.class);
-                Response response = null;
-                switch (request.getAction()) {
-                    case "createUser":
-                        response = LoginController.getInstance().createUser(request.getParams().get("username"), request.getParams().get("password"), request.getParams().get("nickname"));
-                        break;
-                    case "login":
-                        response = LoginController.getInstance().loginUser(request.getParams().get("username"), request.getParams().get("password"),this);
-                        break;
-                    case "enter":
-                        response = LoginController.getInstance().enterMenu(request.getParams().get("hash"),user);
-                        break;
-                    case "logout":
-                        response = MainController.getInstance().logout(request.getParams().get("hash"),this);
-                        break;
-                    case "scoreBoard":
-                        response = MainController.getInstance().showScoreBoard(request.getParams().get("hash"));
-                        break;
-                    case "profile":
-                        response = ProfileController.getInstance().showInfo(request.getParams().get("hash"));
-                        break;
-                    case "username":
-                        response = ProfileController.getInstance().changeNickname(request.getParams().get("user"),request.getParams().get("hash"));
-                        break;
-                    case "pass":
-                        response = ProfileController.getInstance().changePassword(request.getParams().get("pass"),request.getParams().get("hash"));
-                        break;
-                    case "avatar":
-                        response = ProfileController.getInstance().changeAvatar(request.getParams().get("hash"),request.getParams().get("path"));
-                        break;
+        if (!isUpdater) {
+            while (true) {
+                try {
+                    String json = dataInputStream.readUTF();
+                    Request request = new Gson().fromJson(json, Request.class);
+                    Response response = null;
+                    switch (request.getAction()) {
+                        case "createUser":
+                            response = LoginController.getInstance().createUser(request.getParams().get("username"), request.getParams().get("password"), request.getParams().get("nickname"));
+                            break;
+                        case "login":
+                            response = LoginController.getInstance().loginUser(request.getParams().get("username"), request.getParams().get("password"), this);
+                            break;
+                        case "enter":
+                            response = LoginController.getInstance().enterMenu(request.getParams().get("hash"), user);
+                            break;
+                        case "logout":
+                            response = MainController.getInstance().logout(request.getParams().get("hash"), this);
+                            break;
+                        case "scoreBoard":
+                            response = MainController.getInstance().showScoreBoard(request.getParams().get("hash"));
+                            break;
+                        case "profile":
+                            response = ProfileController.getInstance().showInfo(request.getParams().get("hash"));
+                            break;
+                        case "username":
+                            response = ProfileController.getInstance().changeNickname(request.getParams().get("user"), request.getParams().get("hash"));
+                            break;
+                        case "pass":
+                            response = ProfileController.getInstance().changePassword(request.getParams().get("pass"), request.getParams().get("hash"));
+                            break;
+                        case "avatar":
+                            response = ProfileController.getInstance().changeAvatar(request.getParams().get("hash"), request.getParams().get("path"));
+                            break;
+                        case "name":
+                            response = GameController.getInstance().initGame(request.getParams().get("hash"));
+                            break;
+                        case "add":
+                            response = GameController.getInstance().addUserToGame(request.getParams().get("user"));
 
+                    }
+                    dataOutputStream.writeUTF(new Gson().toJson(response));
+                    dataOutputStream.flush();
+                } catch (IOException e) {
+                    for (SocketController socketController : Main.getSockets()) {
+                        if (socketController.getStatus() == this.getStatus() + 1) {
+                            Main.getSockets().remove(socketController);
+                            break;
+                        }
+                    }
+                    for (SocketController socketController : Main.getSockets()) {
+                        if (socketController.getStatus() == this.getStatus()) {
+                            Main.getSockets().remove(socketController);
+                            break;
+                        }
+                    }
+                    break;
                 }
-                dataOutputStream.writeUTF(new Gson().toJson(response));
-                dataOutputStream.flush();
-            } catch (IOException e) {
-                Main.getSockets().remove(this);
-                break;
             }
         }
     }
@@ -79,6 +102,22 @@ public class SocketController extends Thread {
 
     public User getUser() {
         return user;
+    }
+
+    public DataInputStream getDataInputStream() {
+        return dataInputStream;
+    }
+
+    public DataOutputStream getDataOutputStream() {
+        return dataOutputStream;
+    }
+
+    public Boolean getUpdater() {
+        return isUpdater;
+    }
+
+    public int getStatus() {
+        return status;
     }
 }
 
