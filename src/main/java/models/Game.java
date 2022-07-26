@@ -63,9 +63,11 @@ public class Game {
                 if (civilization.getHappiness() > winner.getHappiness())
                     winner = civilization;
             Main.showPopupJustText("winner is: " + winner.getLeader().getNickname());
+            winner.getLeader().setLastVisit(System.currentTimeMillis());
             Main.changeMenu("mainPage");
         } else if (civilizations.size() == 1) {
             Main.showPopupJustText("winner is: " + civilizations.get(0).getLeader().getNickname());
+            civilizations.get(0).getLeader().setLastVisit(System.currentTimeMillis());
             Main.changeMenu("mainPage");
         }
     }
@@ -77,6 +79,7 @@ public class Game {
         currentCivilization.getLeader().setScore(currentCivilization.getLeader().getScore() - 1);
         civilizations.remove(currentCivilization);
         currentCivilization = civilizations.get(turn % civilizations.size());
+        currentCivilization.getLeader().setLastVisit(System.currentTimeMillis());
     }
 
     public ArrayList<Civilization> getCivilizations() {

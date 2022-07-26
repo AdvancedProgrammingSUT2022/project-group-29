@@ -282,4 +282,5 @@ public class Civilization {
     public ArrayList<String> getMessages() {
         return messages;
     }
+
 }

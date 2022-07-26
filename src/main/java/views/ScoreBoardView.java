@@ -3,10 +3,9 @@ package views;
 import app.Main;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import models.User;
@@ -15,46 +14,50 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ScoreBoardView implements Initializable {
-    public Pane pane;
+
+    public AnchorPane mainPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<User> sortedUser = new ArrayList<>(User.getAllUsers());
         sortedUser.sort((o1, o2) -> {
             if (o1.getScore() > o2.getScore()) return -1;
-            if (o1.getLastWin() > o2.getLastWin()) return -1;
+            if (o1.getLastVisit() > o2.getLastVisit()) return -1;
 
             return o1.getNickname().compareTo(o2.getNickname());
         });
-
-        int i = 1;
+        int i = 0;
         for (User user : sortedUser) {
-            Pane pane = (Pane) this.pane.getChildren().get(i - 1);
-
-
+            if (User.getLoggedInUser().getUsername().equals(user.getUsername()))
+                user.setLastVisit(System.currentTimeMillis());
+            VBox vBox = new VBox();
+            Rectangle rectangle = new Rectangle(100, 100);
             InputStream inputStream = null;
             try {
                 inputStream = new FileInputStream(user.getAvatar());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
             Image image = new Image(inputStream);
-            Rectangle rectangle = (Rectangle) pane.getChildren().get(1);
             rectangle.setFill(new ImagePattern(image));
-
-            Label label = (Label) pane.getChildren().get(0);
-            label.setText(i + "");
-
-            Label label1 = (Label) pane.getChildren().get(2);
-            label1.setText(user.getNickname());
-
-            Label label2 = (Label) pane.getChildren().get(3);
-            label2.setText(String.valueOf(user.getScore()));
+            Label label = new Label("nickname: " + user.getNickname());
+            Label label1 = new Label("\nscore: " + user.getScore());
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+            Date resultdate = new Date(user.getLastVisit());
+            Label label2 = new Label("\nlast visit: " + sdf.format(resultdate));
+            vBox.getChildren().add(rectangle);
+            vBox.getChildren().add(label);
+            vBox.getChildren().add(label1);
+            vBox.getChildren().add(label2);
+            mainPane.getChildren().add(vBox);
+            vBox.setLayoutY(i * 250);
+            vBox.setLayoutX(540);
             i++;
         }
     }
