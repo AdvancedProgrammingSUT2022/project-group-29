@@ -172,6 +172,16 @@ public class MapView implements Initializable {
                                     Label label4 = new Label("\nmilitary unit: " + (city.getMilitaryUnit() == null ? "nothing" : city.getMilitaryUnit().getName()));
                                     Label label5 = new Label("\nnon military unit: " + (city.getCivilian() == null ? "nothing" : city.getCivilian().getName()));
                                     Label label6 = new Label("\nyou can not\ncreate military unit");
+                                    Label label15 = new Label("\ncity output: " + city.getFood());
+                                    StringBuilder s = new StringBuilder();
+                                    for (Resource resource : city.getAllResources()) {
+                                        s.append(resource.getName() + "\n");
+                                    }
+                                    Button button5 = new Button("show resources");
+                                    button5.setOnMouseClicked(event18 -> {
+                                        Main.getPopup().getContent().clear();
+                                        Main.showPopupJustText(String.valueOf(s));
+                                    });
                                     TextField textField = new TextField();
                                     textField.setDisable(true);
                                     Button button = new Button("\nok");
@@ -235,7 +245,7 @@ public class MapView implements Initializable {
                                         Main.getPopup().show(Main.getScene().getWindow());
                                     });
                                     Main.getPopup().getContent().clear();
-                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2, label9, textFieldX1, textFieldY1, button3, label10);
+                                    VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, label15, button5, textField, button, label7, textField1, button1, label8, textFieldX, textFieldY, button2, label9, textFieldX1, textFieldY1, button3, label10);
                                     vBox.setStyle("-fx-background-color: #da76d6");
                                     Main.getPopup().getContent().add(vBox);
                                     Main.getPopup().show(Main.getScene().getWindow());
@@ -649,6 +659,7 @@ public class MapView implements Initializable {
                             Label label5 = new Label("combat modification: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getCombatChange());
                             Label label6 = new Label("terrain: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getTerrain().getKind());
                             Label label7 = new Label("feature: " + (game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFeature() == null ? "nothing" : game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].getFeature().getKind()));
+                            Label label8 = new Label("has road: " + game.getMap()[Integer.parseInt(textField.getText())][Integer.parseInt(textField1.getText())].isHasRoute());
                             VBox vBox = new VBox(label, label1, label2, label3, label4, label5, label6, label7);
                             vBox.setStyle("-fx-background-color: #da76d6");
                             Main.getPopup().getContent().clear();

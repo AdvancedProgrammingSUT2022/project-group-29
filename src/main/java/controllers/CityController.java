@@ -436,7 +436,7 @@ public class CityController {
         guest.addToTrade(trade);
     }
 
-    public String acceptTrade(int id) {
+    public void acceptTrade(int id) {
         Trade trade = null;
         Game game = GameController.getInstance().getGame();
         Civilization civ = game.getCurrentCivilization();
@@ -452,21 +452,12 @@ public class CityController {
         guest.setGold(guest.getGold() + trade.getSuggestedGold());
         civ.addLuxuryResource(ResourceEnum.getResourceByName(trade.getResourceName()));
         guest.removeLuxuryResource(ResourceEnum.getResourceByName(trade.getResourceName()));
-        return "accept Trade!";
     }
 
-    public String rejectTrade(int id) {
-        Trade trade = null;
+    public void rejectTrade(int id) {
         Game game = GameController.getInstance().getGame();
         Civilization civ = game.getCurrentCivilization();
-        for (Trade allTrade : civ.getAllTrades()) {
-            if (allTrade.getId() == id) {
-                trade = allTrade;
-                break;
-            }
-        }
         civ.removeTrade(id);
-        return "reject Trade!";
     }
 
     public String cityAttack(int x, int y) {
