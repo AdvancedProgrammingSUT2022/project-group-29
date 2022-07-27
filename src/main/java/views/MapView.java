@@ -889,7 +889,7 @@ public class MapView implements Initializable {
         button.setOnMouseClicked(event -> {
             if (button.getText().equals("mute")) button.setText("unmute");
             else button.setText("mute");
-            Main.getMediaPlayer().setMute(!Main.getMediaPlayer().isMute());
+            //Main.getMediaPlayer().setMute(!Main.getMediaPlayer().isMute());
         });
         Button button1 = new Button("guide");
         button1.setOnMouseClicked(event1 -> {

@@ -72,4 +72,23 @@ public class ProfileController {
         User.getHash().get(hash).setAvatar("src/main/resources/assets/avatars/" + path.substring(95));
         return new Response(1,"avatar changed successfully!");
     }
+
+    public Response showFriends(String hash) {
+        User user = User.getHash().get(hash);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String friend : user.getFriends())
+            stringBuilder.append("username: ").append(friend).append("\n");
+        return new Response(1, String.valueOf(stringBuilder));
+    }
+
+    public Response showRequestFriend(String username) {
+        StringBuilder str = new StringBuilder();
+        if (User.getUserByUsername(username) == null)
+            return new Response(0, "no user with this username");
+        User user = User.getUserByUsername(username);
+        str.append(user.getNickname()).append("-");
+        str.append(user.getScore()).append("-");
+        str.append(user.getAvatar()).append("-");
+        return new Response(1,String.valueOf(str));
+    }
 }

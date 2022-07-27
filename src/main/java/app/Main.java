@@ -26,7 +26,7 @@ public class Main extends Application {
     private static final MediaPlayer mediaPlayer = new MediaPlayer(new Media(Main.class.getResource("/assets/avatars/song.mp3").toExternalForm()));
     public static void main(String[] args) {
         launch();
-        //LoginController.getInstance().writeUserInfo();
+        LoginController.getInstance().writeUserInfo();
     }
 
     @Override
