@@ -58,6 +58,7 @@ public class LoginController {
     public void writeUserInfo() {
         try {
             FileWriter fileWriter = new FileWriter("user.txt");
+            for (int i = 0; i < User.getAllUsers().size(); i++) User.getAllUsers().get(i).setCivilization(null);
             fileWriter.write(new Gson().toJson(User.getAllUsers()));
             fileWriter.close();
         } catch (IOException e) {
