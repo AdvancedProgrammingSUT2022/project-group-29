@@ -2,25 +2,12 @@ package controllers;
 
 import app.Main;
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import models.*;
 
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Map;
 
 public class GameController {
     private static GameController instance = null;
@@ -65,7 +52,7 @@ public class GameController {
                 for (SocketController socketController : Main.getSockets()) {
                     if (socketController.getStatus() == socket.getStatus() + 1) {
                         try {
-                            Request request = new Request("add",null);
+                            Request request = new Request("add", null);
                             socketController.getDataOutputStream().writeUTF(new Gson().toJson(request));
                             socketController.getDataOutputStream().flush();
                             String message = socketController.getDataInputStream().readUTF();
@@ -82,7 +69,59 @@ public class GameController {
 
             }
         }
-        return new Response(0,"");
+        return new Response(0, "");
+    }
+
+    public Response addRequest(String hash, String username) {
+        User sender = User.getHash().get(hash);
+        User asked = User.getUserByUsername(username);
+        for (String friend : sender.getFriends()) {
+            if (friend.equals(username))
+                return new Response(0, "User is already a friend");
+        }
+        asked.getFriendRequests().put(sender.getUsername(), 0);
+        return new Response(1, "friend request sent");
+    }
+
+    public Response requestSent(String hash) {
+        User sender = User.getHash().get(hash);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (User user : User.getAllUsers()) {
+            if (user.getFriendRequests().get(sender.getUsername()) != null) {
+                if (user.getFriendRequests().get(sender.getUsername()) == 0)
+                    stringBuilder.append(user.getUsername()).append("-").append("waiting");
+                else
+                    stringBuilder.append(user.getUsername()).append("-").append("rejected");
+                stringBuilder.append("\n");
+            }
+        }
+        return new Response(1, String.valueOf(stringBuilder));
+    }
+
+    public Response requestAsked(String hash) {
+        User sender = User.getHash().get(hash);
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Map.Entry<String, Integer> entry : sender.getFriendRequests().entrySet()) {
+            if (entry.getValue() == 0)
+                stringBuilder.append(entry.getKey()).append("-");
+        }
+        return new Response(1, String.valueOf(stringBuilder));
+    }
+
+    public Response addFriend(String hash, String username) {
+        User user = User.getHash().get(hash);
+        User asked = User.getUserByUsername(username);
+        user.getFriendRequests().remove(username);
+        user.getFriends().add(asked.getUsername());
+        asked.getFriends().add(user.getUsername());
+        return new Response(1, "");
+    }
+
+    public Response rejectFriend(String hash, String username) {
+        User user = User.getHash().get(hash);
+        User asked = User.getUserByUsername(username);
+        user.getFriendRequests().replace(username, 1);
+        return new Response(1, "");
     }
 
 

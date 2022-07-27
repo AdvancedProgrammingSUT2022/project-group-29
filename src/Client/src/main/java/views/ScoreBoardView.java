@@ -1,7 +1,6 @@
 package views;
 
 import app.Main;
-import com.google.gson.Gson;
 import controllers.NetworkController;
 import controllers.UpdateThread;
 import javafx.fxml.Initializable;

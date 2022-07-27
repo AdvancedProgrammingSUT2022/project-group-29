@@ -2,7 +2,9 @@ package controllers;
 
 import app.Main;
 import com.google.gson.Gson;
-import models.*;
+import models.Data;
+import models.Request;
+import models.Response;
 
 
 import java.io.DataInputStream;
@@ -150,6 +152,59 @@ public class NetworkController {
         hashMap.put("user",username);
         Request request = new Request("add", hashMap);
         return send(request);
+    }
+
+    public Response showFriends() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("showFriends", hashMap);
+        return send(request);
+    }
+
+    public Response showRequestProfile(String username) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("user", username);
+        Request request = new Request("showRequestProfile", hashMap);
+        return send(request);
+    }
+
+    public Response addFriend(String username) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("user", username);
+        Request request = new Request("addFriend", hashMap);
+        return send(request);
+    }
+
+    public Response requestSent() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("requestSent", hashMap);
+        return send(request);
+    }
+
+    public Response requestAsked() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("requestAsked", hashMap);
+        return send(request);
+    }
+
+    public Response addRequest(String username) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("user", username);
+        Request request = new Request("addRequest", hashMap);
+        return send(request);
+    }
+
+    public void rejectFriend(String username) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("user", username);
+        Request request = new Request("rejectFriend", hashMap);
+        send(request);
     }
 }
 

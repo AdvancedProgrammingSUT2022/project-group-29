@@ -12,6 +12,8 @@ public class User {
     private long lastVisit;
     private static ArrayList<User> allUsers = new ArrayList<>();
     private static HashMap<String, User> hash = new HashMap<>();
+    private ArrayList<String> friends = new ArrayList<>();
+    private HashMap<String, Integer> friendRequests = new HashMap<>();
     private int score;
 
     //private Civilization civilization = null;
@@ -109,4 +111,11 @@ public class User {
         this.lastVisit = lastVisit;
     }
 
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+
+    public HashMap<String, Integer> getFriendRequests() {
+        return friendRequests;
+    }
 }

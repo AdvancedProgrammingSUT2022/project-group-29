@@ -73,7 +73,28 @@ public class SocketController extends Thread {
                             break;
                         case "add":
                             response = GameController.getInstance().addUserToGame(request.getParams().get("user"));
-
+                            break;
+                        case "addRequest":
+                            response = GameController.getInstance().addRequest(request.getParams().get("hash"), request.getParams().get("user"));
+                            break;
+                        case "showFriends":
+                            response = ProfileController.getInstance().showFriends(request.getParams().get("hash"));
+                            break;
+                        case "showRequestProfile":
+                            response = ProfileController.getInstance().showRequestFriend(request.getParams().get("user"));
+                            break;
+                        case "requestSent":
+                            response = GameController.getInstance().requestSent(request.getParams().get("hash"));
+                            break;
+                        case "requestAsked":
+                            response = GameController.getInstance().requestAsked(request.getParams().get("hash"));
+                            break;
+                        case "addFriend":
+                            response = GameController.getInstance().addFriend(request.getParams().get("hash"), request.getParams().get("user"));
+                            break;
+                        case "rejectFriend":
+                            response = GameController.getInstance().rejectFriend(request.getParams().get("hash"), request.getParams().get("user"));
+                            break;
                     }
                     dataOutputStream.writeUTF(new Gson().toJson(response));
                     dataOutputStream.flush();

@@ -1,5 +1,6 @@
 package views;
 
+
 import app.Main;
 import controllers.NetworkController;
 import javafx.event.ActionEvent;
@@ -7,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import models.Response;
@@ -33,12 +32,14 @@ public class CreateGameMenu implements Initializable {
 
     private ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> onlinePlayers = new ArrayList<>();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         playersNumber.getItems().addAll(numbers);
         playersNumber.setValue("2 Players");
         numberOfPlayers = 2;
         playersNumber.setOnAction(this::checkNumber);
+
         Response response = NetworkController.getInstance().getName();
         String[] strings = response.getMessage().split("-");
         vbox.getChildren().add(new Label(strings[0]));
