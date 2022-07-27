@@ -33,6 +33,8 @@ public class MainMenu {
 
     public void loadGame() {
         GameController.getInstance().loadGame();
+        if (GameController.getInstance().getGame().getCurrentCivilization().getLeader().getUsername().equals(User.getLoggedInUser().getUsername()))
+            Main.changeMenu("mapPage");
         Main.changeMenu("mapPage");
     }
 }

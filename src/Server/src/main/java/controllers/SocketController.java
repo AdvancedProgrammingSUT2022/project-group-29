@@ -1,8 +1,10 @@
 package controllers;
 
-import app.*;
+import app.Main;
 import com.google.gson.Gson;
-import models.*;
+import models.Request;
+import models.Response;
+import models.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -71,9 +73,41 @@ public class SocketController extends Thread {
                             break;
                         case "add":
                             response = GameController.getInstance().addUserToGame(request.getParams().get("user"));
-                        case "start":
-                            //response = GameController.getInstance().startGame();
                             break;
+                        case "start":
+                            response = GameController.getInstance().startGame();
+                            break;
+                        case "city":
+                            response = GameController.getInstance().getCity(request.getParams().get("name"));
+                        case "unit" :
+                            response = new Response(1,CityController.getInstance().createUnit(request.getParams().get("name")));
+                            break;
+                        case "tile":
+                            response = new Response(1,CityController.getInstance().cityBuyTile(Integer.parseInt(request.getParams().get("x")),Integer.parseInt(request.getParams().get("y"))));
+                            break;
+                        case "cityA":
+                            response = new Response(1,CityController.getInstance().cityAttack(Integer.parseInt(request.getParams().get("x")),Integer.parseInt(request.getParams().get("y"))));
+                            break;
+                        case "canBuild":
+                            response = new Response(1,CityController.getInstance().getCanBuild(request.getParams().get("name")));
+                            break;
+                        case "Building":
+                            response = new Response(1,CityController.getInstance().building(request.getParams().get("name")));
+                            break;
+                        case "build":
+                            response = new Response(1,CityController.getInstance().createBuilding(request.getParams().get("name"),request.getParams().get("city")));
+                            break;
+                        case "cheat":
+                            response = new Response(1,GameController.getInstance().cheat(request.getParams().get("name")));
+                            break;
+                        case "bar" :
+                            response = new Response(1,GameController.getInstance().showBar());
+                            break;
+                        case "technology":
+                            response = new Response(1,GameController.getInstance().tech(request.getParams().get("name"),request.getParams().get("type")));
+                            break;
+                        case "next":
+                            response = new Response(1,GameController.getInstance().cheatTurn(1));
                         case "addRequest":
                             response = GameController.getInstance().addRequest(request.getParams().get("hash"), request.getParams().get("user"));
                             break;

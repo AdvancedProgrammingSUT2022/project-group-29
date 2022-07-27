@@ -2,13 +2,11 @@ package views;
 
 import app.Main;
 import controllers.NetworkController;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -54,7 +52,6 @@ public class ProfileMenu implements Initializable {
             e.printStackTrace();
         }
     }
-
     public void changeUsername() {
         Response response = NetworkController.getInstance().changeUsername(changenickname.getText());
         Main.showPopupJustText(response.getMessage());
@@ -72,9 +69,9 @@ public class ProfileMenu implements Initializable {
         fileChooser.setTitle("avatar");
         fileChooser.setInitialDirectory(new File("src/main/resources/assets/avatars/"));
         try {
-            File file = fileChooser.showOpenDialog(Main.getScene().getWindow());
-            NetworkController.getInstance().changeAvatar(file.getAbsolutePath());
-            Main.changeMenu("profilePage");
+        File file = fileChooser.showOpenDialog(Main.getScene().getWindow());
+        NetworkController.getInstance().changeAvatar(file.getAbsolutePath());
+        Main.changeMenu("profilePage");
         } catch (Exception e) {
 
         }

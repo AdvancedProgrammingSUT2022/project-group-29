@@ -38,10 +38,10 @@ public class MainController {
         for (User user : sortedUser) {
             if (User.getHash().get(hash).equals(user))
                 user.setLastVisit(System.currentTimeMillis());
-            str.append(user.getAvatar()).append("-").append(user.getUsername()).append("-");
+            str.append(user.getAvatar()).append("-").append(user.getNickname()).append("-");
             str.append(user.getScore()).append("-");
             for (SocketController socketController : Main.getSockets()) {
-                if (!socketController.getUpdater() && socketController.getUser().equals(user)) {
+                if (!socketController.getUpdater() && socketController.getUser() != null && socketController.getUser().equals(user)) {
                     str.append("online").append("-");
                     continue outer;
                 }

@@ -2,9 +2,7 @@ package controllers;
 
 import app.Main;
 import com.google.gson.Gson;
-import models.Data;
-import models.Request;
-import models.Response;
+import models.*;
 
 
 import java.io.DataInputStream;
@@ -160,6 +158,97 @@ public class NetworkController {
         Request request = new Request("start", hashMap);
         return send(request);
     }
+
+    public Response getCity(String name) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("name", name);
+        Request request = new Request("city", hashMap);
+        return send(request);
+    }
+
+    public Response createUnit(String name) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("name", name);
+        Request request = new Request("unit", hashMap);
+        return send(request);
+    }
+
+    public Response buyTile(int x,int y) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("x", String.valueOf(x));
+        hashMap.put("y", String.valueOf(y));
+        Request request = new Request("tile", hashMap);
+        return send(request);
+    }
+
+    public Response cityAttack(int x,int y) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("x", String.valueOf(x));
+        hashMap.put("y", String.valueOf(y));
+        Request request = new Request("cityA", hashMap);
+        return send(request);
+    }
+
+    public Response getCanBuild(String name) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("name", name);
+        Request request = new Request("canBuild", hashMap);
+        return send(request);
+    }
+
+    public Response getBuild(String name) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("name", name);
+        Request request = new Request("Building", hashMap);
+        return send(request);
+    }
+
+    public Response build(String bu,String city) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("name", bu);
+        hashMap.put("city",city);
+        Request request = new Request("build", hashMap);
+        return send(request);
+    }
+
+    public Response cheat(String string) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("name", string);
+        Request request = new Request("cheat", hashMap);
+        return send(request);
+    }
+
+    public Response bar() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("bar", hashMap);
+        return send(request);
+    }
+
+    public Response technology(String type,String name) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        hashMap.put("type",type);
+        hashMap.put("name", name);
+        Request request = new Request("technology", hashMap);
+        return send(request);
+    }
+
+    public Response nextTurn() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("hash", Data.getInstance().hash);
+        Request request = new Request("next", hashMap);
+        return send(request);
+    }
+
     public Response showFriends() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("hash", Data.getInstance().hash);
@@ -212,6 +301,7 @@ public class NetworkController {
         Request request = new Request("rejectFriend", hashMap);
         send(request);
     }
+
 
 }
 

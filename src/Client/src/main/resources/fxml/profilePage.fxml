@@ -26,10 +26,10 @@
     </Button>
     <Button layoutX="787.0" layoutY="541.0" mnemonicParsing="false" onMouseClicked="#backToMain" text="back" />
     <Rectangle fx:id="avatar" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="212.0" layoutY="456.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-   <Button layoutX="279.0" layoutY="267.0" mnemonicParsing="false" onMouseClicked="#showFriends" text="list friends" />
-   <Label layoutX="94.0" layoutY="272.0" text="add friend" />
-   <TextField fx:id="friendName" layoutX="719.0" layoutY="267.0" promptText="name" />
-   <Button layoutX="517.0" layoutY="267.0" mnemonicParsing="false" onMouseClicked="#addFriend" text="add" />
-   <Button layoutX="758.0" layoutY="382.0" mnemonicParsing="false" text="requests sent" onMouseClicked="#requestSent"/>
-   <Button layoutX="753.0" layoutY="456.0" mnemonicParsing="false" text="requests asked" onMouseClicked="#requestAsked"/>
+    <Button layoutX="279.0" layoutY="267.0" mnemonicParsing="false" onMouseClicked="#showFriends" text="list friends" />
+    <Label layoutX="94.0" layoutY="272.0" text="add friend" />
+    <TextField fx:id="friendName" layoutX="719.0" layoutY="267.0" promptText="name" />
+    <Button layoutX="517.0" layoutY="267.0" mnemonicParsing="false" onMouseClicked="#addFriend" text="add" />
+    <Button layoutX="758.0" layoutY="382.0" mnemonicParsing="false" text="requests sent" onMouseClicked="#requestSent"/>
+    <Button layoutX="753.0" layoutY="456.0" mnemonicParsing="false" text="requests asked" onMouseClicked="#requestAsked"/>
 </Pane>
