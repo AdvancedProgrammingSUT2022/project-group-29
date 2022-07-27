@@ -7,37 +7,13 @@
     <list default="true" id="b6d69789-2343-45e9-b3e6-06c63e3ceb87" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../../game.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../game.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Client.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/NetworkController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Data.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Request.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Response.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/CreateGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/CreateGameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/ProfileMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/ScoreBoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/ScoreBoardView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/profilePage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/profilePage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controllers/NetworkController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controllers/NetworkController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fxml/profilePage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/profilePage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/CreateGameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/CreateGameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/ProfileMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/ProfileMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/views/ScoreBoardView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/ScoreBoardView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controllers/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controllers/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controllers/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/controllers/SocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/controllers/SocketController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/app/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/app/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controllers/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controllers/LoginController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controllers/LoginController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controllers/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controllers/LoginController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/target/classes/controllers/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controllers/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/controllers/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controllers/ProfileController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/target/classes/controllers/SocketController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/controllers/SocketController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/models/Request.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/models/Request.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/models/Response.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/models/Response.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/target/classes/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/target/classes/models/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/user.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/user.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../user.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../user.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,6 +95,8 @@
       <workItem from="1658753141335" duration="1199000" />
       <workItem from="1658910742161" duration="11902000" />
       <workItem from="1658924564444" duration="19000" />
+      <workItem from="1658924986123" duration="1068000" />
+      <workItem from="1658926088083" duration="10000" />
     </task>
     <servers />
   </component>

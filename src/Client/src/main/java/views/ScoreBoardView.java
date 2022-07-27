@@ -3,7 +3,9 @@ package views;
 import app.Main;
 import controllers.NetworkController;
 import controllers.UpdateThread;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -56,10 +58,16 @@ public class ScoreBoardView implements Initializable {
                 Date resultdate = new Date(Long.parseLong(strings[4 * i + 4]));
                 label2 = new Label("\nlast visit: " + sdf.format(resultdate));
             }
+            Button button = new Button("request friend");
+            button.setOnMouseClicked(event -> {
+                NetworkController.getInstance().addRequest(label.getText().split(" ")[1]);
+            });
             vBox.getChildren().add(rectangle);
             vBox.getChildren().add(label);
             vBox.getChildren().add(label1);
             vBox.getChildren().add(label2);
+            vBox.getChildren().add(button);
+            vBox.setStyle("-fx-background-color: pink");
             mainPane.getChildren().add(vBox);
             vBox.setLayoutY(i * 250);
             vBox.setLayoutX(540);

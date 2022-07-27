@@ -1,10 +1,8 @@
 package controllers;
 
-import app.Main;
+import app.*;
 import com.google.gson.Gson;
-import models.Request;
-import models.Response;
-import models.User;
+import models.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
